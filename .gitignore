@@ -1,0 +1,11 @@
+*.aux
+*.bcf
+*.loa
+*.lof
+*.log
+*.out
+*.gz
+*.toc
+*.lol
+*.bbl
+

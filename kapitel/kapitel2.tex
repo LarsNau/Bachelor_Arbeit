@@ -1,0 +1,93 @@
+%========================================================================================
+% TU Dortmund, Informatik Lehrstuhl VII
+%========================================================================================
+
+\chapter{Topologieaspekte in der Additive Fertigung}
+\label{Topologieaspekte in der Additive Fertigung}
+
+Der 3d-Druck ist eine Methode der Fertigung. Es wird auch additive Fertigung genannt, da das Bauteil durch das Hinzufügen von Material Schicht für Schicht erstellt wird.
+Um eine Bauteil 3d-Drucken zu können, wird das Bauteil im Computer in mherere Schichten aufgeteilt. Diese Schichten werden dann nacheinander gedruckt, bis das Bauteil fertig ist.
+Die Schichten werden mit einer Drüse aufgetragen und gestehen meistens aus Kunststoff. Es ist aber auch möglich, andere Materialien zu verwenden, wie zum Beispiel Metall oder Beton. Das Material muss flüssig sein, wenn es aufgetragen wird, festigt sich dann aber schnell wieder.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.8]{bilder/3d-Drucker.jpg}
+    \caption[Schematische Darstellung eines 3d-Druckers]{Schematische Darstellung eines 3d-Druckers}
+            \label{Schematische Darstellung eines 3d-Druckers}
+    \quelle\url{https://www.linux-magazin.de/wp-content/uploads/2020/11/b01.jpg}
+\end{figure}
+
+In der Abbildung \ref{Schematische Darstellung eines 3d-Druckers} ist eine schematische Darstellung eines 3d-Druckers zu sehen. Dabei ist oben die Düse, welche das Material erst schmiltzt und dann aufträgt. Die Düse ist läst sich in x und y Richtung bewegen 
+und kann so jede beliebige Position auf der Plattform erreichen. Unten kann man die Platform sehen, auf der das Bauteil gedruckt wird. 
+Sie kann sich nach unten bewegen, damit Platz für die nächste Schicht geschaffen wird. Die Funktion des Stützmaterials und der Stützschichten wird in Abschnitt \ref{Überhang-Problem} erklärt.
+Der in Abbildung \ref{Schematische Darstellung eines 3d-Druckers} zusehen 3d Drucker ist ein Beispeil für den Aufbau eines 3d-Druckers. Es gibt 3d drucker, die anders funktionieren, aber das Grundprinzip ist bei allen gleich.
+Alle haben eine Düse, die das Material ausgibt und diese Düse bewegt sich, um Schichten abzuarbeiten.
+
+\section{Überhang-Problem}
+\label{Überhang-Problem}
+
+Im 3d-Druck werden Bauteile traditionell Schicht für Schicht gebaut. Das Bauteil wird vor dem Druck in dünne horizontale Schichten zerlegt. Jede Schicht wird dann nacheinander gedruckt. 
+Dabei kann es zu Problemen kommen, wenn eine Schicht über eine vorherige Schicht hinausragt, ohne dass darunter Material ist. Dies wird als Überhang-Problem bezeichnet. Um diesem Problem entgegenzuwirken werden Stützstrukturen eingesetzt.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{bilder/Stützstruktur.jpeg}
+    \caption[Vorschau eines Bauteils mit Stützstrukturen]{Vorschau eines Bauteils mit Stützstrukturen}
+            \label{Vorschau eines Bauteils mit Stützstrukturen}
+    \quelle\url{https://i.stack.imgur.com/cIDB3.png}
+\end{figure}
+
+In der Abbildung \ref{Vorschau eines Bauteils mit Stützstrukturen} ist ein Bauteil zu sehen, das Stützstrukturen benötigt. Stützstrukturen erhöhen den Materialaufwand, wie man in Abbildung \ref{Vorschau eines Bauteils mit Stützstrukturen} sehen kann.
+Die Strukturen werden nach dem Druck entfert, was das zusätzlich benötigte Material zu Müll mach. Durch das Hinzufügen von Stützstrukturen verlängert sich auch die Druckzeit. Dieses Problem kann durch die richtige Ausrichtung des Bauteils minimiert werden, 
+aber bei komplexen Bauteilen ist es unwahrscheinlich, dass eine Ausrichtung gefunden wird, die keine oder wenige Stützstrukturen benötigt.
+
+\section{Fertigungs-Geschwindigkeit}
+\label{Fertigungs-Geschwindigkeit}
+
+Wie bei jeder Art der Fertigung ist die Produktionsgeschindigtkeit ein wichtiger Faktor. In der additiven Fertigung wird die Produktionsgeschindigtkeit durch verschiedene Faktoren beeinflusst.
+Eine dieser Faktoren wirde in Abschnitt \ref{Überhang-Problem} beschrieben. Das Hinzufügen von Stützstrukturen erhöht den Drückzeit, da mehr Material gedruckt werden muss. Das ist ein weiterer Grund warum es wichtig ist Stützstrukturen zu minimieren.
+Dementsprechend ist die Ausrichtung eines Bauteils wichtig, da eine gute Ausrichtung die benötigten Stützstrukturen minimieren kann.
+
+\smallskip
+
+Der offensichtlichste Faktor ist die Größe des Bauteils und die Druckgeschwindigkeit des Druckers. Ein größeres Bauteil benötigt mehr Zeit, wenn es mit der gleichen Geschwindigkeit gedruckt wird. Die Druckgeschwindigkeit ist abhängig vom Drucker.
+Unabhängig von dem Drucker gibt es physikalische Grenzen für die Druckgeschwindigkeit. Wenn eine bestimmte Geschwindigkeit überschritten wird, wird es zu Problemen mit der Genauigkeit und Qualität des Drucks kommen. 
+Die Geschindigkeit mit der eine Düse Material ausgeben kann ist ebenfalls ein limitierender Faktor.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1]{bilder/Schichtenhöhe.jpg}
+    \caption[Darstellung der Unterschiede im Bauteil abhängig von der Höhe der Schichten]{Darstellung der Unterschiede im Bauteil abhängig von der Höhe der Schichten}
+            \label{Darstellung der Unterschiede im Bauteil abhängig von der Höhe der Schichten}
+    \quelle\url{https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6yHOdjlgO6mhqwt_JJ22BE7VaI-OV4U4SWg&s}
+\end{figure}
+
+Ein weiterer Faktor ist die Höhe der einzelnen Schichten. In der Abbildung \ref{Darstellung der Unterschiede im Bauteil abhängig von der Höhe der Schichten} ist der Unterschied, den die Höhe der Schichten auf die Qualität des Bauteils hat, zu sehen. 
+Umso dünner die Schicht umso genauer wird das Bauteil gedruckt. Wenn die Dicke der Schichten verringert wird, werden mehr Schichten benötigt, was die Strecke, die die Düse abarbeiten muss, erhöht. Dadurch verlängert sich die Druckzeit. 
+
+\section{5d-Druck}
+\label{5d-Druck}
+
+Der 5d-Druck ist eine Erweiterung des 3d-Drucks. Ein 3d-Drucker kann die Düse in der x und y Richtung und die Platform in der z Richtung bewegen. Ein 5d-Drucker kann zusätzlich die Platform in zwei Dimensionen kippen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=1.2]{bilder/5d-Drucker.jpg}
+    \caption[Darstellung der Beweglichen Platform eines 5d-Druckers]{Darstellung der Beweglichen Platform eines 5d-Druckers}
+            \label{Darstellung der Beweglichen Platform eines 5d-Druckers}
+    \quelle\url{https://www.3dnatives.com/de/wp-content/uploads/sites/3/150217_Zurich1.jpg}
+\end{figure}
+
+In der Abbildung \ref{Darstellung der Beweglichen Platform eines 5d-Druckers} ist eine Düse und eine Platform zu sehen. Die Platform ist sichlich gekippt. Die Fähigkeit die Platform zu kippen ermöglicht es Bauteile zu drucken, ohne Stützstrukturen zu benötigen, 
+da wenn eine Schicht am Überhängen ist, das Bauteil gedreht werden kann, sodass die nächste Schicht nicht mehr über die aktuelle Schicht überhängt. Durch das Kippen der Platform ist es ebefalls möglich Schichten, die nicht parallel zu der Platform sind zu drucken.
+Die besere Anpassung an die Geometrie der Bautele verbessert die Festigkeit des Bauteils.
+
+Diese Fähigkeit Schichten zu erstellen, die nicht parallel zu der Platform sind, hat den Nachteil, dass die Berechnung der Schichten komplexer wird. Die meisten Programme zu der Erstellung von Schichten unterstüzen keinen 5d-Druck. 
+Herrausforderung bei der Erstellung von Schichten für den 5d-Druck sind unter anderem die Kolisionsvermeidung und die Berechnung der optimalen Kippwinkel für jede Schicht.
+
+Die Kolisionsvermeidung ist ein Problem, das durch den 5d-Druck entsteht. Wenn das Bauteil sich wärend des Druckes drehen kann, besteht die Möglichkeit, dass die Düse mit dem Bauteil kollidiert. 
+Bei dem 3d-Druck ist das nicht möglich, da die Düse immer über dem Druckbereich ist.
+
+Optimale Kippwinkel für jede Schicht zu bestimmen benötigt die Berechung des optimalen Winkels für jede Schicht. Dieser Prozess wird schwerer gemacht, da berücksichtigt werden muss, 
+dass eine Fläche unter Umständen nicht von einem bestimmten Winkel aus erreichbar sein könnte, weil dort bereits etwas anderes gedruckt wurde, was mit der Düse kollidieren würde. Es muss also auch bei der Ausrichtung des Bauteils Kolisionsvermeidung berücksichtigt werden.

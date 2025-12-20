@@ -1,0 +1,56 @@
+%========================================================================================
+% TU Dortmund, Informatik Lehrstuhl VII
+%========================================================================================
+
+\chapter{Evaluation}
+\label{Evaluation}
+
+Dei Ausrichtung eines Bauteils ist in den meisten Fällen nicht perfekt. In diesem Kapitel wird behandelt wie gut das in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} erstellte Neurales Netz ein Bauteil ausrichten kann.
+Dafür wird nicht nur die Ausrichung selber überprüft. Es wird auch die größe der Rotationen untersucht, da das drehen eines Bauteil Zeit kostet und die minimierung diser Drehung wie in \ref{Fertigungs-Geschwindigkeit} erwähnt eine Priorität ist.
+Außerdem wird die Fähigkeit des neuralen Netzes Fehler in den Daten zu wiederstehen in Abschnitt \ref{Verlässlichkeit} überprüft und die Fähigkeit auf komplexen Bauteilen zu arbeiten in Abschnitt \ref{Generalisierbarkeit} getestet.
+
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{bilder/Daten.png}
+    \caption[Darstellung aller Typen von Bauteilen im Datensatz]{Darstellung aller Typen von Bauteilen im Datensatz}
+            \label{Darstellung aller Typen von Bauteilen im Datensatz}
+    \quelle\url{https://media.springernature.com/full/springer-static/image/art%3A10.1007%2Fs40964-025-00960-6/MediaObjects/40964_2025_960_Fig1_HTML.png}
+\end{figure}
+
+Alle Daten, die für die Auswertung benutzt werden, sind in dem Artickel: \cite{Datensatz} erstellt worden und dann wie in Kapitel \ref{Flächensuche in  Bauteilen} beschrieben verändert worden.
+Die Abbilding \ref{Darstellung aller Typen von Bauteilen im Datensatz} stellt alle Typen von Bauteilen dar, die in dem Datensatz enthalten sind. Es gebt insgesammt 4 verschiedene Typen, die alle einfache geometrische Objekt sind. 
+Die Typen sind von A bis D durchnummeriert.
+
+\section{Ausrichtung der Bauteile}
+\label{Ausrichtung der Bauteile}
+
+Die Ausrichtung der Bauteile ist das Ziel der Arbeit. Dementsprechend ist es die wichtigste Metrik für den Erfolgt des neuronalen Netzes.
+
+\section{Minimierung der Bewegung}
+\label{Minimierung der Bewegung}
+
+\section{Verlässlichkeit der Ausrichtung}
+\label{Verlässlichkeit der Ausrichtung}
+
+In dem bisherigen Test ist immer davon ausgegenagen worden, dass die Punktowlken eine perfekte Darstellung des Bauteils sind. In der Präxis, muss aber davon ausgegenagen werden, dass die Punktwoklen Fehler aufweisen.
+
+\subsection{Zufällige Startorientierung}
+\label{Zufällige Startorientierung}
+
+\subsection{Noise Resistance}
+\label{Noise Resistance}
+
+Eine Fläche eines Bauteils, die Punkte beinhaltet, die nicht zu der Fläche gehören, kann das Ergebnis des neuronalen Netzes stark beeinflussen. Dieser Fehler könnte durch schlechtes Clustering entsehen, wenn zwei Flächen nicht richtig getrennt werden.
+Punkte die nicht zu der Fläche gehören, aber dennoch in der Punktwolke der Fläche enthalten sind, werden als Rauschen (engl. Noise) bezeichnet. Um den Einfluss von Rauschen auf das Netz zu bestimmen, werden Punkte zu sonst korrekten Flächen hinzugefügt. 
+
+\subsection{Schlechtes Sampling}
+\label{Schlechtes Sampling} 
+
+\section{Generalisierbarkeit}
+\label{Generalisierbarkeit}
+
+\section{Zusammenfassung}
+\label{Zusammenfassung}
+

@@ -1,0 +1,333 @@
+%========================================================================================
+% TU Dortmund, Informatik Lehrstuhl VII
+%========================================================================================
+
+\chapter{Punktwolkenverarbeitung zur Bauteilausrichtung}
+\label{Punktwolkenverarbeitung zur Bauteilausrichtung}
+
+Um ein Bauteil korrekt auszurichten, muss eine Fläche des Bauteils auf eine Ausrichtung abgebildet werden. Die Flächen in den Bauteilen wurden in Kapitel 3 identifieziert und als Punktwolken gespeichert. 
+Mit Punktwolke ist in diesem Fall eine Menge an Raumkooredinaten gemeint, die zusammengenommen eine Struktur darstellen. Eine Punktwolke besteht aus endlich vielen Raumkooredinaten, und ist daher immer nur eine Aproximation.
+
+\smallskip
+
+In diesem Kapitel wird dargestellt, wie man eine Punktwolke, die eine Fläche in einem Bauteil darstellt, zu einer Rotation transformieren kann. Für die Transformation wird ein Neurales Netz eingesetzt, welches im Folgenden genauer erklährt wird. 
+Dieses Neurale Netz wird eine Punktwolke beliebiger größe zu der Z-Invarianz transformieren. Die Z-Invarianz wird in einem folgenden Abschnitt erklährt. Aus dieser Ausgabe lässt sicht dann eine vollständige Drehung erstellen.
+
+\section{Punktwolken Transformation}
+\label{Punktwolken Transformation}
+
+Die Transformation der Punktwolken erfolgt über ein Neurales Netz. Ein Neurales Netz kann Daten verarbeiten, indem es sie durch viele Schichten an künstlichen Neuronen durchleitet. 
+Ein künstliches Neuron ist eine Funktion, die als Eingabe andere künstliche Neuronen oder echte Daten nimmt. 
+Die Eingabe des Neurons besteht aus den einzelnen Eingaben ($x_{i}$) multipliziert mit den Gewichten für die einzelnen Eingaben ($w_{i}$).
+
+\begin{figure}[H]
+    \centering
+    \begin{math} \sum_{ i = 1 }^{ n }{ x_{i} * w_{i} } = Netzeingabe \end{math}
+\end{figure}
+
+Diese Funktion bildet die gewichteten Eingaben dann auf eine Ausgabe ab, 
+die entweder an ein weiteres Neuron übergeben wird, oder die Ausgabe des Netzes darstellt.
+Die Abbildung in der Aktivierungsfunktion kann jede Funktion sein, die einen Wert x auf einen anderen Wert y abbildet, allerdings sind nicht lineare Funktionen wie zum Beispiel: $y = \max(0,x)$ (ReLU) generell besser geeignet, 
+da man nur mit dieser Art von Aktivierungsfunktionen nicht lineare Zusammenhänge darstellen kann.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{bilder/ArtificialNeuronModel_deutsch}
+    \caption[Funktionsweise eines künstlichen Neurons]{Funktionsweise eines künstlichen Neurons}
+            \label{Funktionsweise eines künstlichen Neurons}
+    \quelle\url{https://upload.wikimedia.org/wikipedia/commons/7/7f/ArtificialNeuronModel_deutsch.png}
+\end{figure}
+
+Durch das Anpassen von Gewichten kann ein Neuron den Einfluss von Eingabedaten verändern. Die optimale Belegung von Gewichten wird erlernt. Dafür muss definiert werden, was das Neurale Netz als gutes Ergebnis ansieht. Für das Lernen wird ein Datensatz genutzt, 
+den das Neurale Netz mehmal durchläuft. Diese Daten werden Trainingsdaten genannt. Bei jeden Durchlauf der Trainingsdaten
+übeprüft das Neurale Netz, wie gut seine Ausgaben im Vergleich zu dem vordefinierten optimalen Ergebnis sind. Neurale Netze funktionieren mit überwachtem Lernen. Das bedeutet, 
+dass für jeden Datenpunkt in den Trainingsdaten eine  Lösung vorliegt, gegen die das Neurale Netz seine eigene Ausgabe Testen kann.
+Es versucht dann durch Backpropagation zu ermitteln, wo der Großteil der Fehler herkommen, verändert diese Gewichte und wiederholt den gesammten Vorgang, bis entweder eine vorbestimmte Anzahl an Durchläufen abgearbeitet ist oder das Neurale Netz eine vorbestimmte Fehlergrenze unterschreitet.
+Der Fehler auf den Trainingsdaten wird Loss genannt. Den Loss zu minimiren ist das Ziel des Neuralen Netzes. %genauer
+
+\smallskip
+
+Backpropagation ist eine Methode, die in Neuralen Netzen eingesetzt wird, um zu bestimen, welches Gewicht wie viel zu dem aktuellen Loss beigetragen hat. Dafür arbeitet es rückwärts von der Ausgabeschicht zu der Eingabeschicht, mittels Gradienten vom Loss. 
+Die Schichten eines Neuralen Netzes werden in dem Abschnitt \ref{Regression auf Merkmalsvektor} dargestellt.
+
+\subsection{Merkmalsextraktion aus Punktwolke}
+\label{Merkmalsextraktion aus Punktwolke}
+
+Der Unterschied zwischen einem tiefen und nicht tiefen Neuralen Netz ist es, dass ein tiefes Neurales Netz nicht nur die Abbildung von Merkmalen auf Ausgaben erlernt, sondern auch die Extraktion von Merkmalen aus den Eingabedaten. 
+Die Extractrion der Merkmale wird in diesem Abschnitt erklährt.
+In der Merkmalsextraktion wird eine Punktwolke auf eine Anzahl an Merkmalen reduziert. Die Merkmale, auf welche die Punkwolke reduziert wird, werden in einem flachen Vektor $feat = (v_{0},v_{1},v_{2},\ldots,v_{n})$ mit $v_{i} \in \mathbb{R}$ der Größe n repräsentiert.
+Dieser Vektor wird Merkmalsvektor genannt und ist eine abstrakte Darstellung der Punktwolken. Der Merkmalsvektor ist als Zwischenergebniss wichtig, um die Eingabedaten in für ein Regressionsnetz besser verarbeitbare Form zu bringen. 
+Das Regressionsnetz ist der zweite Teil der Struktur des Neurales Netzes und wird in dem folgenden Abschnitt \ref{Regression auf Merkmalsvektor} beschrieben.
+
+\smallskip
+
+Die Struktur der Merkmalsextraktion besiert auf der Arbeit:  \cite{test}
+
+\smallskip
+
+Die generelle Struktur der Merkmalsextraktion ist eine wiederholte Folge an Reduzierungen auf den konkreten Daten der Punktwolke, gefolg von einem kleinem Neuralen Netz, was mit den konkreten Daten dieser Schicht Merkmale über mehrere Schichten hinweg konstruiert.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.28]{bilder/Pointnet++.jpg}
+    \caption[Schematische Darstellung von Merkmalsextraktionschichten]{Schematische Darstellung von Merkmalsextraktionschichten}
+            \label{Schematische Darstellung von Merkmalsextraktionschichten} 
+    \quelle\url{https://stanford.edu/~rqi/pointnet2/images/pnpp.jpg}
+\end{figure}
+
+In dem ersten Schritt in jeder Schicht werden Punkte aus der Punktwolke ausgewählt. Dafür wird ein Algorithmus eingestzt, der eine Teilmenge der Ausgangspunkte auswählt, um eine Möglichst gute Abdeckung über die Augangspunkte zu erreicht (Farthest point sampling).
+Dafür geht der Algorithmus schrittweise vor. In jedem Schritt wählt er den Punkt der Punktwolke aus, der Am weistesten von allen bisher ausgewählten Punkten entfernt ist, solange bis die gewünschte Menge an Punkten erreicht ist.
+Der Algorithmus sucht nicht nach der optimalen Abdeckung, welche die Distanz von jedem nicht ausgewählten Punkt zu dem nächsten ausgewählten Punkt minimierent, sondern ist nur eine Abschätzung, dieser optimalen Lösung. 
+Durch die wiederholte Reduzierung der Ausgangsdaten wird die Anzahl der echten Punkte immer geringer, wie man in der Abbildung \ref{Merkmalsextraktion aus Punktwolke} sehen kann.
+
+Die gerade beschriebene Untermenge an Punkten wird weiterverarbeitet, indem zu jeden Punkt in der Untermenge eine Kante zu erstellt wird, wenn ein anderer Punkt innerhalb von einer bestimmten Distanz des ausgewählten Punktes ist. 
+Danach ist jeder ausgewählte Punkt mit allen Punkten einem Radius um sich selber verbunden, diese Punkte sind die jeweiligen Nachbarn der ausgewählten Punkte.
+
+\begin{center}
+\begin{math} Auswahl \Subset Punktwolke\end{math}
+\end{center}
+
+\begin{figure}[H]
+    \centering
+    \begin{math} \forall \vec{a} \in Auswahl , \forall \vec{p} \in Punktwolke: \left|  \left| \vec{a} - \vec{p}  \right| \right|_{2} \leq r \implies (p,a) \in Kanten \end{math}
+\end{figure}
+
+Die ausgewählten Punkte werden als künstliche Neuronen genutzt. Dabei sind die Merkmale, die in den Punkten der Nachbarn gespeichert sind, die Eingabe für das künstliche Neuron. Die Gewichte für jede Eingabe werden erlernt, dafür wird ein Multi Layer Perceptor (MLP) genutzt.
+Der MLP lernt, wie die Gewichte für die oben bestimmten Kanten seinen sollen. Dafür Nutz der MLP die relative Position von ausgewählten Punkten zu ihren Nachbarn. Ein MLP funktioniert ähnlich zu dem Regressionsnetz, was in Abschnitt \ref{Regression auf Merkmalsvektor} erklährt wird.
+Ein ausgewählter Punkt verändert seine Merkmale anhand der Summe von Mermalen der Punkte in seiner Nachbarschaft, die nach ihrer relativen Position gewichtet werden. Die Anzahl an Punkten verringert sich, aber die Anzahl der Merkmale pro Punkt erhöht sich mit jeder Schicht.
+
+Über mehrere Schichten hinweg, werden Merkmale für die Punkte gelernt, um dann die Punkte zu redutieren und die Merkmale an die ausgewählten Punkte weiterzugeben. Das generiert eine Menge an Merkmalen für jeden Punk, 
+aber für die Weiterverarbeitung wird ein Merkmalsvektor benötigt, der das gesammte Bauteil beschreibt. Im letzten Schritt wird das größete Merkmal in jeder Dimension der Merkmale aller Punkte genommen. So wird ein flacher Merkmalsvektor erstellt.
+Mit dem größten Merkmal ist das numerisch Größte gemeint, nicht umbedingt das Wichtigste. 
+
+\subsection{Regression auf Merkmalsvektor}
+\label{Regression auf Merkmalsvektor}
+
+Nach der Bestimmung von abstrakten Merkmalen in einem Merkmalsvektor im vorherigen Abschnitt \ref{Merkmalsextraktion aus Punktwolke} muss aus diesem Vektor ein konkretes Ergebnis abgeleitet werden. Dafür wird eine Abbildung von dem Vektor auf die Ergebnisse erlernt. Dieses Vorgehen wird Regression genannt. 
+In diesem Fall wird auf die Z-Invarinaz regressiert.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.4]{bilder/Regression Net.jpg}
+    \caption[Schematische Darstellung von Regressionsnetz]{Schematische Darstellung von Regressionsnetz}
+            \label{Schematische Darstellung von einem beispielhaften Regressionsnetz}
+    \quelle\url{https://miro.medium.com/1*LaEgAU-vdsR_pClMcgbikQ.jpeg}
+\end{figure}
+
+
+
+Eine Schicht an künstlichen Neuronen ist so definiert, dass man die Neuronen der Schicht immer mit der gleichen Anzahl an Kantenübergägen erreicht. Jedes Neuron der ersten verborgenen Schicht kann zum Beispiel mit nur genau einem Kantenübergang erreicht werden.
+Für eine vollständig verbundene Schicht muss jedes künstliche Neuron mit jedem künstlichen Neuron der vorherigen und drarauffolgenden Schicht verbunden sein. Dabei gibt es drei Arten von Schichten, wie in der Abbildung \ref{Regression auf Merkmalsvektor} zu sehen. Zuerst gib es die Eingabeschicht.
+Diese Schicht repräsentiert die Eingaben. Jeder Knoten der Eingabeschicht ist ein Datenpunkt, oder in diesem Fall ein Merkmal. Danach gibt es die versteckten Schichten. Ihre Aufgabe ist es die Eingabe zu transformieren. 
+Sie erlauben es dem Neuralen Netz eine Eingabe über mehrere Schichten zu verarbeiten. Dadurch kann das Neurale Netz nicht lineare zusammenhänge darstellen. Zuletzt gibt es die Ausgabeschicht. Von dieser Schicht wird die Z-Invarianz abgelesen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{bilder/TanhFunction.jpg}
+    \caption[Finale Aktivierungsfunktion des Regressionsnetzes]{Finale Aktivierungsfunktion des Regressionsnetzes}
+            \label{Tanh Aktivierungsfunktion des Regressionsnetzes}
+    \quelle\url{https://images.squarespace-cdn.com/content/v1/5acbdd3a25bf024c12f4c8b4/1524687495762-MQLVJGP4I57NT34XXTF4/TanhFunction.jpg}
+\end{figure}
+
+Um die Z-invarinaz immer im korrekten Wertebereich zu haben wird als Finale Aktivierungsfunktion Tanh genutzt. Diese Funktion limitiert die Ausgaben auf -1 bis 1 wie man in der Abbildung \ref{Tanh Aktivierungsfunktion des Regressionsnetzes} sehen kann, 
+was genau die Werte sind, die ein Eintrag in einer Rotationmatrix haben kann.
+
+\smallskip
+
+Eine Schicht funktioniert so, dass jedes Neuron die gewichtetete Summe von allen vorhergeneden Neuronen erhält und diese Summe an eine Aktivierungsfunktion übergibt. Dabei werden Methoden wie Normalisierung und zufälliges zurrücksetzten von Eingaben verwendet, um
+die Transformation verläslicher zu machen.
+
+Die Normalisierung stellt sicher, dass es keine zu großen Änderungen innherlab einer Schicht vorkommen, da alle Werte relativ zu dem Durchschnitt normaliesiert werden. Bei einer großen Änderung innerhalb einer Schicht, zwingt es darauffolgende Schichten ebenfalls Ändrungen vorzunehmen. 
+Die konstante Anpassung zu Änderungen in den vorherigen Schichten macht das Lernen instabiel.
+
+Das Zufällige zurrücksetzen von Eingaben verhinder eine zu große Abhängigkeit von nur einem Neuron oder einem Pfad. Dafür werden mit einer vorbestimmten Warscheinlichkeit gewichtetete Summen auf null gesetzt, sodass sie keinen Einfluss auf die nächste Schicht haben.
+
+
+\section{Konstruktion der Ausrichtung}
+\label{Konstruktion der Ausrichtung} % wie wird aus z Invarianz und Z drehung eine Rotation (und warum)
+
+Die, in Abschnitt \ref{Regression auf Merkmalsvektor} berechnete, Z-Invarianz ist nicht genug, um eine Drehung darszustellen, um ein Bauteil drehen zu können ist eine Rotationsmatrix notwendig. 
+Rotationsmatrizen sind, für den 3d Raum, 3 x 3 Matrizen, die durch Matrixmultiplikation eine Punktwolke drehen können.
+
+\begin{figure}[H]
+    \centering
+    \[ 
+    \begin{bmatrix}  
+    x_1 & y_1 & z_1 \\  
+    x_2 & y_2 & z_2 \\  
+    \vdots & \vdots & \vdots \\  
+    x_n & y_n & z_n \\  
+    \end{bmatrix}
+    \begin{bmatrix}  
+    R_{11} & R_{12} & R_{13} \\  
+    R_{21} & R_{22} & R_{23} \\  
+    R_{31} & R_{32} & R_{33}
+    \end{bmatrix}  
+    =
+    \begin{bmatrix}  
+    x_1' & y_1' & z_1' \\  
+    x_2' & y_2' & z_2' \\  
+    \vdots & \vdots & \vdots \\  
+    x_n' & y_n' & z_n' \\  
+    \end{bmatrix}  
+    \]
+\end{figure}
+
+Dabei ist die Norm von jeder Zeile gleich Eins und jede Zeile ist, wenn man sie als Vektor betrachtet orthogonal zu den anderen Zeilen. Dasselbe gilt für Spalten.
+
+\begin{figure}[H]
+    \centering
+    $ \forall i \in \{1 , 2, 3 \}: \left|  \left| \begin{bmatrix} R_{1i} \\ R_{2i} \\ R_{3i} \end{bmatrix} \right| \right|_{2} = 1 $ \hspace{1cm}und\hspace{1cm}
+    $ \forall i \in \{1 , 2, 3 \}: \left|  \left| \begin{bmatrix} R_{i1} \\ R_{i2} \\ R_{i3} \end{bmatrix} \right| \right|_{2} = 1$
+\end{figure}
+
+Um aus dem 3d Vektor, der die Z-invarianz darstellt, eine Rotationsmatrix zu erstellen, kann die Z-Invarianz selber alz Zeile der Rotationmatrix genommen werden. Die restlichen Zeilen müssen dann aus der ersten Zeile abgeleitet werden.
+Die Zeilen einer Rotationmatrix müssen Orthogonal zueinander sein, daher muss für die anderen Zeilen Vektoren gefunden werden die Orthogonal zu der Z-Invarianz sind. Wenn zwei Vektoren gegeben sind, kann man aus ihenen eine Ebene bilden 
+eine Normale dieser Ebene ist Orthogonal zu beiden Vektoren. Dadurch lassen sich orthogonale Vektoren zu der Z-Invarinaz finden.
+
+
+
+    \tdplotsetmaincoords{70}{110}
+    \begin{figure}[H]
+        \begin{tikzpicture}[scale=4,tdplot_main_coords]
+            \draw[thick,->] (0,0,0) -- (1,0,0) node[anchor=north east]{$x$};
+            \def\x{.5}
+            \filldraw[
+                draw=red,%
+                fill=red!20,%
+            ]          (0,0,0)
+                    -- (\x,{sqrt(3)*\x},0)
+                    -- (\x,{sqrt(3)*\x},1)
+                    -- (0,0,1)
+                    -- cycle;
+            \draw[thick,->] (0,0,0) -- (0,1,0) node[anchor=north west]{$y$};
+            \draw[blue,very thick, ->] (0,0,0) -- ({1.2*\x},{sqrt(3)*1.2*\x},0) node[below] {$Z-Invarianz$};
+            \draw[blue,very thick,->] (0.3,0.51,0.5) -- ({sqrt(3)*0.6*\x + 0.3},{-0.6*\x + 0.51},0.5) ;
+            \draw[blue,very thick,->] (0,0,0) -- ({sqrt(3)*0.6*\x},{-0.6*\x},0) node[anchor=north]{$n_1$};
+            \draw[thick,dotted] ({sqrt(3)*0.6*\x + 0.3},{-0.6*\x + 0.51},0.5) -- ({sqrt(3)*0.6*\x},{-0.6*\x},0);
+            \draw[thick,dotted] (0,0,0) -- (0.3,0.51,0.5);
+            \draw[blue,very thick,->] (0,0,0) -- (0,0,1) node[anchor=south]{$z / Hilfsvektor$};
+
+        \end{tikzpicture}
+        \caption[Berechung von $n_1$]{Berechung von $n_1$}
+            \label{Berechung von $n_1$}
+    \end{figure}
+
+Da die Z-Invarianz aber nur ein Vektor ist, muss für die Bestimmung anderer Zeilen im ersten Schritt ein Hilfvektor genommen werden. Dafür bietet sich die z-Achse an, da die Rotationen relativ zu der z-Achse bewertet werden.
+Zwischen der Z-Invarinaz und der z-Achse wird eine Ebene aufgespannt. Die Normale der Ebene ist eine Zeile in der Rotationmatrix.
+
+\smallskip
+
+Als Hilfvektor wird immer die normierte z-Achse genommen, daher besteht die Möglichkeit, dass die Z-Invarinaz sehr ähnlich zu der z-Achse ist. Das macht die berechnug der Normalen mathematisch instabiel, da durch die extreme Änlichkeit jetzt der Nullvektor als Ergebnis kommen könnte. 
+Um dieses Problem zu beheben, wird überprüft, ob der Hilsvetor zu ähnlich zu der Z-Invarianz ist. Wenn sie zu ähnlich sind, wird der Hilfvektor durch einen anderen Vektor ersetzt. Einen anderen Hilfsvektor zu nehmen beeinfluss die Rotation, aber diese Ausname ist sehr selten, verschlechtert sie das durchschnittliche Ergebniss nicht sehr.
+Als Alternative zu der z-Achse bieten sich die x und y Achsen an, da sie beide 90 Grad von der z-Achse entfernt sind und dadurch, die Struktur der Rotation erhalten bleibt.
+
+
+    
+    \tdplotsetmaincoords{70}{110}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[scale=4,tdplot_main_coords]
+            \def\x{.5}
+            \filldraw[
+                draw=red,%
+                fill=red!20,%
+            ]          (0,0,0)
+                    -- (\x,{sqrt(3)*\x},0)
+                    -- ({\x + sqrt(3)*\x},{sqrt(3)*\x + -1*\x},0)
+                    -- ({sqrt(3)*\x},{-1*\x},0)
+                    -- cycle;
+            \draw[thick,->] (0,0,0) -- (1.5,0,0) node[anchor=north east]{$x$};
+            \draw[thick,->] (0,0,0) -- (0,1,0) node[anchor=north west]{$y$};
+            \draw[thick,->] (0,0,0) -- (0,0,1) node[anchor=south]{$z$};
+            \draw[blue,very thick, ->] (0,0,0) -- ({1.2*\x},{sqrt(3)*1.2*\x},0) node[below] {$Z-Invarianz$};
+            \draw[blue,very thick,->] (0,0,0) -- ({sqrt(3)*1.2*\x},{-1.2*\x},0) node[anchor=north]{$n_1$};
+            \draw[blue,very thick,->] (0,0,0) -- (0,0,0.5) node[anchor=east]{$n_2$};
+            \draw[blue,very thick,->] (0.8,0.2,0) -- (0.8,0.2,0.5) ;
+            \draw[thick,dotted] (0,0,0.5) -- (0.8,0.2,0.5);
+            \draw[thick,dotted] (0,0,0) -- (0.8,0.2,0);
+        \end{tikzpicture}
+        \caption[Berechung von $n_2$]{Berechung von $n_2$}
+            \label{Berechung von $n_2$}
+    \end{figure}
+
+Durch das Berechnen einer anderen Zeile außer der Z-Invarianz ist ein Hilfsvektor nicht mehr vonnöten. Die berechnete Normale bildet die letzte Zeile, die für eine Rotationmatrix vonnöten ist. Sie ist orthogonal zu den anderen Zeilen, da sei eine Normale in der Ebene der anderen Zeilen ist.
+Normale-1 ist ebenfalls orthogonal zu der Normale-2, da es in der Ebene ist, desssen normale Normale-2 ist. Sie ist ebenfalls otrhogonal zu der Z-invarianz, da Normale-1 aus Ebene, die die Z-Invarianz beinhaltet gebildet wurde. 
+Orthogonalität ist symetrisch, daher ist auch die Z-Invarianz orthogonal zu Normale-1 und Normale-2. Das erfüllt die oben genannte Bedingenung, dass alle Zeilen orthogonal zueinander seien müssen.
+
+
+
+    \begin{figure}[H]
+        \centering
+        \subfigure[]
+            {\includegraphics[scale=0.25]{bilder/Rotation_V1}\label{Rotation_V1}
+        }
+        \subfigure[]
+            {\includegraphics[scale=0.25]{bilder/Rotation_V2}\label{Rotation_V2}
+        }
+        \caption[Vertauschen von $n_1$ und $n_2$ in der Rotationsmatrix]{Vertauschen von $n_1$ und $n_2$ in der Rotationsmatrix}
+            \label{Vertauschen von $n_1$ und $n_2$ in der Rotationsmatrix}
+    \end{figure}
+
+Die Z-Invarianz wird als unterste Zeile genommen, die beiden berechneten Normalen können eine beliebige andere Zeile nehmen. Die Wahl der Zeilen verändert nur die Rotation des Bauteils um die z-Achse herum, wie man in der Abbildung \ref{Vertauschen von $n_1$ und $n_2$ in der Rotationsmatrix} sehen kann. 
+Solange also die Zeilen immer gleich angeordnet werden, wird die Gradabweichung von der z-Achse gleich bleiben.
+
+\smallskip
+
+Nachdem die Rotationmatrix erstellt wurde muss zuletzt überprüft werden, on sie eine gültige Rotation ist. Im 5d-Druck kann sich die Platform nicht völlig frei bewegen, sie kann eine maximale Gradabweichung vom Ursprung von 90 Grad unterstüzen, also insgesammt jeweils 180 Grad entlang zwei Achsen.
+Daher wird überprüft, ob die Rotationsmatrix das Bauteil über diese Grenzen hinaus drehen würde. Falls dem so ist, muss die Rotationsmatrix gespiegelt werden.
+
+
+
+    \begin{figure} [H]
+        \centering
+        \[
+        \begin{bmatrix}  
+        1 & 0 & 0 \\  
+        0 & 1 & 0 \\  
+        0 & 0 & -1
+        \end{bmatrix}
+        \]
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+            \subfigure[ohne Spiegelmatrix]
+                {
+                \begin{tikzpicture}[scale=2.5,tdplot_main_coords]
+                \def\x{.5}
+                \draw[thick,->] (0,0,0) -- (1.5,0,0) node[anchor=north east]{$x$};
+                \draw[thick,->] (0,0,0) -- (0,1,0) node[anchor=north west]{$y$};
+                \draw[thick,->] (0,0,0) -- (0,0,1) node[anchor=south]{$z$};
+
+                \draw[blue,thick,->] (0,0,0) -- (0.6841, -0.6408, -0.3483) node[anchor=south]{};
+                \draw[blue,thick,->] (0,0,0) -- (0.0000, -0.4776,  0.8786) node[anchor=south]{};
+                \draw[blue,thick,->] (0,0,0) -- (0.7294,  0.6011,  0.3267) node[anchor=south]{};
+            \end{tikzpicture}
+            }
+            \subfigure[mit Spiegelmatrix]
+                {
+                \begin{tikzpicture}[scale=2.5,tdplot_main_coords]
+                \def\x{.5}
+                \draw[thick,->] (0,0,0) -- (1.5,0,0) node[anchor=north east]{$x$};
+                \draw[thick,->] (0,0,0) -- (0,1,0) node[anchor=north west]{$y$};
+                \draw[thick,->] (0,0,0) -- (0,0,1) node[anchor=south]{$z$};
+
+                \draw[blue,thick,->] (0,0,0) -- (0.6841, -0.6408, -0.3483) node[anchor=south]{};
+                \draw[blue,thick,->] (0,0,0) -- (0.0000, 0.4776,  -0.8786) node[anchor=south]{};
+                \draw[blue,thick,->] (0,0,0) -- (0.7294,  0.6011,  0.3267) node[anchor=south]{};
+            \end{tikzpicture}
+            }
+            \caption[Veränderung der Rotationmatrix durch die Spiegelmatrix]{Veränderung der Rotationmatrix durch die Spiegelmatrix}
+            \label{Veränderung der Rotationmatrix durch die Spiegelmatrix}
+    \end{figure}
+
+Durch die Matrixmultiplikation mit der Spiegelmatrix, aus \ref{Veränderung der Rotationmatrix durch die Spiegelmatrix}, wird eine Rotationsmatrix in der xy-Ebene gespiegelt. Das hat den Effekt, dass sich das Bauteil um 180 Grad dreht. Da eine Spiegelung nötig war, galt vor der Spiegelung, dass der Betrag der Rotation mehr als 90 Grad ist. 
+Die Rotation ist also zwischen 90 und 180 Grad. Sie kann nicht höher sein, da eine sinnvolle Rotation nur von -180 bis 180 Grad gehen kann und so einen ganzen Kreis bildet. Wenn man die Rotation spiegelt, wird sie um 180 Grad gedreht, es gilt: 
+
+\begin{figure}[H]
+    \centering
+    $rot \in \mathbb{Q} \bigwedge \vert rot \vert > 90 \bigwedge \vert rot \vert < 180 \implies \vert rot \vert - 180 < 90$
+\end{figure}
+
+Wenn sie vor der Spiegelung nicht im 180 Grad Halbkreis der erlaubten Drehungen war, dann ist sie es danach.
