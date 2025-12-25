@@ -23,6 +23,9 @@ Alle Daten, die für die Auswertung benutzt werden, sind in dem Artickel: \cite{
 Die Abbilding \ref{Darstellung aller Typen von Bauteilen im Datensatz} stellt alle Typen von Bauteilen dar, die in dem Datensatz enthalten sind. Es gebt insgesammt 4 verschiedene Typen, die alle einfache geometrische Objekt sind. 
 Die Typen sind von A bis D durchnummeriert.
 
+Für alle Tests werden 1000 zufällige Flächen aus dem Datensatz genommen. Diese Flächen werden wie in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} beschrieben gefunden. Tests haben ergeben, 
+dass das Verwenden von einem Datensatz mit mehr als 1000 Flächen keinen Einfluss auf das Ergebniss hat. 
+
 \section{Ausrichtung der Bauteile}
 \label{Ausrichtung der Bauteile}
 
@@ -43,7 +46,23 @@ In dem bisherigen Test ist immer davon ausgegenagen worden, dass die Punktowlken
 \label{Noise Resistance}
 
 Eine Fläche eines Bauteils, die Punkte beinhaltet, die nicht zu der Fläche gehören, kann das Ergebnis des neuronalen Netzes stark beeinflussen. Dieser Fehler könnte durch schlechtes Clustering entsehen, wenn zwei Flächen nicht richtig getrennt werden.
-Punkte die nicht zu der Fläche gehören, aber dennoch in der Punktwolke der Fläche enthalten sind, werden als Rauschen (engl. Noise) bezeichnet. Um den Einfluss von Rauschen auf das Netz zu bestimmen, werden Punkte zu sonst korrekten Flächen hinzugefügt. 
+Punkte die nicht zu der Fläche gehören, aber dennoch in der Punktwolke der Fläche enthalten sind, werden als Rauschen (engl. Noise) bezeichnet. Um den Einfluss von Rauschen auf das Netz zu bestimmen, werden Punkte zu sonst korrekten Flächen hinzugefügt.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{bilder/Noise.png}
+    \caption[Test mit Noise auf dem Neuralen Netz]{Test mit Noise auf dem Neuralen Netz}
+            \label{Test mit Noise auf dem Neuralen Netz}
+\end{figure}
+
+Die Abbildung \ref{Test mit Noise auf dem Neuralen Netz} zeigt die Ergebnisse des Tests. Um Noise zu simulieren, wurden für jede Fläche um das Zentrum der Fläche zufällig Punkte verteilt. 
+Dabei wurden die Punkte normalverteilt, sodass die meisten Punkte nahe der Fläche sind. Die zufällige Verteilung bricht die köhärent Struktur der Fläche auf. In der Abbildung \ref{Test mit Noise auf dem Neuralen Netz} 
+wurde der Unterschied des Normalvektors der Fläche zu der z-Achse in Orange aufgezeichnet,
+die Standartabweichung des Normalvectors zu der z-Achse in Grün und die benötigte Größe der Drehung ist Blau. Die x-Achse der Abbilding zeigt das Rauschen. Dabei ist die Anzahl der Rauschpunkte gleich des Wertes auf der x-Achse mal 20. 
+Die y-Achse zeigt die Ergebnisse bei den jeweiligen Rauschleveln. Abbilding \ref{Test mit Noise auf dem Neuralen Netz} zeigt, 
+dass das Rauschen keinen großen Einfluss auf den Unterschied des Normalvektors der Fläche zu der z-Achse oder die benötigte Größe der Drehung hat. Auf die Standartabweichung des Normalvektors hat das Rauschen allerdings einen extremen Einfluss.
+Sobald Rauschen hinzugefügt wird, steigt die Standartabweichung extrem an und bleibt dann bei dem Fehlermaß, zu dem es steigt unabhängig von weiterem Rauschen, dass hinzugefügt wird. Daraus lässt sich schließen, dass das Netz keine gute Fähigkeit hat, 
+Rauschen zu widerstehen. Die absolute Ausrichtung in Orange bleibt zwar stabiel, aber da die Abwichung von diesem Durchschnitt extrem ansteigt, ist das Ergebnis unzuverlässig.
 
 \subsection{Schlechtes Sampling}
 \label{Schlechtes Sampling} 
