@@ -5,7 +5,7 @@
 \chapter{Punktwolkenverarbeitung zur Bauteilausrichtung}
 \label{Punktwolkenverarbeitung zur Bauteilausrichtung}
 
-Um ein Bauteil korrekt auszurichten, muss eine Fläche des Bauteils auf eine Ausrichtung abgebildet werden. Die Flächen in den Bauteilen wurden in Kapitel 3 identifieziert und als Punktwolken gespeichert. 
+Um ein Bauteil korrekt auszurichten, muss eine Fläche des Bauteils auf eine Ausrichtung abgebildet werden. Die Flächen in den Bauteilen wurden in Kapitel \ref{Flächensuche in  Bauteilen} identifieziert und als Punktwolken gespeichert. 
 Mit Punktwolke ist in diesem Fall eine Menge an Raumkooredinaten gemeint, die zusammengenommen eine Struktur darstellen. Eine Punktwolke besteht aus endlich vielen Raumkooredinaten, und ist daher immer nur eine Aproximation.
 
 \smallskip
@@ -20,7 +20,7 @@ Die Transformation der Punktwolken erfolgt über ein Neurales Netz. Ein Neurales
 Ein künstliches Neuron ist eine Funktion, die als Eingabe andere künstliche Neuronen oder echte Daten nimmt. 
 Die Eingabe des Neurons besteht aus den einzelnen Eingaben ($x_{i}$) multipliziert mit den Gewichten für die einzelnen Eingaben ($w_{i}$).
 
-\begin{figure}[H]
+\begin{figure}[t]
     \centering
     \begin{math} \sum_{ i = 1 }^{ n }{ x_{i} * w_{i} } = Netzeingabe \end{math}
 \end{figure}
@@ -30,7 +30,7 @@ die entweder an ein weiteres Neuron übergeben wird, oder die Ausgabe des Netzes
 Die Abbildung in der Aktivierungsfunktion kann jede Funktion sein, die einen Wert x auf einen anderen Wert y abbildet, allerdings sind nicht lineare Funktionen wie zum Beispiel: $y = \max(0,x)$ (ReLU) generell besser geeignet, 
 da man nur mit dieser Art von Aktivierungsfunktionen nicht lineare Zusammenhänge darstellen kann.
 
-\begin{figure}[H]
+\begin{figure}[t]
     \centering
     \includegraphics[scale=0.25]{bilder/ArtificialNeuronModel_deutsch}
     \caption[Funktionsweise eines künstlichen Neurons]{Funktionsweise eines künstlichen Neurons}
@@ -67,7 +67,7 @@ Die Struktur der Merkmalsextraktion besiert auf der Arbeit:  \cite{test}
 
 Die generelle Struktur der Merkmalsextraktion ist eine wiederholte Folge an Reduzierungen auf den konkreten Daten der Punktwolke, gefolg von einem kleinem Neuralen Netz, was mit den konkreten Daten dieser Schicht Merkmale über mehrere Schichten hinweg konstruiert.
 
-\begin{figure}[H]
+\begin{figure}[t]
     \centering
     \includegraphics[scale=0.28]{bilder/Pointnet++.jpg}
     \caption[Schematische Darstellung von Merkmalsextraktionschichten]{Schematische Darstellung von Merkmalsextraktionschichten}
@@ -87,7 +87,7 @@ Danach ist jeder ausgewählte Punkt mit allen Punkten einem Radius um sich selbe
 \begin{math} Auswahl \Subset Punktwolke\end{math}
 \end{center}
 
-\begin{figure}[H]
+\begin{figure}[t]
     \centering
     \begin{math} \forall \vec{a} \in Auswahl , \forall \vec{p} \in Punktwolke: \left|  \left| \vec{a} - \vec{p}  \right| \right|_{2} \leq r \implies (p,a) \in Kanten \end{math}
 \end{figure}
@@ -106,7 +106,7 @@ Mit dem größten Merkmal ist das numerisch Größte gemeint, nicht umbedingt da
 Nach der Bestimmung von abstrakten Merkmalen in einem Merkmalsvektor im vorherigen Abschnitt \ref{Merkmalsextraktion aus Punktwolke} muss aus diesem Vektor ein konkretes Ergebnis abgeleitet werden. Dafür wird eine Abbildung von dem Vektor auf die Ergebnisse erlernt. Dieses Vorgehen wird Regression genannt. 
 In diesem Fall wird auf die Z-Invarinaz regressiert.
 
-\begin{figure}[H]
+\begin{figure}[t]
     \centering
     \includegraphics[scale=0.4]{bilder/Regression Net.jpg}
     \caption[Schematische Darstellung von Regressionsnetz]{Schematische Darstellung von Regressionsnetz}
@@ -121,7 +121,7 @@ Für eine vollständig verbundene Schicht muss jedes künstliche Neuron mit jede
 Diese Schicht repräsentiert die Eingaben. Jeder Knoten der Eingabeschicht ist ein Datenpunkt, oder in diesem Fall ein Merkmal. Danach gibt es die versteckten Schichten. Ihre Aufgabe ist es die Eingabe zu transformieren. 
 Sie erlauben es dem Neuralen Netz eine Eingabe über mehrere Schichten zu verarbeiten. Dadurch kann das Neurale Netz nicht lineare zusammenhänge darstellen. Zuletzt gibt es die Ausgabeschicht. Von dieser Schicht wird die Z-Invarianz abgelesen.
 
-\begin{figure}[H]
+\begin{figure}[t]
     \centering
     \includegraphics[scale=0.6]{bilder/TanhFunction.jpg}
     \caption[Finale Aktivierungsfunktion des Regressionsnetzes]{Finale Aktivierungsfunktion des Regressionsnetzes}
@@ -188,7 +188,7 @@ eine Normale dieser Ebene ist Orthogonal zu beiden Vektoren. Dadurch lassen sich
 
 
     \tdplotsetmaincoords{70}{110}
-    \begin{figure}[H]
+    \begin{figure}[t]
         \begin{tikzpicture}[scale=4,tdplot_main_coords]
             \draw[thick,->] (0,0,0) -- (1,0,0) node[anchor=north east]{$x$};
             \def\x{.5}
@@ -225,7 +225,7 @@ Als Alternative zu der z-Achse bieten sich die x und y Achsen an, da sie beide 9
 
     
     \tdplotsetmaincoords{70}{110}
-    \begin{figure}[H]
+    \begin{figure}[t]
         \centering
         \begin{tikzpicture}[scale=4,tdplot_main_coords]
             \def\x{.5}
@@ -257,7 +257,7 @@ Orthogonalität ist symetrisch, daher ist auch die Z-Invarianz orthogonal zu Nor
 
 
 
-    \begin{figure}[H]
+    \begin{figure}[t]
         \centering
         \subfigure[]
             {\includegraphics[scale=0.25]{bilder/Rotation_V1}\label{Rotation_V1}
@@ -279,7 +279,7 @@ Daher wird überprüft, ob die Rotationsmatrix das Bauteil über diese Grenzen h
 
 
 
-    \begin{figure} [H]
+    \begin{figure} [t]
         \centering
         \[
         \begin{bmatrix}  
@@ -290,7 +290,7 @@ Daher wird überprüft, ob die Rotationsmatrix das Bauteil über diese Grenzen h
         \]
     \end{figure}
 
-    \begin{figure}[H]
+    \begin{figure}[t]
         \centering
             \subfigure[ohne Spiegelmatrix]
                 {
@@ -325,10 +325,10 @@ Daher wird überprüft, ob die Rotationsmatrix das Bauteil über diese Grenzen h
 Durch die Matrixmultiplikation mit der Spiegelmatrix, aus \ref{Veränderung der Rotationmatrix durch die Spiegelmatrix}, wird eine Rotationsmatrix in der xy-Ebene gespiegelt. Das hat den Effekt, dass sich das Bauteil um 180 Grad dreht. Da eine Spiegelung nötig war, galt vor der Spiegelung, dass der Betrag der Rotation mehr als 90 Grad ist. 
 Die Rotation ist also zwischen 90 und 180 Grad. Sie kann nicht höher sein, da eine sinnvolle Rotation nur von -180 bis 180 Grad gehen kann und so einen ganzen Kreis bildet. Wenn man die Rotation spiegelt, wird sie um 180 Grad gedreht, es gilt: 
 
-\begin{figure}[H]
+\begin{figure}[t]
     \centering
     $rot \in \mathbb{Q} \bigwedge \vert rot \vert > 90 \bigwedge \vert rot \vert < 180 \implies \vert rot \vert - 180 < 90$
 \end{figure}
 
-Wenn sie vor der Spiegelung nicht im 180 Grad Halbkreis der erlaubten Drehungen war, dann ist sie es danach. Testen
+Wenn sie vor der Spiegelung nicht im 180 Grad Halbkreis der erlaubten Drehungen war, dann ist sie es danach.
 

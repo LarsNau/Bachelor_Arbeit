@@ -39,18 +39,18 @@ Die Ausrichtung der Bauteile ist das Ziel der Arbeit. Dementsprechend ist es die
 
 In dem bisherigen Test ist immer davon ausgegenagen worden, dass die Punktowlken eine perfekte Darstellung des Bauteils sind. In der Präxis, muss aber davon ausgegenagen werden, dass die Punktwoklen Fehler aufweisen.
 
-\subsection{Zufällige Startorientierung}
-\label{Zufällige Startorientierung}
+%\subsection{Zufällige Startorientierung}
+%\label{Zufällige Startorientierung}
 
-\subsection{Noise Resistance}
-\label{Noise Resistance}
+\subsection{Effekt von Rauschen auf den Daten}
+\label{Effekt von Rauschen auf den Daten}
 
 Eine Fläche eines Bauteils, die Punkte beinhaltet, die nicht zu der Fläche gehören, kann das Ergebnis des neuronalen Netzes stark beeinflussen. Dieser Fehler könnte durch schlechtes Clustering entsehen, wenn zwei Flächen nicht richtig getrennt werden.
 Punkte die nicht zu der Fläche gehören, aber dennoch in der Punktwolke der Fläche enthalten sind, werden als Rauschen (engl. Noise) bezeichnet. Um den Einfluss von Rauschen auf das Netz zu bestimmen, werden Punkte zu sonst korrekten Flächen hinzugefügt.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.2]{bilder/Noise.png}
+    \includegraphics[scale=0.5]{bilder/Noise.png}
     \caption[Test mit Noise auf dem Neuralen Netz]{Test mit Noise auf dem Neuralen Netz}
             \label{Test mit Noise auf dem Neuralen Netz}
 \end{figure}
@@ -64,8 +64,24 @@ dass das Rauschen keinen großen Einfluss auf den Unterschied des Normalvektors 
 Sobald Rauschen hinzugefügt wird, steigt die Standartabweichung extrem an und bleibt dann bei dem Fehlermaß, zu dem es steigt unabhängig von weiterem Rauschen, dass hinzugefügt wird. Daraus lässt sich schließen, dass das Netz keine gute Fähigkeit hat, 
 Rauschen zu widerstehen. Die absolute Ausrichtung in Orange bleibt zwar stabiel, aber da die Abwichung von diesem Durchschnitt extrem ansteigt, ist das Ergebnis unzuverlässig.
 
-\subsection{Schlechtes Sampling}
-\label{Schlechtes Sampling} 
+\subsection{Effekt von schlechter Flächensuche}
+\label{Effekt von schlechter Flächensuche}
+
+Eine Fläche, die in einem Bauteil gefunden wurde, muss nicht immer perfekt die Fläche des Bauteils repräsentieren. Häufig werden Punkte, die zu der Fläche gehören sollten, nicht gefunden, was die Punktwolke keiner macht als sie es mit einer perfekten Suche wäre.
+Der Einfluss von fehlenden Punkten in der Punktwolke einer Fläche wird getestet, indem über mehrere Iterationen Punkte aus den Punktwolken entfernt werden. Die Anzahl der Punkte basiert auf einem Prozentsatz, der sich mit jeder Iteration erhöht. 
+Durch das Verwenden von Prozentsätzen wird sichergestellt, dass die Ergebnisse unabhängig von der ursprünglichen Größe der Punktwolke sind.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{bilder/Punke_entfernen.png}
+    \caption[Test von schlechter Flächensuche auf dem Neuralen Netz]{Test von schlechter Flächensuche auf dem Neuralen Netz}
+            \label{Test von schlechter Flächensuche auf dem Neuralen Netz}
+\end{figure}
+
+Die Abbildung \ref{Test von schlechter Flächensuche auf dem Neuralen Netz} zeigt den Verlusst an Genauigkeit des Netzes, wenn Punkte aus der Punktwolke entfernt werden. Auf der x-Achse ist der Prozentsatz der entfernten Punkte dargestellt, 
+auf der y-Achse ist das Ergebnis der Tests dargestellt. Die Abweichung von dem Normalvektor der Fläche und der z-Achse  sind beide nahezu unverändert, wenn Punkte entfernt werden. Die Standartabweichung des Normalvektors bleibt für die ersten 60 \%, ebenfalls
+fast unverändert. Erst nachdem 60 \% der Punkte entfernt wurden, steigt die Standartabweichung stark an. Bei 90 \% entfernten Punkten ist die Standartabweichung fast bei 45 Grad angekommen, was bedeutet, das bei einem so hohen Verlusst das Ergebnis kaum besser als Zufall ist.
+Aber bis zu diesem Punkt zeigt das Netz eine gute Fähigkeit, fehlende Punkte in der Punktwolke zu widerstehen. Ein Verlusst von über 60 \% der Punkte ist extrem unwahrscheinlich in der Praxis. Das netz zeigt also eine gute Wiederstandfähigkeit gegen schlechte Flächensuche.
 
 \section{Generalisierbarkeit}
 \label{Generalisierbarkeit}
