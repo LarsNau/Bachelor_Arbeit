@@ -5,13 +5,13 @@
 \chapter{Punktwolkenverarbeitung zur Bauteilausrichtung}
 \label{Punktwolkenverarbeitung zur Bauteilausrichtung}
 
-Um ein Bauteil korrekt auszurichten, muss eine Fläche des Bauteils auf eine Ausrichtung abgebildet werden. Die Flächen in den Bauteilen wurden in Kapitel \ref{Flächensuche in  Bauteilen} identifieziert und als Punktwolken gespeichert. 
-Mit Punktwolke ist in diesem Fall eine Menge an Raumkooredinaten gemeint, die zusammengenommen eine Struktur darstellen. Eine Punktwolke besteht aus endlich vielen Raumkooredinaten, und ist daher immer nur eine Aproximation.
+Um ein Bauteil korrekt auszurichten, muss eine Fläche des Bauteils auf eine Ausrichtung abgebildet werden. Die Flächen in den Bauteilen wurden in Kapitel \ref{Flächensuche in  Bauteilen} identifieziert und als Punktwolken gespeichert.
+Punktwolken wurden im Kapitel \ref{Flächensuche in  Bauteilen} bereits beschieben. Eine Punktwolke ist eine Menge an Punkten im 3D Raum, die zusammen eine Fläche oder ein Objekt darstellen.
 
 \smallskip
 
 In diesem Kapitel wird dargestellt, wie man eine Punktwolke, die eine Fläche in einem Bauteil darstellt, zu einer Rotation transformieren kann. Für die Transformation wird ein Neurales Netz eingesetzt, welches im Folgenden genauer erklährt wird. 
-Dieses Neurale Netz wird eine Punktwolke beliebiger größe zu der Z-Invarianz transformieren. Die Z-Invarianz wird in einem folgenden Abschnitt erklährt. Aus dieser Ausgabe lässt sicht dann eine vollständige Drehung erstellen.
+Dieses Neurale Netz wird eine Punktwolke beliebiger größe zu der Z-Invarianz transformieren. Die Z-Invarianz wird in einem folgenden Abschnitt \ref{Konstruktion der Ausrichtung} erklährt. Aus dieser Ausgabe lässt sicht dann eine vollständige Drehung erstellen.
 
 \section{Punktwolken Transformation}
 \label{Punktwolken Transformation}
@@ -38,21 +38,37 @@ da man nur mit dieser Art von Aktivierungsfunktionen nicht lineare Zusammenhäng
     \quelle\url{https://upload.wikimedia.org/wikipedia/commons/7/7f/ArtificialNeuronModel_deutsch.png}
 \end{figure}
 
-Durch das Anpassen von Gewichten kann ein Neuron den Einfluss von Eingabedaten verändern. Die optimale Belegung von Gewichten wird erlernt. Dafür muss definiert werden, was das Neurale Netz als gutes Ergebnis ansieht. Für das Lernen wird ein Datensatz genutzt, 
-den das Neurale Netz mehmal durchläuft. Diese Daten werden Trainingsdaten genannt. Bei jeden Durchlauf der Trainingsdaten
-übeprüft das Neurale Netz, wie gut seine Ausgaben im Vergleich zu dem vordefinierten optimalen Ergebnis sind. Neurale Netze funktionieren mit überwachtem Lernen. Das bedeutet, 
-dass für jeden Datenpunkt in den Trainingsdaten eine  Lösung vorliegt, gegen die das Neurale Netz seine eigene Ausgabe Testen kann.
-Es versucht dann durch Backpropagation zu ermitteln, wo der Großteil der Fehler herkommen, verändert diese Gewichte und wiederholt den gesammten Vorgang, bis entweder eine vorbestimmte Anzahl an Durchläufen abgearbeitet ist oder das Neurale Netz eine vorbestimmte Fehlergrenze unterschreitet.
-Der Fehler auf den Trainingsdaten wird Loss genannt. Den Loss zu minimiren ist das Ziel des Neuralen Netzes. %genauer
+Ein typisches Neuron ist in Abbildung \ref{Funktionsweise eines künstlichen Neurons} dargestellt. Durch das Anpassen von Gewichten,$w_{i}$ in der Abbilding \ref{Funktionsweise eines künstlichen Neurons}, kann ein Neuron den Einfluss von Eingabedaten verändern. 
+Die optimale Belegung von Gewichten wird von dem Netz über mehrere Versuche hinweg erarbeitet. Dafür muss definiert werden, was das Neurale Netz als optimales Ergebnis ansieht. Für die Anpassung der Gewichte in jedem Neuron wird ein Datensatz genutzt, 
+den das Neurale Netz mehrmals durchläuft. Diese Daten werden Trainingsdaten genannt. Bei jeden Durchlauf der Trainingsdaten
+übeprüft das Neurale Netz, wie gut seine Ausgaben im Vergleich zu dem vordefinierten optimalen Ergebnis ist. Dis Trainigsdaten brauchen für jeden Datenpunkt ein richtiges Ergebnis, damit das Neurale Netz sein Ergebniss mit dem vorher berechnet 
+oder festgelegtem Optimum vergleichen kann. In dem Falle ist das Optimum der Normalvector zu der jeweiligen Punktwolke. 
 
 \smallskip
 
-Backpropagation ist eine Methode, die in Neuralen Netzen eingesetzt wird, um zu bestimen, welches Gewicht wie viel zu dem aktuellen Loss beigetragen hat. Dafür arbeitet es rückwärts von der Ausgabeschicht zu der Eingabeschicht, mittels Gradienten vom Loss. 
-Die Schichten eines Neuralen Netzes werden in dem Abschnitt \ref{Regression auf Merkmalsvektor} dargestellt.
+Die Gewichte in den Neuronen werden vor der Anpassung zufällig festgelegt. In jeder Iteration werden die Gewichte an den Neuronen angepasst, falls dies zu einem besseren Ergebnis führt. Dafür wird über gradienten berechnet, wie sehr jedes gewicht zu dem Fehler beigetragen hat.
+Über viele iterationen versucht das Netz dadruch den Fehler (engl. Loss) zu minimieren.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[scale=0.4]{bilder/Regression Net.jpg}
+    \caption[Schematische Darstellung von Regressionsnetz]{Schematische Darstellung von Regressionsnetz}
+            \label{Schematische Darstellung von einem beispielhaften Regressionsnetz}
+    \quelle\url{https://miro.medium.com/1*LaEgAU-vdsR_pClMcgbikQ.jpeg}
+\end{figure}
+
+
+In vereinfachte darstellung der Schichten eines Neurales Netzes ist in Abbildung \ref{Schematische Darstellung von einem beispielhaften Regressionsnetz}. Eine Schicht an künstlichen Neuronen ist so definiert, 
+dass man die Neuronen der Schicht immer mit der gleichen Anzahl an Kantenübergägen erreicht. Jedes Neuron der ersten verborgenen Schicht kann zum Beispiel mit nur genau einem Kantenübergang erreicht werden.
+Für eine vollständig verbundene Schicht muss jedes künstliche Neuron mit jedem künstlichen Neuron der vorherigen und drarauffolgenden Schicht verbunden sein. Dabei gibt es drei Arten von Schichten, wie in der Abbildung \ref{Regression auf Merkmalsvektor} zu sehen. Zuerst gib es die Eingabeschicht.
+Diese Schicht repräsentiert die Eingaben und ist in Abbilding \ref{Schematische Darstellung von einem beispielhaften Regressionsnetz} rot markiert. Jeder Knoten der Eingabeschicht ist ein Datenpunkt, oder in diesem Fall ein Merkmal. 
+Danach gibt es die versteckten Schichten, in Blau markiert. Ihre Aufgabe ist es die Eingabe zu transformieren. 
+Sie erlauben es dem Neuralen Netz eine Eingabe über mehrere Schichten zu verarbeiten. Durch kann das Neurale Netz nicht lineare zusammenhänge darstellen. Zuletzt gibt es die Ausgabeschicht. Von dieser Schicht wird die Z-Invarianz abgelesen.
 
 \subsection{Merkmalsextraktion aus Punktwolke}
 \label{Merkmalsextraktion aus Punktwolke}
 
+Wenn eine Eingabe ohne Umwege auf die Ausgabe abgebildet werden soll, muss ein tiefes Netz eingesetzt werden. Um ein Bauteil automatisch auszurichten, ist es notwendig, dass das Neurale Netz die Eingabedaten selber verarbeitet.
 Der Unterschied zwischen einem tiefen und nicht tiefen Neuralen Netz ist es, dass ein tiefes Neurales Netz nicht nur die Abbildung von Merkmalen auf Ausgaben erlernt, sondern auch die Extraktion von Merkmalen aus den Eingabedaten. 
 Die Extractrion der Merkmale wird in diesem Abschnitt erklährt.
 In der Merkmalsextraktion wird eine Punktwolke auf eine Anzahl an Merkmalen reduziert. Die Merkmale, auf welche die Punkwolke reduziert wird, werden in einem flachen Vektor $feat = (v_{0},v_{1},v_{2},\ldots,v_{n})$ mit $v_{i} \in \mathbb{R}$ der Größe n repräsentiert.
@@ -65,7 +81,8 @@ Die Struktur der Merkmalsextraktion besiert auf der Arbeit:  \cite{test}
 
 \smallskip
 
-Die generelle Struktur der Merkmalsextraktion ist eine wiederholte Folge an Reduzierungen auf den konkreten Daten der Punktwolke, gefolg von einem kleinem Neuralen Netz, was mit den konkreten Daten dieser Schicht Merkmale über mehrere Schichten hinweg konstruiert.
+Die generelle Struktur der Merkmalsextraktion ist eine wiederholte Folge an Reduzierungen auf den konkreten Daten der Punktwolke, gefolg von einem kleinem voll verbundenen Neuralen Netz, was mit den konkreten Daten dieser Schicht Merkmale über mehrere Schichten hinweg konstruiert.
+In dem ersten Schritt in jeder Schicht werden Punkte aus der Punktwolke ausgewählt. Dafür wird ein Algorithmus eingestzt, der eine Teilmenge der Ausgangspunkte auswählt, um eine Möglichst gute Abdeckung über die Augangspunkte zu erreicht (Farthest point sampling).
 
 \begin{figure}[t]
     \centering
@@ -75,19 +92,17 @@ Die generelle Struktur der Merkmalsextraktion ist eine wiederholte Folge an Redu
     \quelle\url{https://stanford.edu/~rqi/pointnet2/images/pnpp.jpg}
 \end{figure}
 
-In dem ersten Schritt in jeder Schicht werden Punkte aus der Punktwolke ausgewählt. Dafür wird ein Algorithmus eingestzt, der eine Teilmenge der Ausgangspunkte auswählt, um eine Möglichst gute Abdeckung über die Augangspunkte zu erreicht (Farthest point sampling).
-Dafür geht der Algorithmus schrittweise vor. In jedem Schritt wählt er den Punkt der Punktwolke aus, der Am weistesten von allen bisher ausgewählten Punkten entfernt ist, solange bis die gewünschte Menge an Punkten erreicht ist.
-Der Algorithmus sucht nicht nach der optimalen Abdeckung, welche die Distanz von jedem nicht ausgewählten Punkt zu dem nächsten ausgewählten Punkt minimierent, sondern ist nur eine Abschätzung, dieser optimalen Lösung. 
-Durch die wiederholte Reduzierung der Ausgangsdaten wird die Anzahl der echten Punkte immer geringer, wie man in der Abbildung \ref{Merkmalsextraktion aus Punktwolke} sehen kann.
-
-Die gerade beschriebene Untermenge an Punkten wird weiterverarbeitet, indem zu jeden Punkt in der Untermenge eine Kante zu erstellt wird, wenn ein anderer Punkt innerhalb von einer bestimmten Distanz des ausgewählten Punktes ist. 
-Danach ist jeder ausgewählte Punkt mit allen Punkten einem Radius um sich selber verbunden, diese Punkte sind die jeweiligen Nachbarn der ausgewählten Punkte.
+Dafür geht der Algorithmus schrittweise vor. In jedem Schritt wählt er den Punkt der Punktwolke aus, der am weistesten von allen bisher ausgewählten Punkten entfernt ist, solange bis die gewünschte Menge an Punkten erreicht ist.
+Der Algorithmus sucht nicht nach der optimalen Abdeckung, welche die Distanz von jedem nicht ausgewählten Punkt zu dem nächsten ausgewählten Punkt minimierent, sondern ist nur eine Abschätzung, dieser optimalen Lösung.
+Die gefundenen Punkte bilden die ausgewählten Punkte für die aktuelle Schicht. Danach werden für jeden ausgewählten Punkt jeder Punkt innerhalb eines Radius um sich selber verbunden. Diese Punkte sind die Nachbarn des ausgewählten Punktes.
+In der Abbildung \ref{Schematische Darstellung von Merkmalsextraktionschichten} wir die Auswahl von Punkten und die Reduktion der ausgewählten Punkte in dem "Sampling and Grouping" Schritt gezeigt. Es ist zu sehen, 
+dass um bestimmte Punkte nach diesem Schritt ein Radius gezeichnet ist, der die Nachbarn der ausgewählten Punkte darstellt.
 
 \begin{center}
 \begin{math} Auswahl \Subset Punktwolke\end{math}
 \end{center}
 
-\begin{figure}[t]
+\begin{figure}
     \centering
     \begin{math} \forall \vec{a} \in Auswahl , \forall \vec{p} \in Punktwolke: \left|  \left| \vec{a} - \vec{p}  \right| \right|_{2} \leq r \implies (p,a) \in Kanten \end{math}
 \end{figure}
@@ -105,32 +120,6 @@ Mit dem größten Merkmal ist das numerisch Größte gemeint, nicht umbedingt da
 
 Nach der Bestimmung von abstrakten Merkmalen in einem Merkmalsvektor im vorherigen Abschnitt \ref{Merkmalsextraktion aus Punktwolke} muss aus diesem Vektor ein konkretes Ergebnis abgeleitet werden. Dafür wird eine Abbildung von dem Vektor auf die Ergebnisse erlernt. Dieses Vorgehen wird Regression genannt. 
 In diesem Fall wird auf die Z-Invarinaz regressiert.
-
-\begin{figure}[t]
-    \centering
-    \includegraphics[scale=0.4]{bilder/Regression Net.jpg}
-    \caption[Schematische Darstellung von Regressionsnetz]{Schematische Darstellung von Regressionsnetz}
-            \label{Schematische Darstellung von einem beispielhaften Regressionsnetz}
-    \quelle\url{https://miro.medium.com/1*LaEgAU-vdsR_pClMcgbikQ.jpeg}
-\end{figure}
-
-
-
-Eine Schicht an künstlichen Neuronen ist so definiert, dass man die Neuronen der Schicht immer mit der gleichen Anzahl an Kantenübergägen erreicht. Jedes Neuron der ersten verborgenen Schicht kann zum Beispiel mit nur genau einem Kantenübergang erreicht werden.
-Für eine vollständig verbundene Schicht muss jedes künstliche Neuron mit jedem künstlichen Neuron der vorherigen und drarauffolgenden Schicht verbunden sein. Dabei gibt es drei Arten von Schichten, wie in der Abbildung \ref{Regression auf Merkmalsvektor} zu sehen. Zuerst gib es die Eingabeschicht.
-Diese Schicht repräsentiert die Eingaben. Jeder Knoten der Eingabeschicht ist ein Datenpunkt, oder in diesem Fall ein Merkmal. Danach gibt es die versteckten Schichten. Ihre Aufgabe ist es die Eingabe zu transformieren. 
-Sie erlauben es dem Neuralen Netz eine Eingabe über mehrere Schichten zu verarbeiten. Dadurch kann das Neurale Netz nicht lineare zusammenhänge darstellen. Zuletzt gibt es die Ausgabeschicht. Von dieser Schicht wird die Z-Invarianz abgelesen.
-
-\begin{figure}[t]
-    \centering
-    \includegraphics[scale=0.6]{bilder/TanhFunction.jpg}
-    \caption[Finale Aktivierungsfunktion des Regressionsnetzes]{Finale Aktivierungsfunktion des Regressionsnetzes}
-            \label{Tanh Aktivierungsfunktion des Regressionsnetzes}
-    \quelle\url{https://images.squarespace-cdn.com/content/v1/5acbdd3a25bf024c12f4c8b4/1524687495762-MQLVJGP4I57NT34XXTF4/TanhFunction.jpg}
-\end{figure}
-
-Um die Z-invarinaz immer im korrekten Wertebereich zu haben wird als Finale Aktivierungsfunktion Tanh genutzt. Diese Funktion limitiert die Ausgaben auf -1 bis 1 wie man in der Abbildung \ref{Tanh Aktivierungsfunktion des Regressionsnetzes} sehen kann, 
-was genau die Werte sind, die ein Eintrag in einer Rotationmatrix haben kann.
 
 \smallskip
 

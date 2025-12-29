@@ -8,8 +8,35 @@
 \section{Fazit}
 \label{Fazit}
 
+In dieser Arbeit wurde zunächst die Notwendigkeit der Ausrichtung von Bauteilen in der aditiven Fertigung erläutert. Dabei wurde ganz besonders auf die zusätzlichen Herausforderungen bei dem 5D Druck eingegangen, in dem die Ausrichtung eine größere Rolle spielt, 
+da die Ausrichtung eines Bauteils mehrmals während des Druckens geändert werden kann.
+
+\smallskip
+
+Anschließend wurde ein neuronales Netz als Lösungsansatz vorgestellt, welches in der Lage ist, die Ausrichtung eines Bauteils für Flächen in dem Bauteil zu bestimmen. Dafür wurde ebenfalls ein Verfahren zur Extraktion von Flächen aus Bauteilen beschrieben.
+
+\smallskip
+
+Schließlich wurden Test auf dem beschieben neuronalen Netz durchgeführt und ihre Ergebnisse wurden ausgewertet. Daraus ergab sich, dass das Netz in der Lage ist, Bauteile mit einer akzeptablen Genauigkeit auszurichten. Eine Abweichung von unter 10° ist in den meisten Fällen erreicht worden.
+Eine solche Genauigkeit ist nicht optimal, aber dennoch ausreichend, um die Vorteile der Ausrichtung in der additiven Fertigung zu nutzen. Auch auf komplexeren Bauteilen konnte das Netz verlässlich akzeptable Ergebnisse erzielen, was auf eine gute Generalisierbarkeit des Netzes hinweist.
+
+\smallskip
+
+Die minimirung der Bewegung des Bauteils wärend des Ausrichtens hatte eine kleine, aber sichtbaren verkleinerung der benötigten Drehung ergeben. Der durchschnittliche Winkel, um den ein Teil gedreht werden muss, lab bei unter 40°. Ohne die Minimierung würde der durchschnittliche Drehwinkel bei über 45° liegen, also zufällig zwischen 0 und 90 Grad.
+Auch wenn die Verbesserung durch die Minimierung der Bewegung nicht sehr groß ist, so ist sie dennoch relevant, da jede eingesparte Drehung die Druckzeit verringert. Es ist kein anderes Verhalten bei komplexen Bauteilen zu sehen gewesen.
+
+\smallskip
+
+Das Finden von Flächen in Bauteilen hat in den meisten Fällen sehr gut funktioniert. Ganz besonders bei komplexen Bauteilen, die über viele gebogene Flächen verfügen, hat die Suche häufig Flächen mit Löchern oder extrem kleine Flächen ergeben. 
+DDie Löcher in den Flächen sind in sich selber kein Problem, die Suche hat ein Loch in der Fläche gelassen, weil dort die Punkte einen zu unterschiedlichen Normalvektor hatten. So sollte die Suche auf funktionieren, 
+aber ein Loch in einer Fläche könnte das Nutzen von Stützstrukturen wieder nötig machen, was die Vorteile der Ausrichtung wieder verringert.
+Durch den erfolg bei einfachen Bauteilen, lässt sich schlussfolgern, dass die Flächensuche besonders gut darin ist Flächen die nicht gebogen sind zu finden und die sich durch einen Knick in der Geometrie von anderen Flächen abgrenzen lassen. 
+
+\smallskip
+
+Es lässt sich sagen, dass das beschiebene neurale Netz in der Lage ist, Bauteile für die additive Fertigung auszurichten. Eine geringere Abweichung von dem Optimum wäre wünschenswert, aber die erzielten Ergebnisse sind dennoch ausreichend, 
+um die Vorteile der Ausrichtung zu nutzen. Die Flächensuche funktioniert in den meisten Fällen gut, aber es gibt noch Raum für Verbesserungen, besonders bei komplexen Bauteilen mit gebogenen Flächen. Die Minimierung der Bewegung des Bauteils ist funktional, 
+aber die Verbesserung ist nur gering. Insgesammt ist das beschiebene Verfahren ein akzeptabler Ansatz, um Bauteile in der additiven Fertigung auszurichten, wenn auch noch einige Verbesserungen möglich wären.
+
 \section{Ausblick}
 \label{Ausblick}
-%
-Gut
-%
