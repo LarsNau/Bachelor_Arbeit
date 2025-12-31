@@ -27,8 +27,8 @@ Auch wenn die Verbesserung durch die Minimierung der Bewegung nicht sehr groß i
 
 \smallskip
 
-Das Finden von Flächen in Bauteilen hat in den meisten Fällen sehr gut funktioniert. Ganz besonders bei komplexen Bauteilen, die über viele gebogene Flächen verfügen, hat die Suche häufig Flächen mit Löchern oder extrem kleine Flächen ergeben. 
-DDie Löcher in den Flächen sind in sich selber kein Problem, die Suche hat ein Loch in der Fläche gelassen, weil dort die Punkte einen zu unterschiedlichen Normalvektor hatten. So sollte die Suche auf funktionieren, 
+Das Finden von Flächen in Bauteilen hat in den meisten Fällen sehr gut funktioniert. Allerdings besonders bei komplexen Bauteilen, die über viele gebogene Flächen verfügen, hat die Suche häufig Flächen mit Löchern oder extrem kleine Flächen ergeben. 
+Die Löcher in den Flächen sind in sich selber kein Problem, die Suche hat ein Loch in der Fläche gelassen, weil dort die Punkte einen zu unterschiedlichen Normalvektor hatten. So sollte die Suche auf funktionieren, 
 aber ein Loch in einer Fläche könnte das Nutzen von Stützstrukturen wieder nötig machen, was die Vorteile der Ausrichtung wieder verringert.
 Durch den erfolg bei einfachen Bauteilen, lässt sich schlussfolgern, dass die Flächensuche besonders gut darin ist Flächen die nicht gebogen sind zu finden und die sich durch einen Knick in der Geometrie von anderen Flächen abgrenzen lassen. 
 
@@ -36,7 +36,24 @@ Durch den erfolg bei einfachen Bauteilen, lässt sich schlussfolgern, dass die F
 
 Es lässt sich sagen, dass das beschiebene neurale Netz in der Lage ist, Bauteile für die additive Fertigung auszurichten. Eine geringere Abweichung von dem Optimum wäre wünschenswert, aber die erzielten Ergebnisse sind dennoch ausreichend, 
 um die Vorteile der Ausrichtung zu nutzen. Die Flächensuche funktioniert in den meisten Fällen gut, aber es gibt noch Raum für Verbesserungen, besonders bei komplexen Bauteilen mit gebogenen Flächen. Die Minimierung der Bewegung des Bauteils ist funktional, 
-aber die Verbesserung ist nur gering. Insgesammt ist das beschiebene Verfahren ein akzeptabler Ansatz, um Bauteile in der additiven Fertigung auszurichten, wenn auch noch einige Verbesserungen möglich wären.
+aber die Verbesserung ist nur gering. Insgesammt ist das beschiebene Verfahren ein akzeptabler Ansatz, um Bauteile in der additiven Fertigung auszurichten, wenn auch noch einige Verbesserungen möglich wären. Es ist für den praktischen Einsatz noch nicht denkbar.
 
 \section{Ausblick}
 \label{Ausblick}
+
+Diese Arbeit hat gezeigt, dass das Ausrichten von Bauteilen mit neuronalen Netzen möglich ist. Es gibt allerdings noch viele Bereiche in denen Verbesserungen vorgenommen werden können.
+
+\smallskip 
+
+Die Genauigkeit des Netzes könnte durch eine Verbesserung der Flächensuche gesteigert werden. Die Flächensuche selber basiert auf einem fehlerbehafteten Ansatz. Für unterschiedliche Arten von Bauteile müssen die Parameter der Flächensuche angepasst werden, 
+was dem Sinn von automatischer Anpassung wiederspricht. Eine  Flächensuche, die weniger Fehler macht, würde dem Neuralen Netz bessere Trainigsdaten liefern, was die Genauigkeit des Netzes steigern könnte. Ein weiteres Problem der Flächensuche ist, dass sie Flächen mit Löchern findet.
+Das ist ein Problem, was mit dem Clustering von Normalvektoren zusammenhängt und dementsprechend vermutlich nicht behoben werden kann, ohne den Ansatz der Flächensuche zu verändern. Eine Flächensuche, die in der Lage ist, Flächen mit Löchern zu vermeiden, 
+würde das Problem der Stützstrukturen lösen.
+
+\smallskip
+
+Die Architektur des Netzes könnte ebenfalls verändert werden, um die Genauigkeit zu steigern. Es könnten andere Architekturen ausprobiert werden, die eventuell besser für das Problem geeignet sind. Auch eine Veränderung der Hyperparameter des Netzes könnte die Genauigkeit verbessern.
+
+\smallskip
+
+Weitere Arbeiten könnten dementsprechend sich auf bessere Flächensuche und Architektur des Netzes konzentrieren.

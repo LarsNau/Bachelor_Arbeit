@@ -34,13 +34,16 @@ Die Ausrichtung der Bauteile ist das Ziel der Arbeit. Dementsprechend ist es die
 \section{Minimierung der Bewegung}
 \label{Minimierung der Bewegung}
 
+Die Minimierung der Bewegung ist wichtig, da jede Drehung eines Bauteils Zeit kostet. Als zweites Ziel des Netzes wird dementsprechend versucht, die Größe der Drehung des Bauteils zu minimieren.
+
+\smallskip
+
+
+
 \section{Verlässlichkeit der Ausrichtung}
 \label{Verlässlichkeit der Ausrichtung}
 
-In dem bisherigen Test ist immer davon ausgegenagen worden, dass die Punktowlken eine perfekte Darstellung des Bauteils sind. In der Präxis, muss aber davon ausgegenagen werden, dass die Punktwoklen Fehler aufweisen.
-
-%\subsection{Zufällige Startorientierung}
-%\label{Zufällige Startorientierung}
+In dem bisherigen Test ist immer davon ausgegangen worden, dass die Punktwolken eine perfekte Darstellung des Bauteils sind. In der Praxis, muss aber davon ausgegangen werden, dass die Punktwolken Fehler aufweisen.
 
 \subsection{Effekt von Rauschen auf den Daten}
 \label{Effekt von Rauschen auf den Daten}
@@ -86,6 +89,27 @@ Aber bis zu diesem Punkt zeigt das Netz eine gute Fähigkeit, fehlende Punkte in
 \section{Generalisierbarkeit}
 \label{Generalisierbarkeit}
 
-\section{Zusammenfassung}
-\label{Zusammenfassung}
+Alle bisherigen Auswertungen wurden auf den gleichen Typen von Daten durchgeführt, auf denen das Netz auch trainiert wurde. Um die Verlässlichkeit des Netzes zu überprüfen wird in diesem Abschnitt getestet, ob das Netz auch auf komplexeren Bauteilen arbeiten kann.
+Für diesen Zweck wurden mehrere komplexe Bauteile getestet, komplex bedeutet in diesem Fall, dass die Bauteile nicht aus einfachen geometrischen Formen bestehen, sondern gebogene Flächen und komplexe Strukturen beinhalten.
+
+\begin{table}[t]
+\centering
+\begin{tabular}{lrr}
+\toprule
+Bauteil & Gradabweichung vom Optimum & Bewegung des Bauteils\\
+\midrule
+Stanford Hase & 10.76 & 17.29 \\ \addlinespace
+Stanford Drache & 11.61 & 25.02 \\ \addlinespace
+Utah Teapot & 10.84 & 26.72\\
+\bottomrule
+\end{tabular}
+\caption{Testergebnisse auf komplexen Bauteilen}
+\label{table:Testergebnisse auf komplexen Bauteilen}
+\end{table}
+
+Alle Angaben in der Tabelle \ref{table:Testergebnisse auf komplexen Bauteilen} sind Durchschnittswerte über alle Flächen eines Bauteils. Die Ergebnisse sind immer in Grad und für jedes bauteil einzeln angegeben. 
+Es lässt sich erkennen, dass die Abweichung vom Optimum bei komplexen Bauteilen höher ist, als bei den einfachen Bauteilen, die in Abschnitt \ref{Ausrichtung der Bauteile} getestet wurden. Die Abweichung vom Optimum liegt bei allen komplexen Bauteilen bei etwa 11 Grad.
+Der geringe Unterschied zwischen den Ergebnissen der komplexen Bauteile lässt darauf schiezen, dass die Auswahl der komplexen Bauteile eine gute Repräsentation für komplexe Bauteile im Allgemeinen ist. 
+Allerding ist die Bewegung des Bauteils bei dem Stanford Hasen deutlich geringer als bei den anderen beiden Bauteilen. Der Unterschied könnte daran liegen, dass der Stanford Hase nur eine Gundfläche hat. Grundfächen werden immer für hohe Bewegung sorgen, 
+da die optimale Ausrichtung meistens im 90 Grad Winkel zu der Grundflächge liegt. Der Stanford Drache und die Utah Teapot haben beide mehrere Grundflächen, was die Bewegung des Bauteils erhöhen könnte.
 
