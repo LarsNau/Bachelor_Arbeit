@@ -5,11 +5,11 @@
 \chapter{Flächensuche in  Bauteilen}
 \label{Flächensuche in  Bauteilen}
 
-Bevor ein Bauteil ausgerichtet werden, kann, müssen zuerst kohärente Flächen im Bauteil Identifieziert werden. Die Verarbetung dieser Flächen wird in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} behandelt.
+Bevor ein Bauteil ausgerichtet werden, kann, müssen zuerst kohärente Flächen im Bauteil identifiziert werden. Die Verarbeitung dieser Flächen wird in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} behandelt.
 
 \smallskip
 
-Dieses Kapitel erklährt, wie in einem Bauteil kohärente Flächen gefunden werden. Dafür wird ein Bauteil durch zufällig auf der Oberfläche verteilte Punkte $p \in \mathbb{R}^{3}$ dargestellt. Eine Menge $\mathbb{R}^{3xN}$ dieser Punkte wird Punktwolke genannt.
+Dieses Kapitel erklärt, wie in einem Bauteil kohärente Flächen gefunden werden. Dafür wird ein Bauteil durch zufällig auf der Oberfläche verteilte Punkte $p \in \mathbb{R}^{3}$ dargestellt. Eine Menge $\mathbb{R}^{3xN}$ dieser Punkte wird Punktwolke genannt.
 Es werden mehrere tausend Punkte benutzt, um ein Bauteil mit einer Punktwolke darzustellen. Danach wird die Punktwolke in mehrere kleinere Gruppen aufgeteilt.
 
 \smallskip
@@ -20,14 +20,14 @@ Was Ähnlichkeit bedeutet kommt auf die Implementierung an, aber ein häufiges �
 \begin{figure}[t]
     \centering
     \includegraphics[scale=0.5]{bilder/Clustering.png}
-    \caption[Clustering von versteuten zweidimensionalen Punkten]{Clustering von versteuten zweidimensionalen Punkten}
-            \label{Clustering von versteuten zweidimensionalen Punkten}
+    \caption[Clustering von verstreuten zweidimensionalen Punkten]{Clustering von verstreuten zweidimensionalen Punkten}
+            \label{Clustering von verstreuten zweidimensionalen Punkten}
     \quelle\url{https://i.stack.imgur.com/cIDB3.png}
 \end{figure}
 
-In der Abbildung \ref{Clustering von versteuten zweidimensionalen Punkten} sind zwei zweidimensionale Punktwolken. Die linke ist nicht geclustert, die rechte ist geclustert, beide stellen dieselbe Punktwolke dar.
-Die rechte Punktwolke ist mit drei Farben markiert, Punkte derselben Farbe sind im selben Cluster. In der Abbildung \ref{Clustering von versteuten zweidimensionalen Punkten} ist das Ergebnis von einem Clusteringverfahren dargestellt, 
-alle Punkte in einer Gruppe sind raumlich gesehen ähnlich zueinander.
+In der Abbildung \ref{Clustering von verstreuten zweidimensionalen Punkten} sind zwei zweidimensionale Punktwolken. Die linke ist nicht geclustert, die rechte ist geclustert, beide stellen dieselbe Punktwolke dar.
+Die rechte Punktwolke ist mit drei Farben markiert, Punkte derselben Farbe sind im selben Cluster. In der Abbildung \ref{Clustering von verstreuten zweidimensionalen Punkten} ist das Ergebnis von einem Clustering verfahren dargestellt, 
+alle Punkte in einer Gruppe sind räumlich gesehen ähnlich zueinander.
 
 \section{Clustering nach Normalvektoren in Bauteilen}
 \label{Clustering nach Normalvektoren in Bauteilen}
@@ -52,8 +52,8 @@ der von der Oberfläche des Bauteils an, genau der Position eines Punktes, senkr
             \label{Darstellung von Normalvektoren an einem Punkt der Bauteiloberfläche}
     \end{figure}
 
-In der Abbildung \ref{Darstellung von Normalvektoren an einem Punkt der Bauteiloberfläche} ist die Bauteiloberfläche blau markiert. Der Punkt $p_i$ ist ein beliebiger Punkt auf der Bauteilobefläche. Der Normalvektor $n_i$ geht von dem Punkt $p_i$ aus senkrecht nach oben.
-Er ist im 90 Grad Winkel zu der Bauteilöberfläche. Die Normalvektoren in der Abbildung \ref{Darstellung von Normalvektoren an einem Punkt der Bauteiloberfläche} sind zweidimensionale, im Gegensatz dazu sind die Normalvektoren auf den Punkten im Bauteil dreidimensional.
+In der Abbildung \ref{Darstellung von Normalvektoren an einem Punkt der Bauteiloberfläche} ist die Bauteiloberfläche blau markiert. Der Punkt $p_i$ ist ein beliebiger Punkt auf der Bauteiloberfläche. Der Normalvektor $n_i$ geht von dem Punkt $p_i$ aus senkrecht nach oben.
+Er ist im 90 Grad Winkel zu der Bauteiloberfläche. Die Normalvektoren in der Abbildung \ref{Darstellung von Normalvektoren an einem Punkt der Bauteiloberfläche} sind zweidimensionale, im Gegensatz dazu sind die Normalvektoren auf den Punkten im Bauteil dreidimensional.
 Die Normalvektoren werden für jeden Punkt anhand der Oberfläche des Bauteils bestimmt. 
 
 \smallskip
@@ -64,42 +64,42 @@ Für das Aufteilen in Cluster wird ein Algorithmus benutzt, der mit einem Cluste
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{bilder/Hierachie.png}
-    \caption[Beispiel von Hierachie Clustring als Dendrogram]{Beispiel von Hierachie Clustring als Dendrogram}
-            \label{Beispiel von Hierachie Clustring als Dendrogram}
+    \caption[Beispiel von Hierarchie Clustering als Dendrogramm]{Beispiel von Hierarchie Clustering als Dendrogramm}
+            \label{Beispiel von Hierarchie Clustering als Dendrogramm}
 \end{figure}
 
-Die Abbildung \ref{Beispiel von Hierachie Clustring als Dendrogram} stellt das Vorgehen von Hierachie Clustring dar. Dabei ist die y-Achse der Distanzwert und auf der x-Achse sind die Cluster markiert. Das Clustring fäng unten, bei $y = 0$ an. Dort ist jeder Punkt ein Cluster. 
-Danach wird die Distanz zwischen allen Clustern gemessen und die zwei ähnlichen Cluster werden zusammen genimmen zu einem Cluster. Dieses Vorgehen wird so lange wiederholt, bis ein bestimmter Distanzwert zwischen allen Clustern überschritten wurde. 
-In der Abbildung \ref{Beispiel von Hierachie Clustring als Dendrogram} kann man das Zusammenfügen von Clsutern sehen, wenn zwei über eine senkrechte linie Verbunden werden. Aus der Linie, welche die beiden Cluster verbindet, kommt eine Wetere Linie, 
-die das neue zusammengefügte Cluster symbolysiert.
-Das hat den Vorteil, dass die Anzahl der Cluster in einem Bauteil von dem Bauteil selber abhängt. Es ist nocht nötig eine feste Anzahl an Clustern festzulegen, sondern nur eine Ähnlichkeit, welche die Cluster haben sollen.
-In der Abbildung \ref{Beispiel von Hierachie Clustring als Dendrogram} stoppt der Algorithmus nicht, nachdem alle Cluster einne vorbestimmten Distanzwert überschreiten, sondern fügt so lange Cluster zusammen, bsi nur noch eins überig ist.
+Die Abbildung \ref{Beispiel von Hierarchie Clustering als Dendrogramm} stellt das Vorgehen von Hierarchie Clustering dar. Dabei ist die y-Achse der Distanzwert und auf der x-Achse sind die Cluster markiert. Das Clustering fängt unten, bei $y = 0$ an. Dort ist jeder Punkt ein Cluster. 
+Danach wird die Distanz zwischen allen Clustern gemessen und die zwei ähnlichen Cluster werden zusammen genommen zu einem Cluster. Dieses Vorgehen wird so lange wiederholt, bis ein bestimmter Distanzwert zwischen allen Clustern überschritten wurde. 
+In der Abbildung \ref{Beispiel von Hierarchie Clustering als Dendrogramm} kann man das Zusammenfügen von Clustern sehen, wenn zwei über eine senkrechte Linie verbunden werden. Aus der Linie, welche die beiden Cluster verbindet, kommt eine weitere Linie, 
+die das neue zusammengefügte Cluster symbolisiert.
+Das hat den Vorteil, dass die Anzahl der Cluster in einem Bauteil von dem Bauteil selber abhängt. Es ist nicht nötig eine feste Anzahl an Clustern festzulegen, sondern nur eine Ähnlichkeit, welche die Cluster haben sollen.
+In der Abbildung \ref{Beispiel von Hierarchie Clustering als Dendrogramm} stoppt der Algorithmus nicht, nachdem alle Cluster einen vorbestimmten Distanzwert überschreiten, sondern fügt so lange Cluster zusammen, bis nur noch eins übrig ist.
 
 \smallskip
 
-Auf diese Art und Weise werde die Cluster zwichen Normalvectoren gesucht. Alle Normalvectoren, die in einem Cluster sind, sind so ähnlich, dass das hierarchiesches Clustering sind nicht weiter zusammengefügt hat. 
-Der Disztanwert auf der y-Achse in \ref{Beispiel von Hierachie Clustring als Dendrogram} dient dabei als Fehlermaß für die Flächen. Wenn sas Fehlermaß null ist, werden nur Flächen gefunde, die absolut Flach sind, 
+Auf diese Art und Weise werde die Cluster zwischen Normalvektoren gesucht. Alle Normalvektoren, die in einem Cluster sind, sind so ähnlich, dass das hierarchische Clustering sie nicht weiter zusammengefügt hat. 
+Der Distanzwert auf der y-Achse in \ref{Beispiel von Hierachie Clustring als Dendrogram} dient dabei als Fehlermaß für die Flächen. Wenn das Fehlermaß null ist, werden nur Flächen gefunden, die absolut Flach sind, 
 aber bei komplexen Bauteilen ist es notwendig ein höherer Fehler zuzulassen, um gebogene Flächen zu finden.
 
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{bilder/Normal_Cluster.png}
-    \caption[Hierarchiesches Clustreing eines Bauteils nach Normalvector]{Hierarchiesches Clustreing eines Bauteils nach Normalvector}
-            \label{Hierarchiesches Clustreing eines Bauteils nach Normalvector}
+    \caption[Hierarchisches Clustering eines Bauteils nach Normalvektor]{Hierarchisches Clustering eines Bauteils nach Normalvektor}
+            \label{Hierarchisches Clustering eines Bauteils nach Normalvektor}
 \end{figure}
 
-Das Clustreing nach Normalvectoren ist nur geeignet um Flächen zu finden, die, innerhalb des Distanzwertes als Fehlermaß, Flach sind. Das Clustering gibt keine garanie, dass die gefundenen Flächen kohärent sind. In Abbildung \ref{Hierarchiesches Clustreing eines Bauteils nach Normalvector}
-ist sichbar, dass die in grün Markeirten Flächen, parallel zueinander, aber nicht kohärent miteinander sind. Die Flächen die in Grün markiert sind, sind Teil desselben Clusters, aber sollten es nicht sein. 
+Das Clustering nach Normalvektoren ist nur geeignet um Flächen zu finden, die, innerhalb des Distanzwertes als Fehlermaß, Flach sind. Das Clustering gibt keine Garantie, dass die gefundenen Flächen kohärent sind. In Abbildung \ref{Hierarchisches Clustering eines Bauteils nach Normalvektor}
+ist sichtbar, dass die in Grün markierten Flächen, parallel zueinander, aber nicht kohärent miteinander sind. Die Flächen die in Grün markiert sind, sind Teil desselben Clusters, aber sollten es nicht sein. 
 
 \smallskip
 
-Der nächse Abschnitt \ref{Seperation von parallelen Flächen} beschäftigt sich damit wie die in den hierarchieschen Clustering gefundenen Flächen getrennt werden.
+Der nächste Abschnitt \ref{Separation von parallelen Flächen} beschäftigt sich damit wie die in den hierarchischen Clustering gefundenen Flächen getrennt werden.
 
-\section{Seperation von parallelen Flächen}
-\label{Seperation von parallelen Flächen}
+\section{Separation von parallelen Flächen}
+\label{Separation von parallelen Flächen}
 
-Alle Flächen in einem Cluster des Normalvektorclusterings aus Abschnitt\ref{Clustering nach Normalvektoren in Bauteilen} sind in etwa parallel, aber räumlich voneinander getrennt. Das macht sie ungeeignet für die Bildung einer Ausrichtung in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung}. 
+Alle Flächen in einem Cluster des Normalvektorclusterings aus Abschnitt \ref{Clustering nach Normalvektoren in Bauteilen} sind in etwa parallel, aber räumlich voneinander getrennt. Das macht sie ungeeignet für die Bildung einer Ausrichtung in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung}. 
 
 \smallskip
 
@@ -114,16 +114,16 @@ Der Radius wird $esp$ und die Mindestanzahl an Nachbarn wird $minPts$ in Abbildu
     \quelle\url{https://machinelearninggeek.com/wp-content/uploads/2020/10/image-58.png}
 \end{figure}
 
-Der Algorithmus nimmt einen Punkt, der in keinem Cluster ist und überprüft, wie viel Punkte in einem radius $esp$ um ihn herum sind. Wenn innerhalb des Radiuses mindestens $minPts$ viele Punkte sind, dann ist der Punkt ein Kernpunkt (Core Point) eines neuen Clusters.
+Der Algorithmus nimmt einen Punkt, der in keinem Cluster ist und überprüft, wie viel Punkte in einem Radius $esp$ um ihn herum sind. Wenn innerhalb des Radiuses mindestens $minPts$ viele Punkte sind, dann ist der Punkt ein Kernpunkt (Core Point) eines neuen Clusters.
 Alle Punkte, die in dem Radius des Punktes sind, werden Teil des Clusters und genauso überprüft, wie der Startknoten des Clusters. Dieses Vorgehen wird fortgeführt, bis keine Punkte mehr hinzugefügt werden können. Wenn ein Punkt Teil des Clusters ist, 
 aber nicht mindestens $minPts$ viele Punkte in seiner Nachbarschaft hat, dann ist dieser Punkt ein Randpunkt (Borderpoint), aber immernoch teil des Clusters.
-Wenn weniger als $minPts$ innerhalb des Radiuses sind, dann gilt der Punkt als Noise. Das bedeutet aber nicht umbedingt, dass der Punkt noise bleibt. Er kann auch zu einem Randpunkt eines Noch nicht exitierenden Clusters werden.
+Wenn weniger als $minPts$ innerhalb des Radiuses sind, dann gilt der Punkt als Noise. Das bedeutet aber nicht unbedingt, dass der Punkt Noise bleibt. Er kann auch zu einem Randpunkt eines Noch nicht existierenden Clusters werden.
 Es werden so lange neue Punkte außerhalb von Clustern gewählt, bis alle Punkte Teil eines Clusters oder Noise sind.
 
 \smallskip
 
-Alle Flächen innerhalb eines Cluster der Normalvectoren sind räumlich getrennt. Wenn der Algorithmus auf die vorher gefunden Cluster angewandt wird, findet er kohärente Flächen als Cluster: In diesen Flächen liegen die Punkte sehr nahe beieinander, 
-wodurch die Punkte in der Fläche meistens die $minPts$ Bedingung erfüllen. Andere Flächen werden warscheinlich nicht innerhalb von $esp$ der Randpunkte einer Fläche liegen. Das bedeutet, es gibt keine Garantie, dass alle Flächen getrennt werden, 
+Alle Flächen innerhalb eines Cluster der Normalvektoren sind räumlich getrennt. Wenn der Algorithmus auf die vorher gefunden Cluster angewandt wird, findet er kohärente Flächen als Cluster: In diesen Flächen liegen die Punkte sehr nahe beieinander, 
+wodurch die Punkte in der Fläche meistens die $minPts$ Bedingung erfüllen. Andere Flächen werden wahrscheinlich nicht innerhalb von $esp$ der Randpunkte einer Fläche liegen. Das bedeutet, es gibt keine Garantie, dass alle Flächen getrennt werden, 
 aber in den meisten Fällen wird es passieren.
 
 \smallskip

@@ -30,6 +30,9 @@
       }
     ],
   
-    "latex-workshop.latex.recipe.default": "pdflatex → biber → pdflatex ×2"
+    "latex-workshop.latex.recipe.default": "pdflatex → biber → pdflatex ×2",
+
+    "ltex.useRemoteServer": false,
+    "ltex.language": "de-DE"
   }
   

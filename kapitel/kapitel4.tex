@@ -5,9 +5,9 @@
 \chapter{Evaluation}
 \label{Evaluation}
 
-Dei Ausrichtung eines Bauteils ist in den meisten Fällen nicht perfekt. In diesem Kapitel wird behandelt wie gut das in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} erstellte Neurales Netz ein Bauteil ausrichten kann.
-Dafür wird nicht nur die Ausrichung selber überprüft. Es wird auch die größe der Rotationen untersucht, da das Drehen eines Bauteil Zeit kostet und die minimierung diser Drehung wie in \ref{Fertigungs-Geschwindigkeit} erwähnt eine Priorität ist.
-Außerdem wird die Fähigkeit des neuralen Netzes Fehler in den Daten zu wiederstehen in Abschnitt \ref{Verlässlichkeit der Ausrichtung} überprüft und die Fähigkeit auf komplexen Bauteilen zu arbeiten in Abschnitt \ref{Generalisierbarkeit} getestet.
+Bei Ausrichtung eines Bauteils ist in den meisten Fällen nicht perfekt. In diesem Kapitel wird behandelt wie gut das in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} erstellte Neurales Netz ein Bauteil ausrichten kann.
+Dafür wird nicht nur die Ausrichtung selber überprüft. Es wird auch die Größe der Rotationen untersucht, da das Drehen eines Bauteil Zeit kostet und die Minimierung dieser Drehung wie in \ref{Fertigungs-Geschwindigkeit} erwähnt eine Priorität ist.
+Außerdem wird die Fähigkeit des neuralen Netzes Fehler in den Daten zu widerstehen in Abschnitt \ref{Verlässlichkeit der Ausrichtung} überprüft und die Fähigkeit auf komplexen Bauteilen zu arbeiten in Abschnitt \ref{Generalisierbarkeit} getestet.
 
 
 
@@ -19,13 +19,13 @@ Außerdem wird die Fähigkeit des neuralen Netzes Fehler in den Daten zu wieders
     \quelle\url{https://media.springernature.com/full/springer-static/image/art%3A10.1007%2Fs40964-025-00960-6/MediaObjects/40964_2025_960_Fig1_HTML.png}
 \end{figure}
 
-Alle Daten, die für die Auswertung benutzt werden, sind in dem Artickel: \cite{Datensatz} erstellt worden und dann wie in Kapitel \ref{Flächensuche in  Bauteilen} beschrieben verändert worden.
-Die Abbilding \ref{Darstellung aller Typen von Bauteilen im Datensatz} stellt alle Typen von Bauteilen dar, die in dem Datensatz enthalten sind. Es gebt insgesammt 4 verschiedene Typen, die alle einfache geometrische Objekt sind.
+Alle Daten, die für die Auswertung benutzt werden, sind in dem Artikel: \cite{Datensatz} erstellt worden und dann wie in Kapitel \ref{Flächensuche in  Bauteilen} beschrieben verändert worden.
+Die Abbildung \ref{Darstellung aller Typen von Bauteilen im Datensatz} stellt alle Typen von Bauteilen dar, die in dem Datensatz enthalten sind. Es gebt insgesamt 4 verschiedene Typen, die alle einfache geometrische Objekt sind.
 
-Die Typen sind von A bis D durchnummeriert. Die Unterschiedlihen Type sind: "Platten mit Löchern", "Platonischer Körper mit Inschriften", "Körper mit zwei Löchern" und "Pyramieden".
+Die Typen sind von A bis D durchnummeriert. Die unterschiedlichen Typen sind: "Platten mit Löchern", "Platonischer Körper mit Inschriften", "Körper mit zwei Löchern" und "Pyramiden".
 
 Für alle Tests, in dem Abschnitt \ref{Effekt von Rauschen auf den Daten} und \ref{Effekt von schlechter Flächensuche}, werden 1000 zufällige Flächen aus dem Datensatz genommen. Diese Flächen werden wie in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} beschrieben gefunden. 
-Tests haben ergeben, dass das Verwenden von einem Datensatz mit mehr als 1000 Flächen keinen Einfluss auf das Ergebniss hat. 
+Tests haben ergeben, dass das Verwenden von einem Datensatz mit mehr als 1000 Flächen keinen Einfluss auf das Ergebnis hat. 
 
 \section{Ausrichtung der Bauteile}
 \label{Ausrichtung der Bauteile}
@@ -42,7 +42,7 @@ Bauteil & Gradabweichung vom Optimum & Bewegung des Bauteils\\
 Platten mit Löchern & 10.12 & 23.56 \\ \addlinespace
 Platonischer Körper mit Inschriften & 9.59 & 26.50 \\ \addlinespace
 Körper mit zwei Löchern & 9.40 & 27.11\\
-Pyramieden & 9.22 & 24.68\\
+Pyramiden & 9.22 & 24.68\\
 \bottomrule
 \end{tabular}
 \caption{Testergebnisse auf einfachen Bauteilen}
@@ -51,16 +51,16 @@ Pyramieden & 9.22 & 24.68\\
 
 Die Tabelle \ref{table:Testergebnisse auf einfachen Bauteilen} zeigt die Ergebnisse der Tests auf den einfachen Bauteilen des Datensatzes. Dabei ist jeder Typ von Bauteil einzeln aufgeführt.
 Es lässt sich erkennen, dass alle Bauteile außer die Platten mit Löchern eine Genauigkeit von unter 10 Grad Abweichung vom Optimum erreichen. Die Platten mit Löchern erreichen eine Genauigkeit von 10.12 Grad Abweichung vom Optimum, was nicht viel höher ist.
-Insgesammt lässt sich kein größer Unterschied zwischen den verschiedenen Typen von Bauteilen erkennen. Alle Typen erreichen eine ähnliche Genauigkeit und benötigen eine ähnliche Bewegung des Bauteils.
-Die Pyramieden erreichen die beste Genauigkeit mit einer Abweichung von 9.22 Grad vom Optimum und einer durchschnittlichen Bewegung von 24.68 Grad. Die Pyramieden sind die einfachsten Bauteile im Datensatz, was die gute Genauigkeit erklären könnte.
+Insgesamt lässt sich kein größer Unterschied zwischen den verschiedenen Typen von Bauteilen erkennen. Alle Typen erreichen eine ähnliche Genauigkeit und benötigen eine ähnliche Bewegung des Bauteils.
+Die Pyramiden erreichen die beste Genauigkeit mit einer Abweichung von 9.22 Grad vom Optimum und einer durchschnittlichen Bewegung von 24.68 Grad. Die Pyramiden sind die einfachsten Bauteile im Datensatz, was die gute Genauigkeit erklären könnte.
 Andererseits sind die Platten mit Löchern die am schlechtesten abschneidenden Bauteile, was die Gradabweichung vom Optimum angeht. Das könnte daran liegen, dass die Flächensuche Probleme mit den Löchern in den Platten hat.
 
 \section{Verlässlichkeit der Ausrichtung}
 \label{Verlässlichkeit der Ausrichtung}
 
-Ein wichtiger Unterschied zwishen dem Trainigsdatensatz und der Praxis ist, dass man in der Praxis nicht davon ausgehen kann, dass die Daten einwandfrei sind. Um ein Praxisrelevantes Verfahren zu entwickeln, muss das Verfahren in der Lage sein, Fehler in den Daten zu widerstehen.
+Ein wichtiger Unterschied zwischen dem Trainingsdatensatz und der Praxis ist, dass man in der Praxis nicht davon ausgehen kann, dass die Daten einwandfrei sind. Um ein Praxisrelevantes Verfahren zu entwickeln, muss das Verfahren in der Lage sein, Fehler in den Daten zu widerstehen.
 In dem bisherigen Test ist immer davon ausgegangen worden, dass die Punktwolken eine perfekte Darstellung eines Bauteils ist. In der Praxis, muss aber davon ausgegangen werden, dass die Punktwolken Fehler aufweisen. Um diese Fehler zu simulieren, 
-wird in den folgenden zwei Abschnitten der Einfuss von fehlenden Punkten und der Einfluss von falschen Punkten untersucht. 
+wird in den folgenden zwei Abschnitten der Einfluss von fehlenden Punkten und der Einfluss von falschen Punkten untersucht. 
 
 \subsection{Effekt von Rauschen auf den Daten}
 \label{Effekt von Rauschen auf den Daten}
@@ -76,18 +76,18 @@ Punkte die nicht zu der Fläche gehören, aber dennoch in der Punktwolke der Fl�
 \end{figure}
 
 Die Abbildung \ref{Test mit Noise auf dem Neuralen Netz} zeigt die Ergebnisse des Tests. Um Noise zu simulieren, wurden für jede Fläche um das Zentrum der Fläche zufällig Punkte verteilt. 
-Dabei wurden die Punkte normalverteilt um das Zentrum der Fläche, sodass die meisten Punkte nahe der Fläche sind. Die zufällige Verteilung bricht die köhärent Struktur der Fläche auf. In der Abbildung \ref{Test mit Noise auf dem Neuralen Netz} 
+Dabei wurden die Punkte normalverteilt um das Zentrum der Fläche, sodass die meisten Punkte nahe der Fläche sind. Die zufällige Verteilung bricht die kohärente Struktur der Fläche auf. In der Abbildung \ref{Test mit Noise auf dem Neuralen Netz} 
 wurde der Unterschied des Normalvektors der Fläche zu der z-Achse in Orange aufgezeichnet,
-die Standartabweichung des Normalvectors zu der z-Achse in Grün und die benötigte Größe der Drehung ist Blau. Die x-Achse der Abbilding zeigt das Rauschen. Dabei ist die Anzahl der Rauschpunkte gleich des Wertes auf der x-Achse mal 20. 
-Die y-Achse zeigt die Ergebnisse bei den jeweiligen Rauschleveln. Abbilding \ref{Test mit Noise auf dem Neuralen Netz} zeigt, 
-dass das Rauschen keinen großen Einfluss auf den Unterschied des Normalvektors der Fläche zu der z-Achse oder die benötigte Größe der Drehung hat. Auf die Standartabweichung des Normalvektors hat das Rauschen allerdings einen extremen Einfluss.
-Sobald Rauschen hinzugefügt wird, steigt die Standartabweichung extrem an und bleibt dann bei dem Fehlermaß, zu dem es steigt unabhängig von weiterem Rauschen, dass hinzugefügt wird. Daraus lässt sich schließen, dass das Netz keine gute Fähigkeit hat, 
-Rauschen zu widerstehen. Die absolute Ausrichtung in Orange bleibt zwar stabiel, aber da die Abwichung von diesem Durchschnitt extrem ansteigt, ist das Ergebnis unzuverlässig.
+die Standardabweichung des Normalvektors zu der z-Achse in Grün und die benötigte Größe der Drehung ist Blau. Die x-Achse der Abbildung zeigt das Rauschen. Dabei ist die Anzahl der Rauschpunkte gleich des Wertes auf der x-Achse mal 20. 
+Die y-Achse zeigt die Ergebnisse bei den jeweiligen Rauschleveln. Abbildung \ref{Test mit Noise auf dem Neuralen Netz} zeigt, 
+dass das Rauschen keinen großen Einfluss auf den Unterschied des Normalvektors der Fläche zu der z-Achse oder die benötigte Größe der Drehung hat. Auf die Standardabweichung des Normalvektors hat das Rauschen allerdings einen extremen Einfluss.
+Sobald Rauschen hinzugefügt wird, steigt die Standardabweichung extrem an und bleibt dann bei dem Fehlermaß, zu dem es steigt unabhängig von weiterem Rauschen, dass hinzugefügt wird. Daraus lässt sich schließen, dass das Netz keine gute Fähigkeit hat, 
+Rauschen zu widerstehen. Die absolute Ausrichtung in Orange bleibt zwar stabil, aber da die Abweichung von diesem Durchschnitt extrem ansteigt, ist das Ergebnis unzuverlässig.
 
 \smallskip
 
-Der extreme Anstieg, der Standartabweichung in Abbilding \ref{Test mit Noise auf dem Neuralen Netz} könnte dadurch erklährt werden, dass das Netz nur auf fehlerfreien Daten trainiert wurde. Die Rauschpunkte eleminieren die glatte Struktur der Fläche, 
-aber die Merkmalsextraktion wird dennoch versuchen diese Punkte mit einzubeziehen und dadurch auf falsche Merkmale kommen.  Das erklährt ebenfalls, warum die Standartabweichung nach dem ersten Anstieg konstant bleibt. Sobald die Merkmale falsch sind,
+Der extreme Anstieg, der Standardabweichung in Abbildung \ref{Test mit Noise auf dem Neuralen Netz} könnte dadurch erklärt werden, dass das Netz nur auf fehlerfreien Daten trainiert wurde. Die Rauschpunkte eliminieren die glatte Struktur der Fläche, 
+aber die Merkmalsextraktion wird dennoch versuchen diese Punkte mit einzubeziehen und dadurch auf falsche Merkmale kommen.  Das erklärt ebenfalls, warum die Standardabweichung nach dem ersten Anstieg konstant bleibt. Sobald die Merkmale falsch sind,
 ändert weiteres Rauschen nichts mehr an den falschen Merkmalen. Die Ergebnisse sind dennoch besser als Zufällig, was darauf hindeutet, dass das Netz trotz des Rauschens noch die Originale Fläche erkennt, 
 aber die Rauschpunkte eine große Unsicherheit in die Ergebnisse bringen.
 
@@ -105,23 +105,23 @@ Durch das Verwenden von Prozentsätzen wird sichergestellt, dass die Ergebnisse 
             \label{Test von schlechter Flächensuche auf dem Neuralen Netz}
 \end{figure}
 
-Die Abbildung \ref{Test von schlechter Flächensuche auf dem Neuralen Netz} zeigt den Verlusst an Genauigkeit des Netzes, wenn Punkte aus der Punktwolke entfernt werden. Alle Ergenisse sind in Grad angegeben. Auf der x-Achse ist der Prozentsatz der entfernten Punkte dargestellt, 
-auf der y-Achse ist das Ergebnis der Tests dargestellt. Die Abweichung von dem Normalvektor der Fläche ist nahezu unverändert, wenn Punkte entfernt werden. Die Standartabweichung des Normalvektors bleibt für die ersten 80 \%, ebenfalls
-fast unverändert, und steigt nur leicht an. Erst nachdem 80 \% der Punkte entfernt wurden, steigt die Standartabweichung stark an. Bei 90 \% entfernten Punkten ist die Standartabweichung fast bei 45 Grad angekommen, was bedeutet, das bei einem so hohen Verlusst das Ergebnis kaum besser als Zufall ist.
-Aber bis zu diesem Punkt zeigt das Netz eine gute Fähigkeit, fehlende Punkte in der Punktwolke zu widerstehen. Ein Verlusst von über 80 \% der Punkte ist extrem unwahrscheinlich in der Praxis. Das netz zeigt also eine gute Wiederstandfähigkeit gegen schlechte Flächensuche.
+Die Abbildung \ref{Test von schlechter Flächensuche auf dem Neuralen Netz} zeigt den Verlust an Genauigkeit des Netzes, wenn Punkte aus der Punktwolke entfernt werden. Alle Ergebnisse sind in Grad angegeben. Auf der x-Achse ist der Prozentsatz der entfernten Punkte dargestellt, 
+auf der y-Achse ist das Ergebnis der Tests dargestellt. Die Abweichung von dem Normalvektor der Fläche ist nahezu unverändert, wenn Punkte entfernt werden. Die Standardabweichung des Normalvektors bleibt für die ersten 80 \%, ebenfalls
+fast unverändert, und steigt nur leicht an. Erst nachdem 80 \% der Punkte entfernt wurden, steigt die Standardabweichung stark an. Bei 90 \% entfernten Punkten ist die Standardabweichung fast bei 45 Grad angekommen, was bedeutet, das bei einem so hohen Verlust das Ergebnis kaum besser als Zufall ist.
+Aber bis zu diesem Punkt zeigt das Netz eine gute Fähigkeit, fehlende Punkte in der Punktwolke zu widerstehen. Ein Verlust von über 80 \% der Punkte ist extrem unwahrscheinlich in der Praxis. Das Netz zeigt also eine gute Wiederstandfähigkeit gegen schlechte Flächensuche.
 
 \smallskip
 
 Auch bei der Differenz zu der z-Achse oder der Bewegung des Bauteils ist kein großer Einfluss von fehlenden Punkten zu erkennen, bis 80 \% der Punkte entfernt wurden. 
-Danach hat auch hier der Verlust an Punkten einen großen Einfluss auf die Genauigkeit des Netzes, allerdings ist der Anstieg deutlich geringer im Vergleich zu der Standartabweichung.
-Der Punkt, an dem die Genauigkeit stark abfällt, ist bei der Standartabweichung und der Differenz zu der z-Achse gleich. Das deutet darauf hin, dass der Abfahl der Genauigkeit denselben Grund hat.
+Danach hat auch hier der Verlust an Punkten einen großen Einfluss auf die Genauigkeit des Netzes, allerdings ist der Anstieg deutlich geringer im Vergleich zu der Standardabweichung.
+Der Punkt, an dem die Genauigkeit stark abfällt, ist bei der Standardabweichung und der Differenz zu der z-Achse gleich. Das deutet darauf hin, dass der Abfall der Genauigkeit denselben Grund hat.
 
 \smallskip
 
-Der Zerfall der Genauigkeit in Abbildung \ref{Test von schlechter Flächensuche auf dem Neuralen Netz} könnte dadurch erklährt werden, dass die Merkmalsextraktion darauf basiert, dass eine Menge an Punkten Merkmale besitzt, die in jedem Schritt auf eine kleinere Menge an Punkten reduziert werden.
-Wenn zu viele Punkte fehlen, dann wird das Netz weniger Punkte für die Reduktionen haben, was den langsamen Zerfall der Standartabweichung bis zu der 80 \% Grenze erklären könnte. Warum es danach so stark abfällt, ist vermutlich damit zu erklähren, 
-dass die Dichte der Punkte so stark abgenommen hat, dass die Reduktion häufig keine Punkte in der loken Umgebung hat, die sie für eine Reduzierung verwenden kann. Wenn die Merkmale von einem oder sehr wenigen Punkten aus reduziert werden, 
-denn zerfällt die Idee, locale Merkmale anhand Ihrer relativen Position zu andrern Punkten zu bewerten. Das neurale Netz verliert die Fähigkeit, locale Merkmale zu erkennen.
+Der Zerfall der Genauigkeit in Abbildung \ref{Test von schlechter Flächensuche auf dem Neuralen Netz} könnte dadurch erklärt werden, dass die Merkmalsextraktion darauf basiert, dass eine Menge an Punkten Merkmale besitzt, die in jedem Schritt auf eine kleinere Menge an Punkten reduziert werden.
+Wenn zu viele Punkte fehlen, dann wird das Netz weniger Punkte für die Reduktionen haben, was den langsamen Zerfall der Standardabweichung bis zu der 80 \% Grenze erklären könnte. Warum es danach so stark abfällt, ist vermutlich damit zu erklären, 
+dass die Dichte der Punkte so stark abgenommen hat, dass die Reduktion häufig keine Punkte in der lokalen Umgebung hat, die sie für eine Reduzierung verwenden kann. Wenn die Merkmale von einem oder sehr wenigen Punkten aus reduziert werden, 
+denn zerfällt die Idee, lokale Merkmale anhand Ihrer relativen Position zu andern Punkten zu bewerten. Das neurale Netz verliert die Fähigkeit, lokale Merkmale zu erkennen.
 
 \section{Generalisierbarkeit}
 \label{Generalisierbarkeit}
@@ -146,7 +146,6 @@ Utah Teapot & 10.84 & 26.72\\
 
 Alle Angaben in der Tabelle \ref{table:Testergebnisse auf komplexen Bauteilen} sind Durchschnittswerte über alle Flächen eines Bauteils. Die Ergebnisse sind immer in Grad und für jedes Bauteil einzeln angegeben. 
 Es lässt sich erkennen, dass die Abweichung vom Optimum bei komplexen Bauteilen höher ist, als bei den einfachen Bauteilen, die in Abschnitt \ref{Ausrichtung der Bauteile} getestet wurden. Die Abweichung vom Optimum liegt bei allen komplexen Bauteilen bei etwa 11 Grad.
-Der geringe Unterschied zwischen den Ergebnissen der komplexen Bauteile lässt darauf schiezen, dass die Auswahl der komplexen Bauteile eine gute Repräsentation für komplexe Bauteile im Allgemeinen ist. 
-Allerding ist die Bewegung des Bauteils bei dem Stanford Hasen deutlich geringer als bei den anderen beiden Bauteilen. Der Unterschied könnte daran liegen, dass der Stanford Hase nur eine Gundfläche hat. Grundfächen werden immer für hohe Bewegung sorgen, 
-da die optimale Ausrichtung meistens im 90 Grad Winkel zu der Grundflächge liegt. Der Stanford Drache und die Utah Teapot haben beide mehrere Grundflächen, was die Bewegung des Bauteils erhöhen könnte.
-
+Der geringe Unterschied zwischen den Ergebnissen der komplexen Bauteile lässt darauf schließen, dass die Auswahl der komplexen Bauteile eine gute Repräsentation für komplexe Bauteile im Allgemeinen ist. 
+Allerding ist die Bewegung des Bauteils bei dem Stanford Hasen deutlich geringer als bei den anderen beiden Bauteilen. Der Unterschied könnte daran liegen, dass der Stanford Hase nur eine Grundfläche hat. Grundflächen werden immer für hohe Bewegung sorgen, 
+da die optimale Ausrichtung meistens im 90 Grad Winkel zu der Grundfläche liegt. Der Stanford Drache und die Utah Teapot haben beide mehrere Grundflächen, was die Bewegung des Bauteils erhöhen könnte.
