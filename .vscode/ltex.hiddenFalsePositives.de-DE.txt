@@ -1,0 +1,1 @@
+{"rule":"KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ","sentence":"^\\QDer benutze Algorithmus für das Clustering wurde in der Arbeit \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-|Dummy\\+|Dummy's\\+)[0-9]+$"}

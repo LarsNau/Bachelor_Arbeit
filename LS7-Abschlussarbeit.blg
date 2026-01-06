@@ -1,17 +1,17 @@
 [0] Config.pm:308> INFO - This is Biber 2.20
 [0] Config.pm:311> INFO - Logfile is 'LS7-Abschlussarbeit.blg'
-[108] biber-MSWIN64:340> INFO - === 
-[159] Biber.pm:420> INFO - Reading 'LS7-Abschlussarbeit.bcf'
-[254] Biber.pm:994> INFO - Found 2 citekeys in bib section 0
-[264] Biber.pm:4463> INFO - Processing section 0
-[276] Biber.pm:4654> INFO - Looking for bibtex file 'Literatur.bib' for section 0
-[351] bibtex.pm:1713> INFO - LaTeX decoding ...
-[358] bibtex.pm:1519> INFO - Found BibTeX data source 'Literatur.bib'
-[402] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
-[402] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[402] Biber.pm:4283> INFO - Sorting list 'anyt/global//global/global/global' of type 'entry' with template 'anyt' and locale 'de-DE'
-[402] Biber.pm:4289> INFO - No sort tailoring available for locale 'de-DE'
+[98] biber-MSWIN64:340> INFO - === 
+[146] Biber.pm:420> INFO - Reading 'LS7-Abschlussarbeit.bcf'
+[246] Biber.pm:994> INFO - Found 4 citekeys in bib section 0
+[256] Biber.pm:4463> INFO - Processing section 0
+[265] Biber.pm:4654> INFO - Looking for bibtex file 'Literatur.bib' for section 0
+[341] bibtex.pm:1713> INFO - LaTeX decoding ...
+[348] bibtex.pm:1519> INFO - Found BibTeX data source 'Literatur.bib'
+[405] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[405] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[405] Biber.pm:4283> INFO - Sorting list 'anyt/global//global/global/global' of type 'entry' with template 'anyt' and locale 'de-DE'
+[405] Biber.pm:4289> INFO - No sort tailoring available for locale 'de-DE'
 [413] bbl.pm:676> INFO - Writing 'LS7-Abschlussarbeit.bbl' with encoding 'UTF-8'
-[415] bbl.pm:779> INFO - Output to LS7-Abschlussarbeit.bbl
-[415] Biber.pm:131> WARN - BibTeX subsystem: C:\Users\larsn\AppData\Local\Temp\biber_tmp_pCk7\fe6d16e8a0935a16f008a64fa11444f8_45780.utf8, line 5, warning: 1 characters of junk seen at toplevel
-[415] Biber.pm:133> INFO - WARNINGS: 1
+[416] bbl.pm:779> INFO - Output to LS7-Abschlussarbeit.bbl
+[416] Biber.pm:131> WARN - BibTeX subsystem: C:\Users\larsn\AppData\Local\Temp\biber_tmp__Khj\fe6d16e8a0935a16f008a64fa11444f8_5436.utf8, line 5, warning: 1 characters of junk seen at toplevel
+[416] Biber.pm:133> INFO - WARNINGS: 1

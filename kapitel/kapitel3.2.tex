@@ -9,10 +9,11 @@ Um ein Bauteil korrekt auszurichten, muss eine Fläche des Bauteils auf eine Aus
 Punktwolken wurden im Kapitel \ref{Flächensuche in  Bauteilen} bereits beschrieben. Eine Punktwolke ist eine Menge an Punkten im 3D Raum, die zusammen eine Fläche oder ein Objekt darstellen.
 Die Ausrichtung die berechnet wird, wird Z-Invarianz genannt. Die Z-Invarianz ist ein $R^{3}$ Vektor, der die Rotation eines Bauteils beschreibt.
 Dieser Vektor sollte im optimalen Fall im 90 Grad Winkel zu dem Normalvektor einer Fläche liegen, damit die Fläche möglichst parallel zu der Achse der Druckerdüse ist. 
+Wie aus der Z-Invarianz eine Rotationsmatrix erstellt wird, wird in Abschnitt \ref{Konstruktion der Ausrichtung} erklärt.
 
 \smallskip
 
-In diesem Kapitel wird dargestellt, wie man eine Punktwolke, die eine Fläche in einem Bauteil darstellt, zu einer Rotation transformieren kann. Für die Transformation wird ein Neurales Netz eingesetzt, welches im Folgenden genauer erklärt wird. 
+In diesem Kapitel wird dargestellt, wie man eine Punktwolke, die eine Fläche in einem Bauteil darstellt, zu einer Rotationsmatrix verarbeiten kann. Für die Verarbeitung wird ein Neurales Netz eingesetzt, welches im Folgenden genauer erklärt wird. 
 Dieses Neurale Netz wird eine Punktwolke beliebiger Größe zu der Z-Invarianz transformieren. Die Z-Invarianz wird in einem folgenden Abschnitt \ref{Konstruktion der Ausrichtung} erklärt. Aus dieser Ausgabe lässt sich dann eine vollständige Drehung erstellen.
 
 \section{Punktwolken Transformation}
@@ -27,7 +28,7 @@ Die Eingabe des Neurons besteht aus den einzelnen Eingaben ($x_{i}$) multiplizie
     \begin{math} \sum_{ i = 1 }^{ n }{ x_{i} * w_{i} } = o_{j} \end{math}
 \end{figure}
 
-Diese Funktion bildet die gewichteten Eingaben dann auf eine Ausgabe $o_{j}$ ab, 
+Diese Funktion bildet die gewichteten Eingaben dann auf eine Ausgabe $o_{j}$ mittels Aktivierungsfunktion ab, 
 die entweder an ein weiteres Neuron übergeben wird, oder die Ausgabe des Netzes darstellt.
 Die Abbildung in der Aktivierungsfunktion kann jede Funktion sein, die einen Wert x auf einen anderen Wert y abbildet, allerdings sind nicht lineare Funktionen wie zum Beispiel: $y = \max(0,x)$ (ReLU) generell besser geeignet, 
 da man nur mit dieser Art von Aktivierungsfunktionen nicht lineare Zusammenhänge darstellen kann.
@@ -41,10 +42,13 @@ da man nur mit dieser Art von Aktivierungsfunktionen nicht lineare Zusammenhäng
 \end{figure}
 
 Ein typisches Neuron ist in Abbildung \ref{Funktionsweise eines künstlichen Neurons} dargestellt. Durch das Anpassen von Gewichten,$w_{i}$ in der Abbildung \ref{Funktionsweise eines künstlichen Neurons}, kann ein Neuron den Einfluss von Eingabedaten ($x_{i}$) verändern. 
-Die optimale Belegung von Gewichten wird von dem Netz über mehrere Versuche hinweg erarbeitet. Dafür muss definiert werden, was das Neurale Netz als optimales Ergebnis ansieht. Für die Anpassung der Gewichte in jedem Neuron wird ein Datensatz genutzt, 
+Die optimale Belegung von Gewichten wird von dem Netz über mehrere Versuche hinweg erarbeitet. Dafür muss definiert werden, was das Neurale Netz als korrektes Ergebnis ansieht. Für die Anpassung der Gewichte in jedem Neuron wird ein Datensatz genutzt, 
 den das Neurale Netz mehrmals durchläuft. Diese Daten werden Trainingsdaten genannt. Bei jeden Durchlauf der Trainingsdaten
-überprüft das Neurale Netz, wie gut seine Ausgaben im Vergleich zu dem vordefinierten optimalen Ergebnis ist. Die Trainingsdaten brauchen für jeden Datenpunkt ein richtiges Ergebnis, damit das Neurale Netz sein Ergebnis mit dem vorher berechnet 
-oder festgelegtem Optimum vergleichen kann. In dem Falle ist das richtige Ergebnis der Normalvektor zu der jeweiligen Punktwolke. 
+überprüft das Neurale Netz, wie gut seine Ausgaben im Vergleich zu dem vordefinierten korrekten Ergebnis ist. Die Trainingsdaten brauchen für jeden Datenpunkt ein richtiges Ergebnis, damit das Neurale Netz sein Ergebnis mit dem vorher berechnet 
+oder festgelegtem Optimum vergleichen kann. In dem Falle ist das richtige Ergebnis der Normalvektor zu der jeweiligen Punktwolke und das Netz nimmt die Standardabweichung von der Orthogonalität zu dem Normalvektor der Fläche als Fehler. 
+Umso mehr die Z-Invarianz in einem 90 Grad Winkel zu dem Normalvektor der Fläche steht umso geringer ist der Fehler. Das Netz sieht jede Bewegung des Bauteils ebenfalls als Fehler. Umso größer die Bewegung umso der Fehler. 
+Die beiden Fehler werden zusammenaddiert und ergeben dann den Fehler, den das Netz zu verringern versucht, indem es Gewichte anpasst. Der Fehler den die Bewegung mach, wird aber vor der Addition künstlich verringer, 
+um die Ausrichtung der Fläche als wichtigsten Aspekt des Netzes zu behalten.
 
 \smallskip
 
@@ -67,6 +71,12 @@ Diese Schicht repräsentiert die Eingaben und ist in Abbildung \ref{Schematische
 Danach gibt es die versteckten Schichten, in Blau markiert. Ihre Aufgabe ist es die Eingabe zu transformieren. 
 Sie erlauben es dem Neuralen Netz eine Eingabe über mehrere Schichten zu verarbeiten. Durch kann das Neurale Netz nicht lineare zusammenhänge darstellen. Zuletzt gibt es die Ausgabeschicht. Von dieser Schicht wird die Z-Invarianz abgelesen.
 
+\smallskip
+
+Nicht alle neurale Netze funktionieren über mehrere voll verbundene Schichten, aber die Idee eine Eingabe schichtweise durch das Anpassen von Gewichten zu verarbeiten kann in fast allen gefunden werden.
+Das für diese Arbeit genutzte neurale Netz reduziert erst die Eingabe auf Merkmale und nutz dann mehrere voll verbundene Schichten um aus den Merkmalen eine Ausgabe zu generieren. Merkmale sind Darstellungen der Eingabedaten, die das neurale Netz verstehen kann.
+Merkmale sind, wenn sie von einem neuralen Netz gefunden wurden, für gewöhnlich extrem abstrakt und ohne viel Arbeit nicht für Menschen verständlich.
+
 \subsection{Merkmalsextraktion aus Punktwolke}
 \label{Merkmalsextraktion aus Punktwolke}
 
@@ -79,12 +89,13 @@ Das Regressionsnetz ist der zweite Teil der Struktur des Neurales Netzes und wir
 
 \smallskip
 
-Die Struktur der Merkmalsextraktion basiert auf der Arbeit:  \cite{test}
+Die Struktur der Merkmalsextraktion basiert auf der Arbeit:  \cite{PointNet++}
 
 \smallskip
 
 Die generelle Struktur der Merkmalsextraktion ist eine wiederholte Folge an Reduzierungen auf den konkreten Daten der Punktwolke, gefolgt von einem kleinem voll verbundenen Neuralen Netz, was mit den konkreten Daten dieser Schicht Merkmale über mehrere Schichten hinweg konstruiert.
-In dem ersten Schritt in jeder Schicht werden Punkte aus der Punktwolke ausgewählt. Dafür wird ein Algorithmus eingesetzt, der eine Teilmenge der Ausgangspunkte auswählt, um eine Möglichst gute Abdeckung über die Ausgangspunkte zu erreicht (Farthest Point Sampling).
+In dem ersten Schritt in jeder Schicht werden Punkte aus der Punktwolke ausgewählt. Dafür wird ein Algorithmus eingesetzt, der eine Teilmenge der Ausgangspunkte auswählt, um eine Möglichst gute Abdeckung über die Ausgangspunkte zu erreicht (Farthest Point Sampling ).
+Die Methode "Farthest Point Sampling" wurde in dem Artikel \cite{Point} erstellt.
 
 \begin{figure}[t]
     \centering
@@ -102,12 +113,12 @@ dass um bestimmte Punkte nach diesem Schritt ein Radius gezeichnet ist, der die 
 Wenn die Auswahl der Punkte $A$ ist und die gesamte Punktwolke $P$ ist, dann gilt:
 
 \begin{figure}[h]
-    \begin{math} A \Subset P\end{math}
-    \begin{math} \forall \vec{a} \in A , \forall \vec{p} \in P: \left|  \left| \vec{a} - \vec{p}  \right| \right|_{2} \leq r \implies (p,a) \in Kanten \end{math}
+    \begin{math} A \Subset P, (E,V) = G, \end{math}
+    \begin{math} \forall \vec{a} \in A , \forall \vec{p} \in P: \left|  \left| \vec{a} - \vec{p}  \right| \right|_{2} \leq r \implies (p,a) \in E \end{math}
 \end{figure}
 
 Die ausgewählten Punkte werden als künstliche Neuronen genutzt. Dabei sind die Merkmale, die in den Punkten der Nachbarn gespeichert sind, die Eingabe für das künstliche Neuron. Die Gewichte für jede Eingabe werden erlernt, dafür wird ein Multi Layer Perceptor (MLP) genutzt.
-Der MLP lernt, wie die Gewichte für die oben bestimmten Kanten seinen sollen. Dafür nutz der MLP die relative Position von ausgewählten Punkten zu ihren Nachbarn. Ein MLP funktioniert ähnlich zu dem Regressionsnetz, was in Abschnitt \ref{ Punktwolken Transformation} erklährt wird.
+Der MLP lernt, wie die Gewichte für die oben bestimmten Kanten seinen sollen. Dafür nutz der MLP die relative Position von ausgewählten Punkten zu ihren Nachbarn. Ein MLP funktioniert wie ein voll verbundenes Netz, was in Abschnitt \ref{Punktwolken Transformation} erklärt wird.
 Ein ausgewählter Punkt verändert seine Merkmale anhand der Summe von Merkmalen der Punkte in seiner Nachbarschaft, die nach ihrer relativen Position mit dem MLP gewichtet werden. Die Anzahl an Punkten verringert sich, aber die Anzahl der Merkmale pro Punkt erhöht sich mit jeder Schicht.
 
 Über mehrere Schichten hinweg, werden Merkmale für die Punkte gelernt, um dann die Punkte zu reduzieren und die Merkmale an die ausgewählten Punkte weiterzugeben. Das generiert eine Menge an Merkmalen für jeden Punk, 
@@ -130,6 +141,19 @@ Die Normalisierung stellt sicher, dass es keine zu großen Änderungen innerhalb
 Die konstante Anpassung zu Änderungen in den vorherigen Schichten macht das Lernen instabil.
 
 Das Zufällige zurücksetzen von Eingaben verhinder eine zu große Abhängigkeit von nur einem Neuron oder einem Pfad. Dafür werden mit einer vorbestimmten Wahrscheinlichkeit gewichtete Summen auf null gesetzt, sodass sie keinen Einfluss auf die nächste Schicht haben.
+
+\smallskip
+
+In jeder Schicht des Regressionsnetzes wird dieselbe Aktivierungsfunktion genutzt. In allen Schichten außer der letzten ist das $f(x) = \max(0,x)$ die als Rectifier oder ReLU bekannt ist. 
+Es ist eine der bekanntesten Aktivierungsfunktionen, unter anderem weil sie einfach, aber effektiv ist. Für die letzte Aktivierung wird dagegen 
+
+\begin{figure}[H]
+    \centering
+    $f(x) = \frac{\exp(x) - \exp(x)}{\exp(x) + \exp(x)}$ 
+\end{figure}
+
+genutzt. Diese Funktion wird tanh genannt.
+Sie hat den Vorteil, dass ihre Ausgabe immer zwischen -1 und 1 liegt, was genau das Intervall an Werten ist, die in einer Rotationsmatrix zugelassen sind. Die Ausgabe muss also nicht im korrigiert werden, um für eine Rotationsmatrix zulässig zu sein.
 
 \smallskip
 

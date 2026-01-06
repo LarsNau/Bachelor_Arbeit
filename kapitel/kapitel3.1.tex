@@ -14,7 +14,7 @@ Es werden mehrere tausend Punkte benutzt, um ein Bauteil mit einer Punktwolke da
 
 \smallskip
 
-Eine Aufteilung von Datenpunkten in Gruppen wird Clustering genannt. Die Aufteilung in Gruppen basiert auf den Werten der Datenpunkte, Daten mit ähnlichen Werten kommen in dieselbe Gruppe. Die Gruppen werden auch Cluster genannt. 
+Eine Aufteilung von Datenpunkten in Gruppen wird Clustering genannt. Die Aufteilung in Gruppen basiert auf den Werten der Datenpunkte, Daten mit ähnlichen Werten kommen generell in dieselbe Gruppe. Die Gruppen werden auch Cluster genannt. 
 Was Ähnlichkeit bedeutet kommt auf die Implementierung an, aber ein häufiges Ähnlichkeitsmaß ist die räumliche Distanz.
 
 \begin{figure}[t]
@@ -26,7 +26,7 @@ Was Ähnlichkeit bedeutet kommt auf die Implementierung an, aber ein häufiges �
 \end{figure}
 
 In der Abbildung \ref{Clustering von verstreuten zweidimensionalen Punkten} sind zwei zweidimensionale Punktwolken. Die linke ist nicht geclustert, die rechte ist geclustert, beide stellen dieselbe Punktwolke dar.
-Die rechte Punktwolke ist mit drei Farben markiert, Punkte derselben Farbe sind im selben Cluster. In der Abbildung \ref{Clustering von verstreuten zweidimensionalen Punkten} ist das Ergebnis von einem Clustering verfahren dargestellt, 
+Die rechte Punktwolke ist mit drei Farben markiert, Punkte derselben Farbe sind im selben Cluster. In der rechten Punktwolke ist das Ergebnis von einem Clustering verfahren dargestellt, 
 alle Punkte in einer Gruppe sind räumlich gesehen ähnlich zueinander.
 
 \section{Clustering nach Normalvektoren in Bauteilen}
@@ -60,8 +60,9 @@ Die Normalvektoren werden für jeden Punkt anhand der Oberfläche des Bauteils b
 
 Eine Aufteilung der Normalvektoren in Cluster ist notwendig, um Flächen zu erkennen. Dafür werden die Normalvektoren als dreidimensionale Punkte dargestellt, die euklidische Distanz zwischen den Normalvektoren gib ihre Ähnlichkeit an. 
 Für das Aufteilen in Cluster wird ein Algorithmus benutzt, der mit einem Cluster startet, dass alle Normalvektoren beinhaltet und über mehrere Iterationen die Gruppe immer wieder aufteilt, bis jede Gruppe eine voreingestellte Ähnlichkeit aufweist.
+Der benutze Algorithmus für das Clustering wurde in der Arbeit \cite{DBScann} erarbeitet.
 
-\begin{figure}[H]
+\begin{figure}[t]
     \centering
     \includegraphics[scale=0.5]{bilder/Hierachie.png}
     \caption[Beispiel von Hierarchie Clustering als Dendrogramm]{Beispiel von Hierarchie Clustering als Dendrogramm}
@@ -78,11 +79,11 @@ In der Abbildung \ref{Beispiel von Hierarchie Clustering als Dendrogramm} stoppt
 \smallskip
 
 Auf diese Art und Weise werde die Cluster zwischen Normalvektoren gesucht. Alle Normalvektoren, die in einem Cluster sind, sind so ähnlich, dass das hierarchische Clustering sie nicht weiter zusammengefügt hat. 
-Der Distanzwert auf der y-Achse in \ref{Beispiel von Hierachie Clustring als Dendrogram} dient dabei als Fehlermaß für die Flächen. Wenn das Fehlermaß null ist, werden nur Flächen gefunden, die absolut Flach sind, 
+Der Distanzwert auf der y-Achse in \ref{Beispiel von Hierachie Clustring als Dendrogramm} dient dabei als Fehlermaß für die Flächen. Wenn das Fehlermaß null ist, werden nur Flächen gefunden, die absolut Flach sind, 
 aber bei komplexen Bauteilen ist es notwendig ein höherer Fehler zuzulassen, um gebogene Flächen zu finden.
 
 
-\begin{figure}[H]
+\begin{figure}[t]
     \centering
     \includegraphics[scale=0.5]{bilder/Normal_Cluster.png}
     \caption[Hierarchisches Clustering eines Bauteils nach Normalvektor]{Hierarchisches Clustering eines Bauteils nach Normalvektor}
@@ -106,7 +107,7 @@ Alle Flächen in einem Cluster des Normalvektorclusterings aus Abschnitt \ref{Cl
 Die räumliche Trennung zwischen den Flächen in einem Cluster kann genutzt werden, um sie zu trennen. Dafür wird ein weiterer Clustering-Algorithmus genutzt. Der Algorithmus benötigt einen Radius und eine Mindestanzahl an Nachbarn. 
 Der Radius wird $esp$ und die Mindestanzahl an Nachbarn wird $minPts$ in Abbildung \ref{Beispielhafte Darstellung von DB-Scan Algorithmus} genannt.
 
-\begin{figure}[H]
+\begin{figure}[t]
     \centering
     \includegraphics[scale=0.5]{bilder/DB-scan.png}
     \caption[Beispielhafte Darstellung von DB-Scan Algorithmus]{Beispielhafte Darstellung von DB-Scan Algorithmus}
@@ -114,9 +115,10 @@ Der Radius wird $esp$ und die Mindestanzahl an Nachbarn wird $minPts$ in Abbildu
     \quelle\url{https://machinelearninggeek.com/wp-content/uploads/2020/10/image-58.png}
 \end{figure}
 
+Die Abbildung \ref{Beispielhafte Darstellung von DB-Scan Algorithmus} ist ein Beispiel für die Funktion von dem DB-Scan Algorithmus, der im Folgenden erklärt wird. 
 Der Algorithmus nimmt einen Punkt, der in keinem Cluster ist und überprüft, wie viel Punkte in einem Radius $esp$ um ihn herum sind. Wenn innerhalb des Radiuses mindestens $minPts$ viele Punkte sind, dann ist der Punkt ein Kernpunkt (Core Point) eines neuen Clusters.
 Alle Punkte, die in dem Radius des Punktes sind, werden Teil des Clusters und genauso überprüft, wie der Startknoten des Clusters. Dieses Vorgehen wird fortgeführt, bis keine Punkte mehr hinzugefügt werden können. Wenn ein Punkt Teil des Clusters ist, 
-aber nicht mindestens $minPts$ viele Punkte in seiner Nachbarschaft hat, dann ist dieser Punkt ein Randpunkt (Borderpoint), aber immernoch teil des Clusters.
+aber nicht mindestens $minPts$ viele Punkte in seiner Nachbarschaft hat, dann ist dieser Punkt ein Randpunkt (Borderpoint), aber immer noch teil des Clusters.
 Wenn weniger als $minPts$ innerhalb des Radiuses sind, dann gilt der Punkt als Noise. Das bedeutet aber nicht unbedingt, dass der Punkt Noise bleibt. Er kann auch zu einem Randpunkt eines Noch nicht existierenden Clusters werden.
 Es werden so lange neue Punkte außerhalb von Clustern gewählt, bis alle Punkte Teil eines Clusters oder Noise sind.
 

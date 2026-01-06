@@ -11,7 +11,7 @@ Außerdem wird die Fähigkeit des neuralen Netzes Fehler in den Daten zu widerst
 
 
 
-\begin{figure}[h]
+\begin{figure}[t]
     \centering
     \includegraphics[scale=0.2]{bilder/Daten.png}
     \caption[Darstellung aller Typen von Bauteilen im Datensatz]{Darstellung aller Typen von Bauteilen im Datensatz}
@@ -30,7 +30,7 @@ Tests haben ergeben, dass das Verwenden von einem Datensatz mit mehr als 1000 Fl
 \section{Ausrichtung der Bauteile}
 \label{Ausrichtung der Bauteile}
 
-Die Ausrichtung der Bauteile ist das Ziel der Arbeit. Dementsprechend ist es die wichtigste Metrik für den Erfolgt des neuronalen Netzes. 
+Die Ausrichtung der Bauteile ist das Ziel der Arbeit. Dementsprechend ist es die wichtigste Metrik für den Erfolgt des neuronalen Netzes.
 Die Minimierung der Bewegung ist ebenfalls wichtig, da jede Drehung eines Bauteils Zeit kostet. Als zweites Ziel des Netzes wird dementsprechend versucht, die Größe der Drehung des Bauteils zu minimieren.
 
 \begin{table}[h]
@@ -40,7 +40,7 @@ Die Minimierung der Bewegung ist ebenfalls wichtig, da jede Drehung eines Bautei
 Bauteil & Gradabweichung vom Optimum & Bewegung des Bauteils\\
 \midrule
 Platten mit Löchern & 10.12 & 23.56 \\ \addlinespace
-Platonischer Körper mit Inschriften & 9.59 & 26.50 \\ \addlinespace
+Platonischer Körper & 9.59 & 26.50 \\ \addlinespace
 Körper mit zwei Löchern & 9.40 & 27.11\\
 Pyramiden & 9.22 & 24.68\\
 \bottomrule
@@ -55,6 +55,32 @@ Insgesamt lässt sich kein größer Unterschied zwischen den verschiedenen Typen
 Die Pyramiden erreichen die beste Genauigkeit mit einer Abweichung von 9.22 Grad vom Optimum und einer durchschnittlichen Bewegung von 24.68 Grad. Die Pyramiden sind die einfachsten Bauteile im Datensatz, was die gute Genauigkeit erklären könnte.
 Andererseits sind die Platten mit Löchern die am schlechtesten abschneidenden Bauteile, was die Gradabweichung vom Optimum angeht. Das könnte daran liegen, dass die Flächensuche Probleme mit den Löchern in den Platten hat.
 
+\smallskip
+
+Der vorherige Test wurde durchgeführt, sodass sowohl auf die Minimierung der Bewegung als auch auf die optimale Ausrichtung geachtet wird. Es ist allerdings auch relevant, wie gut das Netz eine Fläche ausrichten kann, 
+wenn einen die Größe der Bewegungen nicht interessiert.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lrr}
+\toprule
+Bauteil & Gradabweichung vom Optimum & Bewegung des Bauteils\\
+\midrule
+Platten mit Löchern & 5.42 & 59.19 \\ \addlinespace
+Platonischer Körper & 5.67 & 58.28 \\ \addlinespace
+Körper mit zwei Löchern & 4.85 & 61.02\\
+Pyramiden & 4.26 & 58.79\\
+\bottomrule
+\end{tabular}
+\caption{Testergebnisse auf einfachen Bauteilen ohne Berücksichtigung von der Bewegung des Bauteils}
+\label{table:Testergebnisse auf einfachen Bauteilen ohne Berücksichtigung von der Bewegung des Bauteils}
+\end{table}
+
+Es lassen sich starke Verbesserungen in \ref{table:Testergebnisse auf einfachen Bauteilen ohne Berücksichtigung von der Bewegung des Bauteils} was die Ausrichtung angeht erkennen, wenn man es mit \ref{table:Testergebnisse auf einfachen Bauteilen} vergleicht. 
+Die Ergebnisse haben sich durch das Vernachlässigen der Bewegung des Bauteils halbiert und haben jetzt eine Abweichung von in etwa 5 Grad. Die Platten mit Löchern sind immer noch der am schlechtesten abschneidenden Typ von Bauteil 
+und die Pyramiden sind immer noch die am besten Abschneidenden. Dafür, dass sich die Abweichung vom Optimum halbiert hat, hat sich die Bewegung des Bauteils mehr als verdoppelt. Da sie von dem Netz für diesen Test nicht beachtet wurde, 
+war diese Veränderung zu erwarten.
+
 \section{Verlässlichkeit der Ausrichtung}
 \label{Verlässlichkeit der Ausrichtung}
 
@@ -68,7 +94,7 @@ wird in den folgenden zwei Abschnitten der Einfluss von fehlenden Punkten und de
 Eine Fläche eines Bauteils, die Punkte beinhaltet, die nicht zu der Fläche gehören, kann das Ergebnis des neuronalen Netzes stark beeinflussen. Dieser Fehler könnte durch schlechtes Clustering entsehen, wenn zwei Flächen nicht richtig getrennt werden.
 Punkte die nicht zu der Fläche gehören, aber dennoch in der Punktwolke der Fläche enthalten sind, werden als Rauschen (engl. Noise) bezeichnet. Um den Einfluss von Rauschen auf das Netz zu bestimmen, werden Punkte zu sonst korrekten Flächen hinzugefügt.
 
-\begin{figure}[h]
+\begin{figure}[t]
     \centering
     \includegraphics[scale=0.5]{bilder/Rauschen2.png}
     \caption[Test mit Noise auf dem Neuralen Netz]{Test mit Noise auf dem Neuralen Netz}
@@ -98,7 +124,7 @@ Eine Fläche, die in einem Bauteil gefunden wurde, muss nicht immer perfekt die 
 Der Einfluss von fehlenden Punkten in der Punktwolke einer Fläche wird getestet, indem über mehrere Iterationen Punkte aus den Punktwolken entfernt werden. Die Anzahl der Punkte basiert auf einem Prozentsatz, der sich mit jeder Iteration erhöht. 
 Durch das Verwenden von Prozentsätzen wird sichergestellt, dass die Ergebnisse unabhängig von der ursprünglichen Größe der Punktwolke sind.
 
-\begin{figure}[h]
+\begin{figure}[t]
     \centering
     \includegraphics[scale=0.5]{bilder/Entfernen.png}
     \caption[Test von schlechter Flächensuche auf dem Neuralen Netz]{Test von schlechter Flächensuche auf dem Neuralen Netz}
@@ -129,7 +155,7 @@ denn zerfällt die Idee, lokale Merkmale anhand Ihrer relativen Position zu ande
 Alle bisherigen Auswertungen wurden auf den gleichen Typen von Daten durchgeführt, auf denen das Netz auch trainiert wurde. Um die Verlässlichkeit des Netzes zu überprüfen wird in diesem Abschnitt getestet, ob das Netz auch auf komplexeren Bauteilen arbeiten kann.
 Für diesen Zweck wurden mehrere komplexe Bauteile getestet, komplex bedeutet in diesem Fall, dass die Bauteile nicht aus einfachen geometrischen Formen bestehen, sondern gebogene Flächen und komplexe Strukturen beinhalten.
 
-\begin{table}[h]
+\begin{table}[t]
 \centering
 \begin{tabular}{lrr}
 \toprule

@@ -17,14 +17,14 @@ Um eine optimale Ausrichtung zu finden, gibt es bis jetzt noch keine weit anerka
 
 Neurale Netze sind gut geeignet, Muster in Daten zu erkennen. Das Gebiet des maschinellen Lernens hat sich bereits in vielen Anwendungsfällen als verlässliche Lösung erwiesen.  In der Bildverarbeitung werden es zum Beispiel verwendet, um Objekte in Bildern zu erkennen. 
 Es ist daher naheliegend, dass sie auch verwendet werden können, um Muster in einer Menge an Raumpunkten zu erkennen. Eines Neurales Netz kann gut über Daten abstrahieren und auch für unbekannte komplexe Daten eine gute Lösung finden, wo klassische Algorithmen versagen könnten.
-Auch für die Ausrichtung von Bauteilen haben sich neurale Netze bereits als gute Lösung erwiesen. In dem Artikel \cite{test} wurde ein tiefes neurales Netz genutzt, um geometrische Objekte anhand von vorgegeben künstlichen Zielen auszurichten. 
+Auch für die Ausrichtung von Bauteilen haben sich neurale Netze bereits als gute Lösung erwiesen. In dem Artikel \cite{PointNet++} wurde ein tiefes neurales Netz genutzt, um geometrische Objekte anhand von vorgegeben künstlichen Zielen auszurichten. 
 Eine Erweiterung dieser Vorgehensweise könnte für die Ausrichtung von Bauteilen im 5d-Druck genutzt werden.
 
 \section{Aufbau der Arbeit}
 \label{Aufbau_der_Arbeit}
 
-In dieser Arbeit wird versucht das Problem der Ausrichtung von Bauteilen im 5d-Druck durch die Verwendung von überwachtem Lernen zu lösen. Begonnen wird mit der Aufteilung eines Bauteils in kohärente Flächen, 
+In dieser Arbeit wird versucht das Problem der Ausrichtung von Bauteilen im 5d-Druck durch die Verwendung von tiefen neuralen Netzen zu lösen. Begonnen wird mit der Aufteilung eines Bauteils in kohärente Flächen, 
 wofür mehrere klassische Clustering verfahren genutzt werden. Anschließend wird ein Neurales Netz trainiert, dass die Flächen eines Bauteils auf Rotationen abbildet, die das Bauteil optimal für den 5d-Druck ausrichten.
-Für das Neurale Netz wird eine angepasste Version von einem Bereits existierenden Neuralem Netz für die Merkmalsextraktion verwendet \cite{test}. Zum Schluss wird die Leistung des neuronalen Netzes evaluiert, anhand der Ausrichtung auf unterschiedlichen Objekten
+Für das Neurale Netz wird eine angepasste Version von einem Bereits existierenden Neuralem Netz für die Merkmalsextraktion verwendet \cite{PointNet++}. Zum Schluss wird die Leistung des neuronalen Netzes evaluiert, anhand der Ausrichtung auf unterschiedlichen Objekten
 und der Widerstandsfähigkeit gegen Störungen. 
 
