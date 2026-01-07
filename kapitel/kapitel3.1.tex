@@ -5,17 +5,47 @@
 \chapter{Flächensuche in  Bauteilen}
 \label{Flächensuche in  Bauteilen}
 
-Bevor ein Bauteil ausgerichtet werden, kann, müssen zuerst kohärente Flächen im Bauteil identifiziert werden. Die Verarbeitung dieser Flächen wird in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} behandelt.
+\section{Kriterien für geeignete Flächen}
+\label{Kriterien für geeignete Flächen}
+
+Bevor ein Bauteil ausgerichtet werden, kann, müssen zuerst kohärente zusammenhängende Flächen im Bauteil identifiziert werden. Die Verarbeitung dieser Flächen wird in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} behandelt.
+Eine kohärente Fläche ist eine stetige Fläche. Sie hat weder Sprünge noch Lücken oder Risse. Diese Eigenschaft ist hilfreich, da eine Fläche die nicht kohärent ist definitionsgemäß an mindestens einer Stelle einen Sprung oder Lücke haben muss. 
+Es ist einfacher, wenn diese Fläche als zwei oder mehr Flächen weiterverarbeitet wird, anstelle von einer Fläche die an mindestens einer Stelle getrennt ist. Eine zusammenhängende Fläche ist in dieser Arbeit eine Fläche, 
+die entweder keine oder eine geringe Krümmung aufweist. Eine Krümmung kann nur bis zu einem bestimmten Punkt akzeptiert und ein Knick innerhalb einer Fläche sollte immer vermieden werden. Wie der Punkt bis, zu dem eine Krümmung akzeptabel ist festgelegt wird, 
+in dem folgenden Abschnitt \ref{Clustering nach Normalvektoren in Bauteilen} erklärt. Eine Fläche mit einer Krümmung kann eine gute Ausrichtung unmöglich machen. 
+Das Ziel der Ausrichtungen ist es eine Fläche senkrecht in Relation zu der Druckerplatte zu Orientieren. Bei einer gekrümmten Fläche ist dies unmöglich, da wenn man zwei Tangenten an zwei zufälligen Punkten einer gekrümmten Fläche nimmt, 
+werden sie nicht parallel sein. Die Tangenten haben die Steigung der Fläche an den Punkten. Die Abbildung \ref{Darstellung von Tangenten in einer gekrümmten Fläche} zeigt eine gekrümmte Fläche in Blau und auf der Fläche zwei Tangenten, $t_1$ und $t_2$, 
+die in Magenta markiert sind. Wenn die y-Achse die Grundfläche eines Druckers ist, dann lässt es sich leicht erkennen, dass die Fläche unmöglich Senkrecht zu der Druckerfläche seien kann. Sobald in einer Fläche zwei Tangenten, 
+die nicht parallel zueinander sind, existieren, ist eine perfekt senkrechte Ausrichtung unmöglich. Eine Krümmung sollte dementsprechend so gering wie möglich sein. 
+
+\begin{figure}[t]
+        \centering
+        \begin{tikzpicture}[scale=6]
+            \draw[thick,->] (0,0) -- (2,0) node[anchor=north east]{$x$};
+            \def\x{.5}
+            \draw[thick,->] (0,0) -- (0,1) node[anchor=north west]{$y$};
+            \draw[blue, very thick] (0,0) to [out=45,in=135] (2,0);
+            \draw[magenta, very thick,->] (0.25,0.225) -- (0.75,0.425) node[anchor=south]{$t_1$};
+            \draw[magenta, very thick,->] (1.25,0.425) -- (1.75,0.225) node[anchor=south]{$t_2$};
+            \draw (1,0.41) circle[radius=0.5pt];
+            \fill (1,0.41) circle[radius=0.5pt];
+        \end{tikzpicture}
+        \caption[Darstellung von Tangenten in einer gekrümmten Fläche]{Darstellung von Tangenten in einer gekrümmten Fläche}
+            \label{Darstellung von Tangenten in einer gekrümmten Fläche}
+    \end{figure}
+
+
+Dieses Kapitel erklärt, wie in einem Bauteil kohärente und zusammenhängende Flächen gefunden werden. Dafür wird ein Bauteil durch zufällig auf der Oberfläche verteilte Punkte $p \in \mathbb{R}^{3}$ dargestellt. 
+Eine Menge $\mathbb{R}^{3xN}$ dieser Punkte wird Punktwolke genannt.
+Es werden in dieser Arbeit mehrere tausend Punkte benutzt, um ein Bauteil mit einer Punktwolke darzustellen. 
+Danach wird die Punktwolke in mehrere kleinere Gruppen aufgeteilt.
 
 \smallskip
 
-Dieses Kapitel erklärt, wie in einem Bauteil kohärente Flächen gefunden werden. Dafür wird ein Bauteil durch zufällig auf der Oberfläche verteilte Punkte $p \in \mathbb{R}^{3}$ dargestellt. Eine Menge $\mathbb{R}^{3xN}$ dieser Punkte wird Punktwolke genannt.
-Es werden mehrere tausend Punkte benutzt, um ein Bauteil mit einer Punktwolke darzustellen. Danach wird die Punktwolke in mehrere kleinere Gruppen aufgeteilt.
-
-\smallskip
-
-Eine Aufteilung von Datenpunkten in Gruppen wird Clustering genannt. Die Aufteilung in Gruppen basiert auf den Werten der Datenpunkte, Daten mit ähnlichen Werten kommen generell in dieselbe Gruppe. Die Gruppen werden auch Cluster genannt. 
-Was Ähnlichkeit bedeutet kommt auf die Implementierung an, aber ein häufiges Ähnlichkeitsmaß ist die räumliche Distanz.
+Eine Aufteilung von Datenpunkten in Gruppen wird Clustering genannt, eine Gruppe ist ein Cluster. Die Aufteilung in Gruppen basiert auf den Werten der Datenpunkte, Daten mit ähnlichen Werten kommen generell in dieselbe Gruppe. Die Gruppen werden auch Cluster genannt. 
+Was Ähnlichkeit bedeutet ist unterschiedlich, aber ein häufiges Ähnlichkeitsmaß und das Ähnlichkeitsmaß, welches in dieser Arbeit benutzt wird, ist die euklidische Distanz. Euklidische Distanz ist die Distanz zweier Punkt in einer Ebene oder in einem Raum.
+Die Distanz, die sie beschreibt, ist die Länge der minimalen Strecke zwischen zwei Punkten. Wenn $p = (p_1, p_2, ... , p_i)$ und $q = ((q_1, q_2, ... , q_i))$ Koordinaten in einem i-Dimensionalen Raum sind, dann ist die euklidische Distanz gleich
+$\sqrt{\sum_{i=1}^{n}(q_i - p_i)^2}$.
 
 \begin{figure}[t]
     \centering
@@ -25,20 +55,26 @@ Was Ähnlichkeit bedeutet kommt auf die Implementierung an, aber ein häufiges �
     \quelle\url{https://i.stack.imgur.com/cIDB3.png}
 \end{figure}
 
+
 In der Abbildung \ref{Clustering von verstreuten zweidimensionalen Punkten} sind zwei zweidimensionale Punktwolken. Die linke ist nicht geclustert, die rechte ist geclustert, beide stellen dieselbe Punktwolke dar.
-Die rechte Punktwolke ist mit drei Farben markiert, Punkte derselben Farbe sind im selben Cluster. In der rechten Punktwolke ist das Ergebnis von einem Clustering verfahren dargestellt, 
-alle Punkte in einer Gruppe sind räumlich gesehen ähnlich zueinander.
+Die rechte Punktwolke ist mit drei Farben markiert, Punkte derselben Farbe sind im selben Cluster. In der rechten Punktwolke ist das Ergebnis von einem Clustering verfahren dargestellt. 
+Clustering ist ein verfahren, mit dem ein Satz an Daten in Gruppen eingeordnet wird. Die Elemente einer Gruppe sind sich innerhalb ähnlicher als Elemente aus anderen Gruppen. Es lässt sich auf der rechten Seite der Abbildung \ref{Clustering von verstreuten zweidimensionalen Punkten}
+erkennen, dass alle Punkte einer Farbe nahe beieinander sind. Außerdem kann man eine klare Trennung zwischen den Farben erkennen. Es gibt keine Ausnahmen, wo ein Punkt der einen Farbe in dem Bereich einer anderen Farbe ist. Es lässt keine Ausnahmen zu.
+Clustering wird benutzt, um Konzentrationen von ähnlichen Punkten zu finden.
 
 \section{Clustering nach Normalvektoren in Bauteilen}
 \label{Clustering nach Normalvektoren in Bauteilen}
 
-Um zu Messen, ob zwei Punkte Teil derselben Fläche sein sollen, muss die Ausrichtung eines Punktes gemessen werden. Punkte mit einer ähnlichen Ausrichtung gehören zu derselben Fläche. Mit der Ausrichtung eines Punktes ist ein Vektor, 
-der von der Oberfläche des Bauteils an, genau der Position eines Punktes, senkrecht nach oben geht gemeint. Solche Vektoren werden Normalvektor genannt.
+\subsection{Normalvektoren}
+\label{Normalvektoren}
 
+Um zu Messen, ob zwei Punkte Teil derselben Fläche sein sollen, muss die Ausrichtung eines Punktes gemessen werden. Punkte mit einer ähnlichen Ausrichtung gehören zu derselben Fläche. Mit der Ausrichtung eines Punktes ist ein Vektor, 
+der, wenn man eine Ebene, die genau die Steigung des Punktes hat und so tangential zu ihm ist nimmt, wäre die Ausrichtung des Punktes Senkrecht zu dieser Ebene. Solche Vektoren werden Normalvektor genannt. Es sind nur die Normalvektoren relevant, 
+die einen dazugehörigen Punkt in der Punktwolke des Bauteils haben.
 
     \begin{figure}[t]
         \centering
-        \begin{tikzpicture}[scale=5]
+        \begin{tikzpicture}[scale=6]
             \draw[thick,->] (0,0) -- (2,0) node[anchor=north east]{$x$};
             \def\x{.5}
             \draw[thick,->] (0,0) -- (0,1) node[anchor=north west]{$y$};
@@ -59,12 +95,21 @@ Die Normalvektoren werden für jeden Punkt anhand der Oberfläche des Bauteils b
 \smallskip
 
 Eine Aufteilung der Normalvektoren in Cluster ist notwendig, um Flächen zu erkennen. Dafür werden die Normalvektoren als dreidimensionale Punkte dargestellt, die euklidische Distanz zwischen den Normalvektoren gib ihre Ähnlichkeit an. 
-Für das Aufteilen in Cluster wird ein Algorithmus benutzt, der mit einem Cluster startet, dass alle Normalvektoren beinhaltet und über mehrere Iterationen die Gruppe immer wieder aufteilt, bis jede Gruppe eine voreingestellte Ähnlichkeit aufweist.
-Der benutze Algorithmus für das Clustering wurde in der Arbeit \cite{DBScann} erarbeitet.
+Punkte mit ähnlichem Normalvektor haben eine ähnliche Ausrichtung uns sollte teil derselben Fläche sein. Die Darstellung als dreidimensionale Punkte erlaubt funktioniert nur, wenn alle Normalvektoren normiert sind. Ein normierter Vektor hat eine Länge von 1. 
+
+\subsection{Hierarchisches Clustering}
+\label{Hierarchisches Clustering}
+
+Viele Methoden des Clusterings benötigen eine vorgegebene Anzahl an Gruppen, in die sie die Punkte enteilen sollen. Es muss davon ausgegangen werden, dass bei einem Bauteil die Anzahl der Flächen die gefunden werden können unbekannt ist.
+Das macht Methoden, die eine Anzahl an Gruppen benötigen ungeeignet. Stattdessen wird eine Methode genutzt, die mit allen Datenpunkten zum Start Ihre eigene Gruppe haben, sodass es für jeden Datenpunkt eine Gruppe gibt. 
+Die ähnlichsten zwei Gruppen werden dann zusammengefügt.
+Auf diesen Gruppen wird der Vorgang wiederholt, bis das Zusammenfügen von Gruppen immer einen vor der Ausführung festgelegten Wert an Differenz überschreitet. Es passt so die Anzahl der Gruppen dem Bauteil an. 
+Dieses Vorgehen wird Hierarchie Clustering genannt.
+
 
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=0.5]{bilder/Hierachie.png}
+    \includegraphics[scale=0.6]{bilder/Hierachie.png}
     \caption[Beispiel von Hierarchie Clustering als Dendrogramm]{Beispiel von Hierarchie Clustering als Dendrogramm}
             \label{Beispiel von Hierarchie Clustering als Dendrogramm}
 \end{figure}
@@ -78,20 +123,29 @@ In der Abbildung \ref{Beispiel von Hierarchie Clustering als Dendrogramm} stoppt
 
 \smallskip
 
+Das Zusammenfügen von Gruppen basiert auf Ähnlichkeit der Gruppen. In jedem Schritt werden die ähnlichsten Gruppen zusammengefasst. Die Ähnlichkeit zwischen Gruppen wird über die Ward Methode bestimmt \cite{Ward}. Diese Methode vereinigt die zwei Gruppen,
+mit dem geringsten Anstieg an Varianz. Dafür wird für jede Gruppe $G$ die Varianz mittels $\sum_{i \in G}(||\overline{x} - x_i||^2)$ bestimmt. $\overline{x}$ ist dabei der Durchschnitt aller Punkte in G. Der Veränderung der Varianz bei dem Zusammengefügen
+zweier Gruppen $A,B$ kann durch $\sum_{i \in A \bigcup B}(||\overline{x} - x_i||^2) - \sum_{i \in G}(||\overline{x} - x_i||^2) - \sum_{i \in G}(||\overline{x} - x_i||^2)$ bestimmt werden. Von der Varianz der zusammengefügten Gruppen wird die Varianz der 
+beiden einzelnen Gruppen abgezogen, das Ergebnis ist die Erhöhung der Varianz durch das Zusammenfügen von A und B. Die Gruppen zwischen denen diese Erhöhung minimal ist, werden zusammengefasst.
+
+\smallskip
+
 Auf diese Art und Weise werde die Cluster zwischen Normalvektoren gesucht. Alle Normalvektoren, die in einem Cluster sind, sind so ähnlich, dass das hierarchische Clustering sie nicht weiter zusammengefügt hat. 
-Der Distanzwert auf der y-Achse in \ref{Beispiel von Hierachie Clustring als Dendrogramm} dient dabei als Fehlermaß für die Flächen. Wenn das Fehlermaß null ist, werden nur Flächen gefunden, die absolut Flach sind, 
-aber bei komplexen Bauteilen ist es notwendig ein höherer Fehler zuzulassen, um gebogene Flächen zu finden.
+Der Distanzwert auf der y-Achse in \ref{Beispiel von Hierarchie Clustering als Dendrogramm} dient dabei als Fehlermaß für die Flächen. Wenn das Fehlermaß null ist, werden nur Flächen gefunden, die absolut Flach sind, 
+aber bei komplexen Bauteilen ist es notwendig ein höherer Fehler zuzulassen, um gebogene Flächen zu finden. Bei komplexen Bauteilen würde die Suche nach ausschließlich gerade Flächen in sehr viele extrem kleinen Flächen resultieren, 
+da viele Bauteile keine gerade Flächen haben werden. Eine Abweichung zuzulassen ist also sinnvoll.
 
 
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=0.5]{bilder/Normal_Cluster.png}
+    \includegraphics[scale=0.7]{bilder/Normal_Cluster.png}
     \caption[Hierarchisches Clustering eines Bauteils nach Normalvektor]{Hierarchisches Clustering eines Bauteils nach Normalvektor}
             \label{Hierarchisches Clustering eines Bauteils nach Normalvektor}
 \end{figure}
 
 Das Clustering nach Normalvektoren ist nur geeignet um Flächen zu finden, die, innerhalb des Distanzwertes als Fehlermaß, Flach sind. Das Clustering gibt keine Garantie, dass die gefundenen Flächen kohärent sind. In Abbildung \ref{Hierarchisches Clustering eines Bauteils nach Normalvektor}
-ist sichtbar, dass die in Grün markierten Flächen, parallel zueinander, aber nicht kohärent miteinander sind. Die Flächen die in Grün markiert sind, sind Teil desselben Clusters, aber sollten es nicht sein. 
+ist sichtbar, dass die in Grün markierten Flächen, parallel zueinander, aber nicht kohärent miteinander, sind. Die Flächen die in Grün markiert sind, sind Teil desselben Clusters, aber sollten es nicht sein. 
+Die roten Punkte markieren das Bauteil, in dem die Flächensuche durchgeführt wurde. 
 
 \smallskip
 
@@ -100,12 +154,18 @@ Der nächste Abschnitt \ref{Separation von parallelen Flächen} beschäftigt sic
 \section{Separation von parallelen Flächen}
 \label{Separation von parallelen Flächen}
 
-Alle Flächen in einem Cluster des Normalvektorclusterings aus Abschnitt \ref{Clustering nach Normalvektoren in Bauteilen} sind in etwa parallel, aber räumlich voneinander getrennt. Das macht sie ungeeignet für die Bildung einer Ausrichtung in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung}. 
+Alle Flächen in einem Cluster des Normalvektorclusterings aus Abschnitt \ref{Clustering nach Normalvektoren in Bauteilen} sind in etwa parallel, aber räumlich voneinander getrennt. 
+Das macht sie ungeeignet für die Bildung einer Ausrichtung in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung}. In Abbildung \ref{Hierarchisches Clustering eines Bauteils nach Normalvektor} lässt sich erkenne, 
+dass die Punkte, die kohärente Flächen Bilden immer sehr dicht beieinander sind. Zwischen den erkennbaren Flächen sind große Lücken ohne Punkte. Die Dichte der Punkte kann somit genutzt werden, um die einzelnen Flächen voneinander zu trennen.
 
 \smallskip
 
-Die räumliche Trennung zwischen den Flächen in einem Cluster kann genutzt werden, um sie zu trennen. Dafür wird ein weiterer Clustering-Algorithmus genutzt. Der Algorithmus benötigt einen Radius und eine Mindestanzahl an Nachbarn. 
-Der Radius wird $esp$ und die Mindestanzahl an Nachbarn wird $minPts$ in Abbildung \ref{Beispielhafte Darstellung von DB-Scan Algorithmus} genannt.
+DB-Scan ist eine Dichte basierender Clustering Methode. Es braucht wenig Informationen über die zu gruppierenden Daten, funktioniert auf Clustern jeglicher Form und ist auch auf großen Datensätzen effektiv \cite{DBScann}.
+
+\smallskip
+
+Die räumliche Trennung zwischen den Flächen in einem Cluster kann genutzt werden, um sie zu trennen. Dafür wird der DB-Scan Algorithmus verwendet. DB-Scan benötigt einen Radius und eine Mindestanzahl an Nachbarn. 
+Der Radius wird $esp$ und die Mindestanzahl an Nachbarn wird $minPts$ in Abbildung \ref{Beispielhafte Darstellung von DB-Scan Algorithmus} genannt. Die Eingabe muss relativ zu der Dichte der Flächen bestimmt werden.
 
 \begin{figure}[t]
     \centering
@@ -115,19 +175,25 @@ Der Radius wird $esp$ und die Mindestanzahl an Nachbarn wird $minPts$ in Abbildu
     \quelle\url{https://machinelearninggeek.com/wp-content/uploads/2020/10/image-58.png}
 \end{figure}
 
-Die Abbildung \ref{Beispielhafte Darstellung von DB-Scan Algorithmus} ist ein Beispiel für die Funktion von dem DB-Scan Algorithmus, der im Folgenden erklärt wird. 
-Der Algorithmus nimmt einen Punkt, der in keinem Cluster ist und überprüft, wie viel Punkte in einem Radius $esp$ um ihn herum sind. Wenn innerhalb des Radiuses mindestens $minPts$ viele Punkte sind, dann ist der Punkt ein Kernpunkt (Core Point) eines neuen Clusters.
+
+Die Abbildung \ref{Beispielhafte Darstellung von DB-Scan Algorithmus} zeigt ein Beispiel für die Funktion von dem DB-Scan Algorithmus, der im Folgenden erklärt wird. 
+Der Algorithmus nimmt einen Punkt, der in keinem Cluster ist und überprüft, wie viel Punkte in einem Radius $esp$ um ihn herum sind. Wenn innerhalb des Radiuses mindestens $minPts$ viele Punkte sind, dann ist der Punkt ein Kernpunkt (engl. Core Point) eines neuen Clusters.
 Alle Punkte, die in dem Radius des Punktes sind, werden Teil des Clusters und genauso überprüft, wie der Startknoten des Clusters. Dieses Vorgehen wird fortgeführt, bis keine Punkte mehr hinzugefügt werden können. Wenn ein Punkt Teil des Clusters ist, 
-aber nicht mindestens $minPts$ viele Punkte in seiner Nachbarschaft hat, dann ist dieser Punkt ein Randpunkt (Borderpoint), aber immer noch teil des Clusters.
+aber nicht mindestens $minPts$ viele Punkte in seiner Nachbarschaft hat, dann ist dieser Punkt ein Randpunkt (engl. Borderpoint), aber immer noch teil des Clusters.
 Wenn weniger als $minPts$ innerhalb des Radiuses sind, dann gilt der Punkt als Noise. Das bedeutet aber nicht unbedingt, dass der Punkt Noise bleibt. Er kann auch zu einem Randpunkt eines Noch nicht existierenden Clusters werden.
 Es werden so lange neue Punkte außerhalb von Clustern gewählt, bis alle Punkte Teil eines Clusters oder Noise sind.
 
 \smallskip
 
 Alle Flächen innerhalb eines Cluster der Normalvektoren sind räumlich getrennt. Wenn der Algorithmus auf die vorher gefunden Cluster angewandt wird, findet er kohärente Flächen als Cluster: In diesen Flächen liegen die Punkte sehr nahe beieinander, 
-wodurch die Punkte in der Fläche meistens die $minPts$ Bedingung erfüllen. Andere Flächen werden wahrscheinlich nicht innerhalb von $esp$ der Randpunkte einer Fläche liegen. Das bedeutet, es gibt keine Garantie, dass alle Flächen getrennt werden, 
+wodurch die Punkte in der Fläche meistens die $minPts$ Bedingung erfüllen. Andere Flächen werden wahrscheinlich nicht innerhalb von $esp$ der Randpunkte einer Fläche liegen. Es gibt keine Garantie, dass alle Flächen getrennt werden, 
 aber in den meisten Fällen wird es passieren.
+Ein kleinerer Radius verringert die Chance die Trennung von zwei Flächen zu übersehen, aber benötigt auch mehr Punkte, um verlässlich zu funktionieren. Mit zu wenigen Punkten könnte eine ununterbrochene Fläche fehlerhaft getrennt werden.
+Die Erhöhung der Punkte führt außerdem zu einer erhöhten Rechenzeit. DB-Scan ist auch auf großen Datensätzen effizient, mit einer Zeit Komplexität Relativ zu der Eingabelänge von $O(n \log n)$ \cite{gunawan2013faster}. 
+Davor muss das hierarchische Clustering aus Abschnitt \ref{Hierarchisches Clustering} ausgeführt werden. Es hat eine Zeitkomplexität von $O(n^2)$ \cite{day1984efficient}. 
+Mit einer quadratischen Zeitkomplexität ist das Clustern auf den Normalvektoren der Problempunkt, durch den eine die gesamte Flächensuche eine Zeitkomplexität von $O(n^2)$ hat.
 
 \smallskip
 
-Zuletzt werden von den finalen Clustern alle aussortiert, die eine bestimmte Punktanzahl unterschreiten. Flächen mit zu wenigen Punkten würden schwer zu verarbeiten sein, daher ist es einfacher sie nicht zu betrachten.
+Zuletzt werden von den finalen Clustern alle aussortiert, die eine bestimmte Punktanzahl unterschreiten. Flächen mit zu wenigen Punkten würden schwer zu verarbeiten sein, daher ist es einfacher sie nicht zu betrachten. 
+Der Verlust an Punkten dadurch wird nur gering sein. Für eine echte Teilausrichtung dürften allerdings keine Punkte verloren gehen. Jeder Punkt muss gedruckt werden. Das Problem ließe sich im Realfall lösen, indem das Aussortieren weggelassen wird.

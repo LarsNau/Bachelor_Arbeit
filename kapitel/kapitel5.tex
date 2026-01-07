@@ -2,11 +2,11 @@
 % TU Dortmund, Informatik Lehrstuhl VII
 %========================================================================================
 
-\chapter{Fazit}
-\label{Fazit und Ausblick}
+\chapter{Zusammenfassung und Ausblick}
+\label{Zusammenfassung und Ausblick}
 
-\section{Fazit}
-\label{Fazit}
+\section{Zusammenfassung}
+\label{Zusammenfassung}
 
 In dieser Arbeit wurde zunächst die Notwendigkeit der Ausrichtung von Bauteilen in der additiven Fertigung erläutert. Dabei wurde ganz besonders auf die zusätzlichen Herausforderungen bei dem 5D Druck eingegangen, in dem die Ausrichtung eine größere Rolle spielt, 
 da die Ausrichtung eines Bauteils mehrmals während des Druckens geändert werden kann.
@@ -18,15 +18,16 @@ Anschließend wurde ein neuronales Netz als Lösungsansatz vorgestellt, welches 
 \smallskip
 
 Schließlich wurden Test auf dem beschrieben neuronalen Netz durchgeführt und ihre Ergebnisse wurden ausgewertet. Daraus ergab sich, dass das Netz in der Lage ist, Bauteile mit einer akzeptablen, aber bei weitem nicht perfekten, Genauigkeit auszurichten. 
-Eine Abweichung von unter 10° ist in den meisten Fällen erreicht worden.
+Eine Abweichung von unter 10 Grad ist im Durchschnitt erreicht worden.
 Eine solche Genauigkeit ist nicht optimal, aber dennoch ausreichend, um die Vorteile der Ausrichtung in der additiven Fertigung zu nutzen. Auch auf komplexeren Bauteilen konnte das Netz verlässlich akzeptable Ergebnisse erzielen, 
-was auf eine gute Generalisierbarkeit des Netzes hinweist. Eine durchschnittliche Abweichung von unter 10 Grad ist für den Praxisfall häufig zu viel. 10 Grad reichen aus, um einer Fläche einen Überhang zu geben, was dem Sinn des 5d-Drucks widersprechen würde.
-Das Ergebnis, wenn die Minimierung der Bewegung ignoriert wird ist in der Hinsicht vielversprechender mit 5 Grad. Es würde allerdings auch eine signifikante Erhöhung der Druckzeit mit sich bringen, da siech die Bewegung für jede Ausrichtung mehr als verdoppelt hat.
+was auf eine gute Generalisierbarkeit des Netzes hinweist. Eine durchschnittliche Abweichung von 10 Grad ist für den Praxisfall häufig zu viel. 10 Grad reichen aus, um einer Fläche einen Überhang zu geben, was dem Sinn des 5d-Drucks widersprechen würde.
+Das Ergebnis, wenn die Minimierung der Bewegung ignoriert wird ist in der Hinsicht vielversprechender mit 5 Grad. Es würde allerdings auch eine signifikante Erhöhung der Druckzeit mit sich bringen, da sich die Bewegung für jede Ausrichtung mehr als verdoppelt hat.
 Die Ausrichtung ist in beiden Fällen nicht perfekt, für eine praktische Anwendung würde man bessere Ergebnisse wollen, aber Neurale Netz sind dennoch in der Lage eine Ausrichtung mit akzeptabler Abweichung zu finden.
 
 \smallskip
 
-Die Minimierung der Bewegung des Bauteils während des Ausrichtens hatte eine kleine, aber sichtbaren Verkleinerung der benötigten Drehung ergeben. Der durchschnittliche Winkel, um den ein Teil gedreht werden muss, lag bei unter 40°. Ohne die Minimierung würde der durchschnittliche Drehwinkel bei über 45° liegen, also zufällig zwischen 0 und 90 Grad.
+Die Minimierung der Bewegung des Bauteils während des Ausrichtens hatte eine kleine, aber sichtbaren Verkleinerung der benötigten Drehung ergeben. Der durchschnittliche Winkel, um den ein Teil gedreht werden muss, lag bei unter 40 Grad. 
+Ohne die Minimierung würde der durchschnittliche Drehwinkel bei über 45 Grad liegen, also zufällig zwischen 0 und 90 Grad.
 Auch wenn die Verbesserung durch die Minimierung der Bewegung nicht sehr groß ist, so ist sie dennoch relevant, da jede eingesparte Drehung die Druckzeit verringert. Es ist kein anderes Verhalten bei komplexen Bauteilen zu sehen gewesen.
 Insgesamt, ist die Verbesserung über dem Zufall nicht sehr groß, aber eine extreme Verbesserung über dem Fall, in dem die Bewegung des Bauteils ignoriert wurde.
 

@@ -1,1 +1,2 @@
 {"rule":"KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ","sentence":"^\\QDer benutze Algorithmus für das Clustering wurde in der Arbeit \\E(?:Dummy|Ina|Jimmy-|Dummy-|Maniquí-|Maniquíes-|Dummy\\+|Dummy's\\+)[0-9]+$"}
+{"rule":"MEIN_KLEIN_HAUS","sentence":"^\\QBei komplexen Bauteilen würde die Suche nach ausschließlich gerade Flächen in sehr viele extrem kleinen Flächen resultieren, da viele Bauteile keine gerade Flächen haben werden.\\E$"}
