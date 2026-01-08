@@ -2,16 +2,17 @@
 [0] Config.pm:311> INFO - Logfile is 'LS7-Abschlussarbeit.blg'
 [86] biber-MSWIN64:340> INFO - === 
 [120] Biber.pm:420> INFO - Reading 'LS7-Abschlussarbeit.bcf'
-[202] Biber.pm:994> INFO - Found 7 citekeys in bib section 0
-[212] Biber.pm:4463> INFO - Processing section 0
-[222] Biber.pm:4654> INFO - Looking for bibtex file 'Literatur.bib' for section 0
-[273] bibtex.pm:1713> INFO - LaTeX decoding ...
-[282] bibtex.pm:1519> INFO - Found BibTeX data source 'Literatur.bib'
-[340] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
-[340] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[340] Biber.pm:4283> INFO - Sorting list 'anyt/global//global/global/global' of type 'entry' with template 'anyt' and locale 'de-DE'
-[340] Biber.pm:4289> INFO - No sort tailoring available for locale 'de-DE'
-[350] bbl.pm:676> INFO - Writing 'LS7-Abschlussarbeit.bbl' with encoding 'UTF-8'
-[353] bbl.pm:779> INFO - Output to LS7-Abschlussarbeit.bbl
-[354] Biber.pm:131> WARN - BibTeX subsystem: C:\Users\larsn\AppData\Local\Temp\biber_tmp_LUfY\fe6d16e8a0935a16f008a64fa11444f8_17140.utf8, line 5, warning: 1 characters of junk seen at toplevel
-[354] Biber.pm:133> INFO - WARNINGS: 1
+[208] Biber.pm:994> INFO - Found 15 citekeys in bib section 0
+[223] Biber.pm:4463> INFO - Processing section 0
+[233] Biber.pm:4654> INFO - Looking for bibtex file 'Literatur.bib' for section 0
+[281] bibtex.pm:1713> INFO - LaTeX decoding ...
+[296] bibtex.pm:1519> INFO - Found BibTeX data source 'Literatur.bib'
+[404] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[404] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[404] Biber.pm:4283> INFO - Sorting list 'anyt/global//global/global/global' of type 'entry' with template 'anyt' and locale 'de-DE'
+[404] Biber.pm:4289> INFO - No sort tailoring available for locale 'de-DE'
+[420] bbl.pm:676> INFO - Writing 'LS7-Abschlussarbeit.bbl' with encoding 'UTF-8'
+[429] bbl.pm:779> INFO - Output to LS7-Abschlussarbeit.bbl
+[429] Biber.pm:131> WARN - Duplicate entry key: 'shahrubudin2019overview' in file 'Literatur.bib', skipping ...
+[429] Biber.pm:131> WARN - BibTeX subsystem: C:\Users\larsn\AppData\Local\Temp\biber_tmp_wfrb\fe6d16e8a0935a16f008a64fa11444f8_50620.utf8, line 5, warning: 1 characters of junk seen at toplevel
+[429] Biber.pm:133> INFO - WARNINGS: 2

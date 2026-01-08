@@ -8,17 +8,29 @@
 \section{Motivation und Hintergrund}
 \label{Motivation_und_Hintergrund}
 
-Die additive Fertigung ist ein Feld mit viel Potenzial. Es ist eine Technologie, die in der Fertigung immer wichtiger wird. Schnelle Produktion von Prototypen und Ersatzteilen sind nur einige der Anwendungsbereiche von dem 3d-Druck.
+Die additive Fertigung ist ein Feld mit viel Potenzial. Es ist eine Technologie, die in der Fertigung immer wichtiger wird. Schnelle Produktion von Prototypen und Ersatzteilen sind nur einige der Anwendungsbereiche von dem 3d-Druck \cite{fastermann20123d}.
 Allerdings gibt es noch Probleme, zum Beispiel mit der strukturellen Integrität von Bauteilen oder der Materialverschwendung durch Stützstrukturen. Der 5d-Druck biete eine Möglichkeit beide Probleme zu adressieren, 
-indem das Bauteil während des Drucks gedreht wird. Dadurch ist es im 3d-Druck möglich Ausrichtungen für einzelnen Flächen eines Bauteils zu wählen.
+indem das Bauteil während des Drucks gedreht wird. Dadurch ist es im 5d-Druck möglich Ausrichtungen für einzelnen Flächen eines Bauteils zu wählen, indem die Platform auf der das Bauteil platziert wird, sich in zwei Achsen kippen kann.
 Um eine optimale Ausrichtung zu finden, gibt es bis jetzt noch keine weit anerkannte automatische Lösung. Eine Möglichkeit ist die Verwendung von neuronalen Netzen, um eine optimale Ausrichtung zu schätzen.
+Die Abbildung \ref{Beispiel für einen 5d-Drucker} zeigt einen 5d-Drucker. Es lässt sich erkenne, dass die Platform gekippt ist.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[scale=0.3]{bilder/5d-Drucker3.jpg}
+    \caption[Beispiel für einen 5d-Drucker]{Beispiel für einen 5d-Drucker}
+            \label{Beispiel für einen 5d-Drucker}
+    \quelle\url{https://i.ytimg.com/vi/B9sdrezl6AU/maxresdefault.jpg}
+\end{figure}
+
+Neurale Netze sind gut geeignet, Muster in Daten zu erkennen. Die Idee ist es die Informations-Verarbeitungsfähigkeit des menschlichen Gehirns zu auf einem Computer zu simulieren \cite{Wang2003}. 
+Das Gebiet der künstlichen Neuralen Netze hat sich bereits in vielen Anwendungsfällen, als verlässlich erwiesen. In der Bildverarbeitung werden es zum Beispiel verwendet, um Objekte in Bildern zu erkennen \cite{ketkar2021convolutional}.
 
 \smallskip
 
-Neurale Netze sind gut geeignet, Muster in Daten zu erkennen. Das Gebiet des maschinellen Lernens hat sich bereits in vielen Anwendungsfällen als verlässliche Lösung erwiesen.  In der Bildverarbeitung werden es zum Beispiel verwendet, um Objekte in Bildern zu erkennen. 
 Es ist daher naheliegend, dass sie auch verwendet werden können, um Muster in einer Menge an Raumpunkten zu erkennen. Eines Neurales Netz kann gut über Daten abstrahieren und auch für unbekannte komplexe Daten eine gute Lösung finden, wo klassische Algorithmen versagen könnten.
-Auch für die Ausrichtung von Bauteilen haben sich neurale Netze bereits als gute Lösung erwiesen. In dem Artikel \cite{PointNet++} wurde ein tiefes neurales Netz genutzt, um geometrische Objekte anhand von vorgegeben künstlichen Zielen auszurichten. 
-Eine Erweiterung dieser Vorgehensweise könnte für die Ausrichtung von Bauteilen im 5d-Druck genutzt werden.
+Auch für die Ausrichtung von Bauteilen haben sich neurale Netze bereits als gute Lösung erwiesen \cite{zelder2025learning}. Es wurde mit der PointNet Architektur \cite{qi2017pointnet} gezeigt, 
+dass Neurale Netze in der Lage seinen können eine Ausrichtung für einfache geometrische Strukturen zu finden. Wenn man diese Idee weiterentwickelt könnte sie eine genutzt werden, um Ausrichtungen für die Flächen eines Bauteils im 5d-Druck zu bestimmen.
+Zu diesem Zweck ist es notwendig lokale Merkmale zu erkennen, was die Nutzung von PointNet++ erfordert \cite{PointNet++}. Es ist im Gegensatz zu Pointnet in der Lage lokale Merkmale zu erkennen.
 
 \section{Aufbau der Arbeit}
 \label{Aufbau_der_Arbeit}
