@@ -5,6 +5,9 @@
 \chapter{Evaluation}
 \label{Evaluation}
 
+\section{Versuchsaufbau}
+\label{Versuchsaufbau}
+
 Bei Ausrichtung eines Bauteils ist in den meisten Fällen nicht perfekt. In diesem Kapitel wird behandelt wie gut das in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} erstellte Neurales Netz ein Bauteil ausrichten kann.
 Dafür wird nicht nur die Ausrichtung selber überprüft. Es wird auch die Größe der Rotationen untersucht, da das Drehen eines Bauteil Zeit kostet und die Minimierung dieser Drehung wie in \ref{Fertigungs-Geschwindigkeit} erwähnt eine Priorität ist.
 Außerdem wird die Fähigkeit des neuralen Netzes Fehler in den Daten zu widerstehen in Abschnitt \ref{Verlässlichkeit der Ausrichtung} überprüft und die Fähigkeit auf komplexen Bauteilen zu arbeiten in Abschnitt \ref{Generalisierbarkeit} getestet.
@@ -96,7 +99,7 @@ Punkte die nicht zu der Fläche gehören, aber dennoch in der Punktwolke der Fl�
 
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=0.5]{bilder/Rauschen2.png}
+    \includegraphics[scale=0.6]{bilder/Rauschen2.png}
     \caption[Test mit Noise auf dem Neuralen Netz]{Test mit Noise auf dem Neuralen Netz}
             \label{Test mit Noise auf dem Neuralen Netz}
 \end{figure}
@@ -126,7 +129,7 @@ Durch das Verwenden von Prozentsätzen wird sichergestellt, dass die Ergebnisse 
 
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=0.5]{bilder/Entfernen.png}
+    \includegraphics[scale=0.6]{bilder/Entfernen.png}
     \caption[Test von schlechter Flächensuche auf dem Neuralen Netz]{Test von schlechter Flächensuche auf dem Neuralen Netz}
             \label{Test von schlechter Flächensuche auf dem Neuralen Netz}
 \end{figure}
@@ -155,6 +158,35 @@ denn zerfällt die Idee, lokale Merkmale anhand Ihrer relativen Position zu ande
 Alle bisherigen Auswertungen wurden auf den gleichen Typen von Daten durchgeführt, auf denen das Netz auch trainiert wurde. Um die Verlässlichkeit des Netzes zu überprüfen wird in diesem Abschnitt getestet, ob das Netz auch auf komplexeren Bauteilen arbeiten kann.
 Für diesen Zweck wurden mehrere komplexe Bauteile getestet, komplex bedeutet in diesem Fall, dass die Bauteile nicht aus einfachen geometrischen Formen bestehen, sondern gebogene Flächen und komplexe Strukturen beinhalten.
 
+\begin{figure}[t]
+    \centering
+    \subfigure[]
+          {\includegraphics[scale=0.2]{bilder/Bunny.jpg}
+          \label{Stanford Bunny} 
+          \quelle\url{https://graphics.stanford.edu/data/3Dscanrep/stanford-bunny-cebal-ssh.jpg}
+    }
+    \hspace{0.5cm}%
+    \subfigure[]
+         {\includegraphics[scale=0.2]{bilder/dragon.jpg}
+         \label{Stanford Dragon}
+         \quelle\url{https://graphics.stanford.edu/data/3Dscanrep/dragon.jpg}
+    }
+    \hspace{0.5cm}%
+    \subfigure[]
+         {\includegraphics[scale=0.2]{bilder/Teapot.jpg}
+         \label{Utah Teapot}
+         \quelle\url{https://graphics.stanford.edu/data/3Dscanrep/dragon.jpg}
+    }
+    \caption[3d-Modelle der komplexen Bauteile]{3d-Modelle der komplexen Bauteile}
+        \label{3d-Modelle der komplexen Bauteile}
+    \end{figure}
+
+Die Abbildung \ref{3d-Modelle der komplexen Bauteile} sind die 3d-Modelle aller komplexen Bauteilen abgebildet. Die Abbildung A zeigt den Stanford Hasen (engl. Stanford Bunny). Es ist asymmetrisch und hat an den Ohren dünne gekrümmte Flächen. 
+Der gesamte Körper ist mit Fell bedeckt, dadurch wird eine schon gebogene Fläche mit mehreren Unebenheiten überdeckt. Der Stanford Drache ist ebenfalls asymmetrisch. Seine Oberfläche ist gebogen und ist durch viele Spitzen auf der Oberfläche nicht glatt.
+Es hat ebenfalls mehrere Stellen, wie der Kopf oder die Mitte des Körpers, an denen der Körper keine nahegelegene Stütze vom Körper selber hat. Zuletzt ist der Utah Teepott (engl. Utah Teapot) das einzige komplexe Bauteil, 
+was zum größten Teil symmetrisch ist. Der Teepott hat eine glatte Oberfläche, die häufig nicht gekrümmt ist. Die Bauteile eignen sich als Beispiel für komplexe Bauteile, da sie meistens aus unebenen und gebogenen Flächen bestehen.
+Der Teepott ist weniger komplex, aber immer noch komplexer als die einfachen Daten in dem Abschnitt \ref{Ausrichtung der Bauteile}. Es ist ein Alltagsgegenstand und kann als Vergleichswert dienen.
+
 \begin{table}[t]
 \centering
 \begin{tabular}{lrr}
@@ -174,4 +206,8 @@ Alle Angaben in der Tabelle \ref{table:Testergebnisse auf komplexen Bauteilen} s
 Es lässt sich erkennen, dass die Abweichung vom Optimum bei komplexen Bauteilen höher ist, als bei den einfachen Bauteilen, die in Abschnitt \ref{Ausrichtung der Bauteile} getestet wurden. Die Abweichung vom Optimum liegt bei allen komplexen Bauteilen bei etwa 11 Grad.
 Der geringe Unterschied zwischen den Ergebnissen der komplexen Bauteile lässt darauf schließen, dass die Auswahl der komplexen Bauteile eine gute Repräsentation für komplexe Bauteile im Allgemeinen ist. 
 Allerding ist die Bewegung des Bauteils bei dem Stanford Hasen deutlich geringer als bei den anderen beiden Bauteilen. Der Unterschied könnte daran liegen, dass der Stanford Hase nur eine Grundfläche hat. Grundflächen werden immer für hohe Bewegung sorgen, 
-da die optimale Ausrichtung meistens im 90 Grad Winkel zu der Grundfläche liegt. Der Stanford Drache und die Utah Teapot haben beide mehrere Grundflächen, was die Bewegung des Bauteils erhöhen könnte.
+da die optimale Ausrichtung meistens im 90 Grad Winkel zu der Grundfläche liegt. Der Stanford Drache und die Utah Teapot haben beide mehrere Grundflächen, was die Bewegung des Bauteils erhöhen könnte. 
+
+Der Teepott hat keine Signifikat anderen Ergebnisse, im Vergleich zu den anderen zwei Bauteilen, obwohl es eine deutlich einfacherer Form hat. Eine nach einer genaueren Untersuchung der Ausrichtung kann diese Verhalten dadurch erklärt werden, 
+dass die Flächensuche keine größeren Probleme mit der unebenen Fläche des Stanford Drachens oder Hasens hat. Auf unebenen Flächen werden immer noch Flächen ähnlicher Qualität wie auf glatten Flächen gefunden, sie sind aber meistens kleiner.
+

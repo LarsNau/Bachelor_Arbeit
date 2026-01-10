@@ -31,6 +31,11 @@ Sie kann sich nach unten bewegen, damit Platz für die nächste Schicht geschaff
 Der in Abbildung \ref{Schematische Darstellung eines 3d-Druckers} zusehen 3d Drucker ist ein Beispiel für den Aufbau eines 3d-Druckers. Es gibt 3d Drucker, die anders funktionieren, aber das Grundprinzip ist bei allen gleich.
 Alle haben eine Düse, die das Material ausgibt und diese Düse bewegt sich, um Schichten abzuarbeiten.
 
+\smallskip
+
+Bevor ein Objekt gedruckt werden kann, muss es in Schichten aufgeteilt werden. Das wird vor dem Drucken von Software erledigt. Für jede erstellte Schicht wird auf im Vorhinein ein Weg berechnet, mit dem die Düse die Schicht abfährt. 
+Diesen Vorgang nennt man "Slicing" (de. "In Scheiben Schneiden").
+
 \section{Überhang-Problem}
 \label{Überhang-Problem}
 
@@ -73,7 +78,8 @@ Die Geschwindigkeit, mit der eine Düse Material ausgeben kann, ist ebenfalls ei
 \end{figure}
 
 Ein weiterer Faktor ist die Höhe der einzelnen Schichten. In der Abbildung \ref{Darstellung der Unterschiede im Bauteil abhängig von der Höhe der Schichten} ist der Unterschied, den die Höhe der Schichten auf die Qualität des Bauteils hat, zu sehen. 
-Umso dünner die Schicht umso genauer wird das Bauteil gedruckt. Wenn die Dicke der Schichten verringert wird, werden mehr Schichten benötigt, was die Strecke, die die Düse abarbeiten muss, erhöht. Dadurch verlängert sich die Druckzeit. 
+Umso dünner die Schicht umso genauer wird das Bauteil gedruckt. Wenn die Dicke der Schichten verringert wird, werden mehr Schichten benötigt, was die Strecke, die die Düse abarbeiten muss, erhöht. Dadurch verlängert sich die Druckzeit.
+Der Pfad, den die Düse über eine Schicht nimmt, kann ebenfalls optimiert werden. Ein Düsenpfad (engl. "Toolpath") kann die Qualität und Geschwindigkeit stark beeinflussen \cite{zhuang2024comprehensive}. Ein längerer Pfad, den die Düse abarbeiten muss, resultiert in einer längeren Druckzeit.
 
 \section{5d-Druck}
 \label{5d-Druck}
