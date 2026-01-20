@@ -9,6 +9,7 @@
 \label{Motivation_und_Hintergrund}
 
 Die additive Fertigung ist ein Feld mit viel Potenzial. Es ist eine Technologie, die in der Fertigung immer wichtiger wird. Schnelle Produktion von Prototypen und Ersatzteilen sind nur einige der Anwendungsbereiche von dem 3d-Druck \cite{fastermann20123d}.
+Das Feld des 3d Drucks hat im Jahr 2025 einem Wachstum von 9,1 \% auf 21,9 Milliarden US-Dollar. Die Industrie zeigt seit 2009 konstantes Wachstum \cite{wohlers2025wohlers}.
 Allerdings gibt es noch Probleme, zum Beispiel mit der strukturellen Integrität von Bauteilen oder der Materialverschwendung durch Stützstrukturen. Der 5d-Druck biete eine Möglichkeit beide Probleme zu adressieren, 
 indem das Bauteil während des Drucks gedreht wird. Dadurch ist es im 5d-Druck möglich Ausrichtungen für einzelnen Flächen eines Bauteils zu wählen, indem die Platform auf der das Bauteil platziert wird, sich in zwei Achsen kippen kann.
 Um eine optimale Ausrichtung zu finden, gibt es bis jetzt noch keine weit anerkannte automatische Lösung. Eine Möglichkeit ist die Verwendung von neuronalen Netzen, um eine optimale Ausrichtung zu schätzen.
@@ -28,15 +29,23 @@ Das Gebiet der künstlichen Neuralen Netze hat sich bereits in vielen Anwendungs
 \smallskip
 
 Es ist daher naheliegend, dass sie auch verwendet werden können, um Muster in einer Menge an Raumpunkten zu erkennen. Eines Neurales Netz kann gut über Daten abstrahieren und auch für unbekannte komplexe Daten eine gute Lösung finden, wo klassische Algorithmen versagen könnten.
-Auch für die Ausrichtung von Bauteilen haben sich neurale Netze bereits als gute Lösung erwiesen \cite{zelder2025learning}. Es wurde mit der PointNet Architektur \cite{qi2017pointnet} gezeigt, 
+Auch für die Ausrichtung von Bauteilen haben sich neurale Netze bereits als gute Lösung erwiesen \cite{Datensatz}. Es wurde mit der PointNet Architektur \cite{qi2017pointnet} gezeigt, 
 dass Neurale Netze in der Lage seinen können eine Ausrichtung für einfache geometrische Strukturen zu finden. Wenn man diese Idee weiterentwickelt könnte sie eine genutzt werden, um Ausrichtungen für die Flächen eines Bauteils im 5d-Druck zu bestimmen.
 Zu diesem Zweck ist es notwendig lokale Merkmale zu erkennen, was die Nutzung von PointNet++ erfordert \cite{PointNet++}. Es ist im Gegensatz zu Pointnet in der Lage lokale Merkmale zu erkennen.
+
+\smallskip
+
+Das Ziel der Arbeit ist es zu bewerten, ob eine Teilausrichtung, basierend auf einem Neuralen Netz, eine praktikable Möglichkeit der Teilausrichtung ist. 
+Eine geringe Abweichung von der vorher berechneten optimalen Ausrichtung ist zu erreichen, eine möglichst geringe Bewegung, des Druckers ist ebenfalls wünschenswert.
 
 \section{Aufbau der Arbeit}
 \label{Aufbau_der_Arbeit}
 
-In dieser Arbeit wird versucht das Problem der Ausrichtung von Bauteilen im 5d-Druck durch die Verwendung von tiefen neuralen Netzen zu lösen. Begonnen wird mit der Aufteilung eines Bauteils in kohärente Flächen, 
+In dieser Arbeit wird versucht das Problem der Ausrichtung von Bauteilen im 5d-Druck durch die Verwendung von tiefen neuralen Netzen zu lösen. Als Datensatz werden künstliche generierte Objekt verwendet.
+Begonnen wird mit der Aufteilung eines Bauteils in kohärente Flächen, 
 wofür mehrere klassische Clustering verfahren genutzt werden. Anschließend wird ein Neurales Netz trainiert, dass die Flächen eines Bauteils auf Rotationen abbildet, die das Bauteil optimal für den 5d-Druck ausrichten.
-Für das Neurale Netz wird eine angepasste Version von einem Bereits existierenden Neuralem Netz für die Merkmalsextraktion verwendet \cite{PointNet++}. Zum Schluss wird die Leistung des neuronalen Netzes evaluiert, anhand der Ausrichtung auf unterschiedlichen Objekten
-und der Widerstandsfähigkeit gegen Störungen. 
+Für das Neurale Netz wird eine angepasste Version von einem Bereits existierenden Neuralem Netz für die Merkmalsextraktion verwendet \cite{PointNet++}. Danach wird die Leistung des neuronalen Netzes evaluiert, 
+anhand der Ausrichtung auf unterschiedlichen Objekten und der Widerstandsfähigkeit gegen Störungen. Es wird ebenfalls auf nicht künstlich generierten Daten getestet.
+
+Zuletzt wird diskutiert, ob die Ergebnisse darauf schließen lassen, ob Neurale Netze eine Praxisrelevante Ausrichtungsmethode darstellen.
 

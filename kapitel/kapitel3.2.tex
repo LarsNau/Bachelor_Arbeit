@@ -5,10 +5,14 @@
 \chapter{Punktwolkenverarbeitung zur Bauteilausrichtung}
 \label{Punktwolkenverarbeitung zur Bauteilausrichtung}
 
+\subsection{Ziel der Punktwolkenverarbeitung}
+\label{Ziel der Punktwolkenverarbeitung}
+
 Um ein Bauteil korrekt auszurichten, muss eine Fläche des Bauteils auf eine Ausrichtung abgebildet werden. Die Flächen in den Bauteilen wurden in Kapitel \ref{Flächensuche in  Bauteilen} identifiziert und als Punktwolken gespeichert.
 Punktwolken wurden im Kapitel \ref{Flächensuche in  Bauteilen} bereits beschrieben. Eine Punktwolke ist eine Menge an Punkten im 3D Raum, die zusammen eine Fläche oder ein Objekt darstellen.
 Die Ausrichtung die berechnet wird, wird Z-Invarianz genannt. Die Z-Invarianz ist ein $R^{3}$ Vektor, der die Rotation eines Bauteils beschreibt.
-Dieser Vektor sollte im optimalen Fall im 90 Grad Winkel zu dem Normalvektor einer Fläche liegen, damit die Fläche möglichst parallel zu der Achse der Druckerdüse ist. 
+Dieser Vektor sollte im optimalen Fall im 90 Grad Winkel zu dem Normalvektor einer Fläche liegen, damit die Fläche möglichst parallel zu der Achse der Druckerdüse ist. Eine Fläche, die parallel zu der Düse des Druckers ist, 
+minimiert den Überhang, den die Fläche haben kann. Der Normalvektor der Fläche ist aber ein Durchschnitt über die Ausrichtung aller Punkte in der Fläche. Wie die Ausrichtung der Punkte bestimmt wird, wird in Abschnitt \ref{Normalvektoren} erklärt.
 Wie aus der Z-Invarianz eine Rotationsmatrix erstellt wird, wird in Abschnitt \ref{Konstruktion der Ausrichtung} erklärt.
 
 \smallskip
@@ -23,10 +27,9 @@ Die Transformation der Punktwolken erfolgt über ein Neurales Netz. Ein Neurales
 Ein künstliches Neuron ist eine Funktion, die als Eingabe andere künstliche Neuronen oder echte Daten nimmt. 
 Die Eingabe des Neurons besteht aus den einzelnen Eingaben ($x_{i}$) multipliziert mit den Gewichten für die einzelnen Eingaben ($w_{i}$).
 
-\begin{figure}[h]
-    \centering
-    \begin{math} \sum_{ i = 1 }^{ n }{ x_{i} * w_{i} } = o_{j} \end{math}
-\end{figure}
+\begin{equation}
+    \sum_{ i = 1 }^{ n }{ x_{i} * w_{i} } = o_{j}
+\end{equation}
 
 Diese Funktion bildet die gewichteten Eingaben dann auf eine Ausgabe $o_{j}$ mittels Aktivierungsfunktion ab, 
 die entweder an ein weiteres Neuron übergeben wird, oder die Ausgabe des Netzes darstellt.
@@ -94,8 +97,8 @@ Die Struktur der Merkmalsextraktion basiert auf der Arbeit:  \cite{PointNet++}
 \smallskip
 
 Die generelle Struktur der Merkmalsextraktion ist eine wiederholte Folge an Reduzierungen auf den konkreten Daten der Punktwolke, gefolgt von einem kleinem voll verbundenen Neuralen Netz, was mit den konkreten Daten dieser Schicht Merkmale über mehrere Schichten hinweg konstruiert.
-In dem ersten Schritt in jeder Schicht werden Punkte aus der Punktwolke ausgewählt. Dafür wird ein Algorithmus eingesetzt, der eine Teilmenge der Ausgangspunkte auswählt, um eine Möglichst gute Abdeckung über die Ausgangspunkte zu erreicht (Farthest Point Sampling ).
-Die Methode "Farthest Point Sampling" wurde in dem Artikel \cite{Point} erstellt.
+In dem ersten Schritt in jeder Schicht werden Punkte aus der Punktwolke ausgewählt. Dafür wird ein Algorithmus eingesetzt, der eine Teilmenge der Ausgangspunkte auswählt, um eine Möglichst gute Abdeckung über die Ausgangspunkte zu erreicht (Farthest Point Sampling) \cite{Point}.
+
 
 \begin{figure}[t]
     \centering
@@ -112,10 +115,10 @@ In der Abbildung \ref{Schematische Darstellung von Merkmalsextraktionschichten} 
 dass um bestimmte Punkte nach diesem Schritt ein Radius gezeichnet ist, der die Nachbarn der ausgewählten Punkte darstellt.
 Wenn die Auswahl der Punkte $A$ ist und die gesamte Punktwolke $P$ ist, dann gilt:
 
-\begin{figure}[h]
-    \begin{math} A \Subset P, (E,V) = G, \end{math}
-    \begin{math} \forall \vec{a} \in A , \forall \vec{p} \in P: \left|  \left| \vec{a} - \vec{p}  \right| \right|_{2} \leq r \implies (p,a) \in E \end{math}
-\end{figure}
+\begin{align}
+    A \Subset P, (E,V) = G, \\
+    \forall \vec{a} \in A , \forall \vec{p} \in P: \left|  \left| \vec{a} - \vec{p}  \right| \right|_{2} \leq r \implies (p,a) \in E
+\end{align}
 
 Die ausgewählten Punkte werden als künstliche Neuronen genutzt. Dabei sind die Merkmale, die in den Punkten der Nachbarn gespeichert sind, die Eingabe für das künstliche Neuron. Die Gewichte für jede Eingabe werden erlernt, dafür wird ein Multi Layer Perceptor (MLP) genutzt.
 Der MLP lernt, wie die Gewichte für die oben bestimmten Kanten seinen sollen. Dafür nutz der MLP die relative Position von ausgewählten Punkten zu ihren Nachbarn. Ein MLP funktioniert wie ein voll verbundenes Netz, was in Abschnitt \ref{Punktwolken Transformation} erklärt wird.
@@ -147,10 +150,9 @@ Das Zufällige zurücksetzen von Eingaben verhinder eine zu große Abhängigkeit
 In jeder Schicht des Regressionsnetzes wird dieselbe Aktivierungsfunktion genutzt. In allen Schichten außer der letzten ist das $f(x) = \max(0,x)$ die als Rectifier oder ReLU bekannt ist. 
 Es ist eine der bekanntesten Aktivierungsfunktionen, unter anderem weil sie einfach, aber effektiv ist. Für die letzte Aktivierung wird dagegen 
 
-\begin{figure}[H]
-    \centering
-    $f(x) = \frac{\exp(x) - \exp(x)}{\exp(x) + \exp(x)}$ 
-\end{figure}
+\begin{equation}
+    f(x) = \frac{\exp(x) - \exp(x)}{\exp(x) + \exp(x)}
+\end{equation}
 
 genutzt. Diese Funktion wird tanh genannt.
 Sie hat den Vorteil, dass ihre Ausgabe immer zwischen -1 und 1 liegt, was genau das Intervall an Werten ist, die in einer Rotationsmatrix zugelassen sind. Die Ausgabe muss also nicht im korrigiert werden, um für eine Rotationsmatrix zulässig zu sein.
@@ -169,9 +171,7 @@ Die, in Abschnitt \ref{Regression auf Merkmalsvektor} berechnete, Z-Invarianz is
 Rotationsmatrizen sind, für den 3d Raum, 3 x 3 Matrizen, die durch Matrixmultiplikation eine Punktwolke drehen können.
 Eine Punktwolke bestehend aus mehreren Punkten  $(x_{i},y_{i},z_{i})$ kann wie folgt durch Matrixmultiplikation mit einer Rotationsmatrix $R$ gedreht werden.
 
-\begin{figure}[H]
-    \centering
-    \[ 
+\begin{equation}
     \begin{bmatrix}  
     x_1 & y_1 & z_1 \\  
     x_2 & y_2 & z_2 \\  
@@ -189,17 +189,15 @@ Eine Punktwolke bestehend aus mehreren Punkten  $(x_{i},y_{i},z_{i})$ kann wie f
     x_2' & y_2' & z_2' \\  
     \vdots & \vdots & \vdots \\  
     x_n' & y_n' & z_n' \\  
-    \end{bmatrix}  
-    \]
-\end{figure}
+    \end{bmatrix} 
+\end{equation}
 
 Dabei ist die Norm von jeder Zeile gleich Eins und jede Zeile ist, wenn man sie als Vektor betrachtet orthogonal zu den anderen Zeilen. Dasselbe gilt für Spalten.
 
-\begin{figure}[H]
-    \centering
-    $ \forall i \in \{1 , 2, 3 \}: \left|  \left| \begin{bmatrix} R_{1i} \\ R_{2i} \\ R_{3i} \end{bmatrix} \right| \right|_{2} = 1 $ \hspace{1cm}und\hspace{1cm}
-    $ \forall i \in \{1 , 2, 3 \}: \left|  \left| \begin{bmatrix} R_{i1} \\ R_{i2} \\ R_{i3} \end{bmatrix} \right| \right|_{2} = 1$
-\end{figure}
+\begin{align}
+    \forall i \in \{1 , 2, 3 \}: \left|  \left| \begin{bmatrix} R_{1i} \\ R_{2i} \\ R_{3i} \end{bmatrix} \right| \right|_{2} = 1 \\
+    \forall i \in \{1 , 2, 3 \}: \left|  \left| \begin{bmatrix} R_{i1} \\ R_{i2} \\ R_{i3} \end{bmatrix} \right| \right|_{2} = 1
+\end{align}
 
 Um aus dem 3d Vektor, der die Z-Invarianz darstellt, eine Rotationsmatrix zu erstellen, kann die Z-Invarianz selber als Zeile der Rotationsmatrix genommen werden. Die restlichen Zeilen müssen dann aus der ersten Zeile abgeleitet werden.
 Die Zeilen einer Rotationsmatrix müssen Orthogonal zueinander sein, daher muss für die anderen Zeilen Vektoren gefunden werden die Orthogonal zu der Z-Invarianz sind. Wenn zwei Vektoren gegeben sind, kann man aus ihnen eine Ebene bilden 
@@ -302,16 +300,14 @@ Daher wird überprüft, ob die Rotationsmatrix das Bauteil über diese Grenzen h
 
 
 
-    \begin{figure} [t]
-        \centering
-        \[
+    \begin{equation}
         \begin{bmatrix}  
         1 & 0 & 0 \\  
         0 & 1 & 0 \\  
         0 & 0 & -1
         \end{bmatrix}
-        \]
-    \end{figure}
+        \label{Spiegelmatrix}
+    \end{equation}
 
     \begin{figure}[t]
         \centering
@@ -345,7 +341,7 @@ Daher wird überprüft, ob die Rotationsmatrix das Bauteil über diese Grenzen h
             \label{Veränderung der Rotationmatrix durch die Spiegelmatrix}
     \end{figure}
 
-In der Abbildung \ref{Veränderung der Rotationmatrix durch die Spiegelmatrix} wird die Spiegelmatrix und die Veränderungen, die sie auf eine Rotationsmatrix wirkt dargestellt.
+In der Matrix \ref{Spiegelmatrix} wird die Spiegelmatrix gezeigt.In der Abbildung \ref{Veränderung der Rotationmatrix durch die Spiegelmatrix} wird die Veränderungen, die sie auf eine Rotationsmatrix wirkt dargestellt.
 Durch die Matrixmultiplikation mit der Spiegelmatrix, aus \ref{Veränderung der Rotationmatrix durch die Spiegelmatrix}, wird eine Rotationsmatrix in der XY-Ebene gespiegelt. Das hat den Effekt, dass sich das Bauteil um 180 Grad dreht. Da eine Spiegelung nötig war, galt vor der Spiegelung, dass der Betrag der Rotation mehr als 90 Grad ist. 
 Die Rotation ist also zwischen 90 und 180 Grad. Sie kann nicht höher sein, da eine sinnvolle Rotation nur von -180 bis 180 Grad gehen kann und so einen ganzen Kreis bildet. Wenn man die Rotation spiegelt, wird sie um 180 Grad gedreht, es gilt: 
 

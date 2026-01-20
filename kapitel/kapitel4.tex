@@ -22,13 +22,14 @@ Außerdem wird die Fähigkeit des neuralen Netzes Fehler in den Daten zu widerst
     \quelle\url{https://media.springernature.com/full/springer-static/image/art%3A10.1007%2Fs40964-025-00960-6/MediaObjects/40964_2025_960_Fig1_HTML.png}
 \end{figure}
 
-Alle Daten, die für die Auswertung benutzt werden, sind in dem Artikel: \cite{Datensatz} erstellt worden und dann wie in Kapitel \ref{Flächensuche in  Bauteilen} beschrieben verändert worden.
+Alle Daten, die für die Auswertung benutzt werden, sind in dem Artikel: \cite{Datensatz} erstellt worden und dann wie in Kapitel \ref{Flächensuche in  Bauteilen} beschrieben verändert worden. Die Daten sind künstlich generiert worden 
+und dementsprechend nicht echte Bauteile, sondern einfache geometrische Objekte, denen teilweise Löcher oder anderen Eigenschaften gegeben wurden.
 Die Abbildung \ref{Darstellung aller Typen von Bauteilen im Datensatz} stellt alle Typen von Bauteilen dar, die in dem Datensatz enthalten sind. Es gebt insgesamt 4 verschiedene Typen, die alle einfache geometrische Objekt sind.
 
-Die Typen sind von A bis D durchnummeriert. Die unterschiedlichen Typen sind: "Platten mit Löchern", "Platonischer Körper mit Inschriften", "Körper mit zwei Löchern" und "Pyramiden".
+Die Typen sind von A bis D durchnummeriert. Die unterschiedlichen Typen sind: "Platten mit Löchern", "Platonischer Körper mit Inschriften", "Körper mit mehreren Löchern" und "Pyramiden".
 
 Für alle Tests, in dem Abschnitt \ref{Effekt von Rauschen auf den Daten} und \ref{Effekt von schlechter Flächensuche}, werden 1000 zufällige Flächen aus dem Datensatz genommen. Diese Flächen werden wie in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} beschrieben gefunden. 
-Tests haben ergeben, dass das Verwenden von einem Datensatz mit mehr als 1000 Flächen keinen Einfluss auf das Ergebnis hat. 
+Tests haben ergeben, dass das Verwenden von einem Datensatz mit mehr als 1000 Flächen keinen signifikanten Einfluss auf das Ergebnis hat. 
 
 \section{Ausrichtung der Bauteile}
 \label{Ausrichtung der Bauteile}
@@ -40,7 +41,7 @@ Die Minimierung der Bewegung ist ebenfalls wichtig, da jede Drehung eines Bautei
 \centering
 \begin{tabular}{lrr}
 \toprule
-Bauteil & Gradabweichung vom Optimum & Bewegung des Bauteils\\
+Bauteil & Gradabweichung vom Optimum & Bewegung des Bauteils\\ 
 \midrule
 Platten mit Löchern & 10.12 & 23.56 \\ \addlinespace
 Platonischer Körper & 9.59 & 26.50 \\ \addlinespace
@@ -60,7 +61,7 @@ Andererseits sind die Platten mit Löchern die am schlechtesten abschneidenden B
 
 \smallskip
 
-Der vorherige Test wurde durchgeführt, sodass sowohl auf die Minimierung der Bewegung als auch auf die optimale Ausrichtung geachtet wird. Es ist allerdings auch relevant, wie gut das Netz eine Fläche ausrichten kann, 
+Der vorherige Test \ref{table:Testergebnisse auf einfachen Bauteilen} wurde durchgeführt, sodass sowohl auf die Minimierung der Bewegung als auch auf die optimale Ausrichtung geachtet wird. Es ist allerdings auch relevant, wie gut das Netz eine Fläche ausrichten kann, 
 wenn einen die Größe der Bewegungen nicht interessiert.
 
 \begin{table}[h]
