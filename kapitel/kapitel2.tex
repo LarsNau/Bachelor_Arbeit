@@ -84,7 +84,9 @@ Der Pfad, den die Düse über eine Schicht nimmt, kann ebenfalls optimiert werde
 \section{5d-Druck}
 \label{5d-Druck}
 
-Der 5d-Druck ist eine Erweiterung des 3d-Drucks. Ein 3d-Drucker kann die Düse in der x und y Richtung und die Platform in der z Richtung bewegen. Ein 5d-Drucker kann zusätzlich die Platform in zwei Dimensionen kippen.
+Der 5d-Druck ist eine Erweiterung des 3d-Drucks. Ein 3d-Drucker kann die Düse in der x und y Richtung und die Platform in der z Richtung bewegen. Ein 5d-Drucker kann zusätzlich die Platform in zwei Dimensionen kippen. 
+Durch das 5d drucken können Schwachpunkte im Material verhindert werden und die generelle Materialstärke um das drei bis fünffache verbessert werden. Ein weiterer Vorteil ist die Nutzung von weniger Material \cite{reddy2018review}.
+Obwohl der 5d Druck eine vergleichsweise neue Technologie ist, gibt es bereits Anwendungsbereiche in der Medizin für unter anderem der Produktion von Implantaten \cite{kumar2026recent}.
 
 \begin{figure}[t]
     \centering
@@ -98,14 +100,19 @@ In der Abbildung \ref{Darstellung der beweglichen Plattform eines 5d-Druckers} i
 da wenn eine Schicht am Überhängen ist, das Bauteil gedreht werden kann, sodass die nächste Schicht nicht mehr über die aktuelle Schicht überhängt. Durch das Kippen der Plattform ist es ebenfalls möglich Schichten, die nicht parallel zu der Plattform sind zu drucken.
 Die bessere Anpassung an die Geometrie der Bauteile verbessert die Festigkeit des Bauteils.
 
-Diese Fähigkeit Schichten zu erstellen, die nicht parallel zu der Plattform sind, hat den Nachteil, dass die Berechnung der Schichten komplexer wird. Die meisten Programme zu der Erstellung von Schichten unterstützen keinen 5d-Druck. 
-Herausforderung bei der Erstellung von Schichten für den 5d-Druck sind unter anderem die Kollisionsvermeidung und die Berechnung der optimalen Kippwinkel für jede Schicht.
+Diese Fähigkeit Schichten zu erstellen, die nicht parallel zu der Plattform sind, hat den Nachteil, dass die Berechnung der Schichten komplexer wird. Die meisten Programme zu Planung eines Druckes unterstützen keinen 5d-Druck, 
+es gibt aber bereits experimentelle Ansätze für die lokale Ausrichtung einer Oberfläche \cite{haley2024review}.
+Die Bewegungen auf allen Achsen zu koordinieren benötigt hohe Präzision und Planung. Im Gegensatz zu einem 3d Drucker kann das Drucken nicht Schicht um Schicht gemacht werden. Die Drehung der Baufläche oder der Düse sorgt dafür, 
+dass die Schichten nicht immer direkt aufeinander folgen können oder immer parallel zueinander sind. 
+Andere Einschränkungen bei der Erstellung von dem Düsenpfad für den 5d-Druck sind unter anderem die Kollisionsvermeidung, die Berechnung der optimalen Kippwinkel für jede Schicht und die Ablage von Material auf gekrümmten Flächen.
+Diese Einschränkungen machen die Planung des Pfades, den die Düse bei dem Druckvorgang abfährt, komplexer als die Bewegung des Pfades für den 3d Druck \cite{kumar2026recent}.
+
+Auf gekrümmten Flächen ist es schwer Material zu platzieren. Mögliche Lösungsansätze sind bessere Kontrolle der Düse verbesserte Haftung zwischen Schichten oder optimale und stabile Temperatur des Druckmaterials beim austritt aus der Düse \ref{kumar2026recent}.
 
 Die Kollisionsvermeidung ist ein Problem, das durch den 5d-Druck entsteht. Wenn das Bauteil sich während des Druckes drehen kann, besteht die Möglichkeit, dass die Düse mit dem Bauteil kollidiert. 
-Bei dem 3d-Druck ist das nicht möglich, da die Düse immer über dem Druckbereich ist.
+Bei dem 3d-Druck ist das nicht möglich, da die Düse immer über dem Druckbereich ist. Es macht die Planung des Düsenpfades schwerer, da die Reihenfolge der zu druckenden Flächen berücksichtigen muss, dass eine Fläche unter Umständen nicht erreichbar ist, 
+wenn sie zu spät gedruckt wird.
 
 Optimale Kippwinkel für jede Schicht zu bestimmen benötigt die Berechnung des optimalen Winkels für jede Schicht. Dieser Prozess wird schwerer gemacht, da berücksichtigt werden muss, 
-dass eine Fläche unter Umständen nicht von einem bestimmten Winkel aus erreichbar sein könnte, weil dort bereits etwas anderes gedruckt wurde, was mit der Düse kollidieren würde. Es muss also auch bei der Ausrichtung des Bauteils Kollisionsvermeidung berücksichtigt werden.
-
-\section{Stand der Technik}
-\label{Stand der Technik}
+dass eine Fläche unter Umständen nicht von einem bestimmten Winkel aus erreichbar sein könnte, weil dort bereits etwas anderes gedruckt wurde, was mit der Düse kollidieren würde. 
+Es muss also auch bei der Ausrichtung des Bauteils Kollisionsvermeidung berücksichtigt werden.

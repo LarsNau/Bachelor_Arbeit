@@ -5,7 +5,7 @@
 \chapter{Punktwolkenverarbeitung zur Bauteilausrichtung}
 \label{Punktwolkenverarbeitung zur Bauteilausrichtung}
 
-\subsection{Ziel der Punktwolkenverarbeitung}
+\section{Ziel der Punktwolkenverarbeitung}
 \label{Ziel der Punktwolkenverarbeitung}
 
 Um ein Bauteil korrekt auszurichten, muss eine Fläche des Bauteils auf eine Ausrichtung abgebildet werden. Die Flächen in den Bauteilen wurden in Kapitel \ref{Flächensuche in  Bauteilen} identifiziert und als Punktwolken gespeichert.
@@ -270,8 +270,9 @@ Als Alternative zu der z-Achse bieten sich die x und y-Achsen an, da sie beide 9
             \label{n2}
     \end{figure}
 
-In der Abbildung \ref{n2} wird die Berechnung von der Normale-2 ($n_2$) dargestellt. Die aufgespannte Ebene ist rot gefärbt.
-Durch das Berechnen einer anderen Zeile außer der Z-Invarianz ist ein Hilfsvektor nicht mehr vonnöten. Die berechnete Normale bildet die letzte Zeile, die für eine Rotationsmatrix vonnöten ist. Sie ist orthogonal zu den anderen Zeilen, da sei eine Normale in der Ebene der anderen Zeilen ist.
+In der Abbildung \ref{n2} wird die Berechnung von der Normale-2 ($n_2$) dargestellt. Die aufgespannte Ebene zwischen $n_1$ und der Z-Invarianz ist rot gefärbt. Senkrecht zu der roten Ebene ist der $n_2$ zu sehen. $n_2$ wird berechnet, indem der Vektor, 
+der sowohl zu $n_1$, als auch zu der Z-Invarianz senkrecht steht. Das kann über das Kreuzprodukt erreicht werden.
+Durch das Berechnen einer anderen Zeile außer der Z-Invarianz ist ein Hilfsvektor nicht mehr vonnöten. Die berechnete Normale $n_2$ bildet die letzte Zeile, die für eine Rotationsmatrix vonnöten ist. Sie ist orthogonal zu den anderen Zeilen, da sei eine Normale in der Ebene der anderen Zeilen ist.
 Normale-1 ist ebenfalls orthogonal zu der Normale-2, da es in der Ebene ist, dessen normale Normale-2 ist. Sie ist ebenfalls orthogonal zu der Z-Invarianz, da Normale-1 aus Ebene, die die Z-Invarianz beinhaltet gebildet wurde. 
 Orthogonalität ist symmetrisch, daher ist auch die Z-Invarianz orthogonal zu Normale-1 und Normale-2. Das erfüllt die oben genannte Bedingung, dass alle Zeilen orthogonal zueinander seien müssen.
 
@@ -341,11 +342,13 @@ Daher wird überprüft, ob die Rotationsmatrix das Bauteil über diese Grenzen h
             \label{Veränderung der Rotationmatrix durch die Spiegelmatrix}
     \end{figure}
 
-In der Matrix \ref{Spiegelmatrix} wird die Spiegelmatrix gezeigt.In der Abbildung \ref{Veränderung der Rotationmatrix durch die Spiegelmatrix} wird die Veränderungen, die sie auf eine Rotationsmatrix wirkt dargestellt.
+In der Matrix \ref{Spiegelmatrix} wird die Spiegelmatrix gezeigt. In der Abbildung \ref{Veränderung der Rotationmatrix durch die Spiegelmatrix} wird die Veränderungen, die sie auf eine Rotationsmatrix wirkt dargestellt.
 Durch die Matrixmultiplikation mit der Spiegelmatrix, aus \ref{Veränderung der Rotationmatrix durch die Spiegelmatrix}, wird eine Rotationsmatrix in der XY-Ebene gespiegelt. Das hat den Effekt, dass sich das Bauteil um 180 Grad dreht. Da eine Spiegelung nötig war, galt vor der Spiegelung, dass der Betrag der Rotation mehr als 90 Grad ist. 
-Die Rotation ist also zwischen 90 und 180 Grad. Sie kann nicht höher sein, da eine sinnvolle Rotation nur von -180 bis 180 Grad gehen kann und so einen ganzen Kreis bildet. Wenn man die Rotation spiegelt, wird sie um 180 Grad gedreht, es gilt: 
+Die Rotation ist also zwischen 90 und 180 Grad. Sie kann nicht höher sein, da eine sinnvolle Rotation nur von -180 bis 180 Grad gehen kann und so einen ganzen Kreis bildet. Wenn man die Rotation spiegelt, wird sie um 180 Grad gedreht.
 
 \smallskip
 
-Wenn sie vor der Spiegelung nicht im 180 Grad Halbkreis der erlaubten Drehungen war, dann ist sie es danach.
+Wenn sie vor der Spiegelung nicht im 180 Grad Halbkreis der erlaubten Drehungen war, dann ist sie es danach. In dieser Arbeite wird von einem 90 Grad Maximum in der Drehung der Plattform in beide Dimensionen ausgegangen. In der Realität ist es möglich, 
+dass ein Drucker zu weniger in der Lage ist, aber 90 Grad ist die höchste Schwenkung der Plattform, bei der die Platform nicht die Düse, des Druckers blockieren kann. Eine Platform die weniger als 90 Grad schwenken kann viele der 
+berechneten Ausrichtungen nicht umsetzen. Dieses Szenario wird in dieser Arbeit nicht betrachtet, da nur bewertet werden soll wie Praktikabel der Ansatz ist, Hardwareeinschränkungen sind dafür zuerst zu vernachlässigen.
 
