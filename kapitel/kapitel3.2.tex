@@ -61,11 +61,11 @@ Die Gewichte in den Neuronen werden vor der Anpassung zufällig festgelegt. In j
 \begin{figure}[t]
     \centering
     \includegraphics[scale=0.4]{bilder/Regression Net.jpg}
-    \caption[Schematische Darstellung von Regressionsnetz]{Schematische Darstellung von Regressionsnetz}
+    \caption[Schematische Darstellung von Regressionsnetz]{Schematische Darstellung von Regressionsnetz\footnotemark}
             \label{Schematische Darstellung von einem beispielhaften Regressionsnetz}
-    \quelle\url{https://miro.medium.com/1*LaEgAU-vdsR_pClMcgbikQ.jpeg}
 \end{figure}
 
+\footnotetext{\url{https://miro.medium.com/1*LaEgAU-vdsR_pClMcgbikQ.jpeg}}
 
 In vereinfachte Darstellung der Schichten eines Neurales Netzes ist in Abbildung \ref{Schematische Darstellung von einem beispielhaften Regressionsnetz}. Eine Schicht an künstlichen Neuronen ist so definiert, 
 dass man die Neuronen der Schicht immer mit der gleichen Anzahl an Kantenübergängen erreicht. Jedes Neuron der ersten verborgenen Schicht kann zum Beispiel mit nur genau einem Kantenübergang erreicht werden.
@@ -84,7 +84,8 @@ Merkmale sind, wenn sie von einem neuralen Netz gefunden wurden, für gewöhnlic
 \label{Merkmalsextraktion aus Punktwolke}
 
 Wenn eine Eingabe ohne Umwege auf die Ausgabe abgebildet werden soll, muss ein tiefes Netz eingesetzt werden. Um ein Bauteil automatisch auszurichten, ist es notwendig, dass das Neurale Netz die Eingabedaten selber verarbeitet.
-Der Unterschied zwischen einem tiefen und nicht tiefen Neuralen Netz ist es, dass ein tiefes Neurales Netz nicht nur die Abbildung von Merkmalen auf Ausgaben erlernt, sondern auch die Extraktion von Merkmalen aus den Eingabedaten. 
+Der Unterschied zwischen einem tiefen und nicht tiefen Neuralen Netz ist es, dass ein tiefes Neurales Netz nicht nur die Erstellung einer möglichst korrekten Ausgabe erlernt, sondern auch die Extraktion von Merkmalen aus den Eingabedaten. 
+Eine Menge an Merkmalen, die zu einer Eingabe gehören stellen, diese Eingabe in abstrakter und reduzierter Form dar.
 Die Extraktion der Merkmale wird in diesem Abschnitt erklärt.
 In der Merkmalsextraktion wird eine Punktwolke auf eine Anzahl an Merkmalen reduziert. Die Merkmale, auf welche die Punkwolke reduziert wird, werden in einem flachen Vektor $(v_{0},v_{1},v_{2},\ldots,v_{n})$ mit $v_{i} \in \mathbb{R}$ der Größe n repräsentiert.
 Dieser Vektor wird Merkmalsvektor genannt und ist eine abstrakte Darstellung der Punktwolken. Der Merkmalsvektor ist als Zwischenergebnis wichtig, um die Eingabedaten in für ein Regressionsnetz besser verarbeitbare Form zu bringen. Für Menschen ist der Inhalt eines Merkmalsvektors meistens unverständlich.
@@ -102,11 +103,12 @@ In dem ersten Schritt in jeder Schicht werden Punkte aus der Punktwolke ausgewä
 
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=0.28]{bilder/Pointnet++.jpg}
-    \caption[Schematische Darstellung von Merkmalsextraktionschichten]{Schematische Darstellung von Merkmalsextraktionschichten}
+    \includegraphics[scale=0.34]{bilder/Pointnet++.jpg}
+    \caption[Schematische Darstellung von Merkmalsextraktionschichten]{Schematische Darstellung von Merkmalsextraktionschichten\footnotemark}
             \label{Schematische Darstellung von Merkmalsextraktionschichten} 
-    \quelle\url{https://stanford.edu/~rqi/pointnet2/images/pnpp.jpg}
 \end{figure}
+
+\footnotetext{\url{https://stanford.edu/~rqi/pointnet2/images/pnpp.jpg}}
 
 Dafür geht der Algorithmus schrittweise vor. In jedem Schritt wählt er den Punkt der Punktwolke aus, der am weitesten von allen bisher ausgewählten Punkten entfernt ist, solange bis die gewünschte Menge an Punkten erreicht ist.
 Der Algorithmus sucht nicht nach der optimalen Abdeckung, welche die Distanz von jedem nicht ausgewählten Punkt zu dem nächsten ausgewählten Punkt minimiert, sondern ist nur eine Abschätzung, dieser optimalen Lösung.

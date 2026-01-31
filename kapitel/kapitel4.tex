@@ -153,6 +153,11 @@ Wenn zu viele Punkte fehlen, dann wird das Netz weniger Punkte für die Reduktio
 dass die Dichte der Punkte so stark abgenommen hat, dass die Reduktion häufig keine Punkte in der lokalen Umgebung hat, die sie für eine Reduzierung verwenden kann. Wenn die Merkmale von einem oder sehr wenigen Punkten aus reduziert werden, 
 denn zerfällt die Idee, lokale Merkmale anhand Ihrer relativen Position zu andern Punkten zu bewerten. Das neurale Netz verliert die Fähigkeit, lokale Merkmale zu erkennen.
 
+\subsection{Effekt von schlechter Flächensuche}
+\label{Effekt von schlechter Flächensuche}
+
+Ein echtes Bauteil wird nicht immer auf dieselbe Art und weise 
+
 \section{Generalisierbarkeit}
 \label{Generalisierbarkeit}
 
@@ -164,23 +169,24 @@ Für diesen Zweck wurden mehrere komplexe Bauteile getestet, komplex bedeutet in
     \subfigure[]
           {\includegraphics[scale=0.2]{bilder/Bunny.jpg}
           \label{Stanford Bunny} 
-          \quelle\url{https://graphics.stanford.edu/data/3Dscanrep/stanford-bunny-cebal-ssh.jpg}
     }
     \hspace{0.5cm}%
     \subfigure[]
          {\includegraphics[scale=0.2]{bilder/dragon.jpg}
          \label{Stanford Dragon}
-         \quelle\url{https://graphics.stanford.edu/data/3Dscanrep/dragon.jpg}
     }
     \hspace{0.5cm}%
     \subfigure[]
          {\includegraphics[scale=0.2]{bilder/Teapot.jpg}
          \label{Utah Teapot}
-         \quelle\url{https://graphics.stanford.edu/data/3Dscanrep/dragon.jpg}
     }
-    \caption[3d-Modelle der komplexen Bauteile]{3d-Modelle der komplexen Bauteile}
+    \caption[3d-Modelle der komplexen Bauteile]{3d-Modelle der komplexen Bauteile\footnotemark\footnotemark\footnotemark}
         \label{3d-Modelle der komplexen Bauteile}
-    \end{figure}
+\end{figure}
+
+\footnotetext{https://graphics.stanford.edu/data/3Dscanrep/stanford-bunny-cebal-ssh.jpg}
+\footnotetext{https://graphics.stanford.edu/data/3Dscanrep/dragon.jpg}
+\footnotetext{https://images.computerhistory.org/revonline/images/x398.84p-03-02.jpg?w=600}
 
 Die Abbildung \ref{3d-Modelle der komplexen Bauteile} sind die 3d-Modelle aller komplexen Bauteilen abgebildet. Die Abbildung A zeigt den Stanford Hasen (engl. Stanford Bunny). Es ist asymmetrisch und hat an den Ohren dünne gekrümmte Flächen. 
 Der gesamte Körper ist mit Fell bedeckt, dadurch wird eine schon gebogene Fläche mit mehreren Unebenheiten überdeckt. Der Stanford Drache ist ebenfalls asymmetrisch. Seine Oberfläche ist gebogen und ist durch viele Spitzen auf der Oberfläche nicht glatt.

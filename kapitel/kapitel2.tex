@@ -20,10 +20,11 @@ Komposit Materialien, wie Glasfaser, dagegen sind anpassungsfähig und leicht. S
 \begin{figure}[t]
     \centering
     \includegraphics[scale=0.8]{bilder/3d-Drucker.jpg}
-    \caption[Schematische Darstellung eines 3d-Druckers]{Schematische Darstellung eines 3d-Druckers}
+    \caption[Schematische Darstellung eines 3d-Druckers]{Schematische Darstellung eines 3d-Druckers\protect\footnotemark}
             \label{Schematische Darstellung eines 3d-Druckers}
-    \quelle\url{https://www.linux-magazin.de/wp-content/uploads/2020/11/b01.jpg}
 \end{figure}
+
+\footnotetext{https://www.linux-magazin.de/wp-content/uploads/2020/11/b01.jpg}
 
 In der Abbildung \ref{Schematische Darstellung eines 3d-Druckers} ist eine schematische Darstellung eines 3d-Druckers zu sehen. Dabei ist oben die Düse, welche das Material erst schmilzt und dann aufträgt. Die Düse ist lässt sich in x und y Richtung bewegen 
 und kann so jede beliebige Position auf der Plattform erreichen. Unten kann man die Platform sehen, auf der das Bauteil gedruckt wird. 
@@ -46,10 +47,11 @@ Dabei kann es zu Problemen kommen, wenn eine Schicht über eine vorherige Schich
 \begin{figure}[t]
     \centering
     \includegraphics[scale=0.5]{bilder/Stützstruktur.jpeg}
-    \caption[Vorschau eines Bauteils mit Stützstrukturen]{Vorschau eines Bauteils mit Stützstrukturen}
+    \caption[Vorschau eines Bauteils mit Stützstrukturen]{Vorschau eines Bauteils mit Stützstrukturen\footnotemark}
             \label{Vorschau eines Bauteils mit Stützstrukturen}
-    \quelle\url{https://i.stack.imgur.com/cIDB3.png}
 \end{figure}
+
+\footnotetext{https://i.stack.imgur.com/cIDB3.png}
 
 In der Abbildung \ref{Vorschau eines Bauteils mit Stützstrukturen} ist ein Bauteil zu sehen, das Stützstrukturen benötigt. Stützstrukturen erhöhen den Materialaufwand, wie man in Abbildung \ref{Vorschau eines Bauteils mit Stützstrukturen} sehen kann.
 Die Strukturen werden nach dem Druck entfernt, was das zusätzlich benötigte Material zu Müll mach. Durch das Hinzufügen von Stützstrukturen verlängert sich auch die Druckzeit. Dieses Problem kann durch die richtige Ausrichtung des Bauteils minimiert werden, 
@@ -72,14 +74,39 @@ Die Geschwindigkeit, mit der eine Düse Material ausgeben kann, ist ebenfalls ei
 \begin{figure}[t]
     \centering
     \includegraphics[scale=1]{bilder/Schichtenhöhe.jpg}
-    \caption[Darstellung der Unterschiede im Bauteil abhängig von der Höhe der Schichten]{Darstellung der Unterschiede im Bauteil abhängig von der Höhe der Schichten}
+    \caption[Darstellung der Unterschiede im Bauteil abhängig von der Höhe der Schichten]{Darstellung der Unterschiede im Bauteil abhängig von der Höhe der Schichten\footnotemark}
             \label{Darstellung der Unterschiede im Bauteil abhängig von der Höhe der Schichten}
-    \quelle\url{https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6yHOdjlgO6mhqwt_JJ22BE7VaI-OV4U4SWg&s}
 \end{figure}
+
+\footnotetext{\url{https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6yHOdjlgO6mhqwt_JJ22BE7VaI-OV4U4SWg&s}}
 
 Ein weiterer Faktor ist die Höhe der einzelnen Schichten. In der Abbildung \ref{Darstellung der Unterschiede im Bauteil abhängig von der Höhe der Schichten} ist der Unterschied, den die Höhe der Schichten auf die Qualität des Bauteils hat, zu sehen. 
 Umso dünner die Schicht umso genauer wird das Bauteil gedruckt. Wenn die Dicke der Schichten verringert wird, werden mehr Schichten benötigt, was die Strecke, die die Düse abarbeiten muss, erhöht. Dadurch verlängert sich die Druckzeit.
 Der Pfad, den die Düse über eine Schicht nimmt, kann ebenfalls optimiert werden. Ein Düsenpfad (engl. "Toolpath") kann die Qualität und Geschwindigkeit stark beeinflussen \cite{zhuang2024comprehensive}. Ein längerer Pfad, den die Düse abarbeiten muss, resultiert in einer längeren Druckzeit.
+
+Topologieoptimierung kann ebenfalls Druckzeit einsparen, es wird in Abschnitt \ref{Topologieoptimierung} vorgestellt.
+
+\section{Topologieoptimierung}
+\label{Topologieoptimierung}
+
+Ein Objekt, welches gedruckt werden soll, kann verändert werden, um Material, Druckzeit und Gewicht einzusparen. Um Material zu sparen wird im Inneren eines Bauteils Material weggelassen. 
+Das Weglassen von Material im Inneren eines Bauteils verändert die strukturellen Eigenschaften des Bauteils, dementsprechend ist es wichtig die Optimierung des Bauteils dem Anwendungsfall anzupassen. 
+Die Berechnungen von Optimierungen ist sehr rechenintensiv, besonders bei komplexen Topologien \cite{feng2018review}.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[scale=1]{bilder/Topologie.png}
+    \caption[Darstellung von durch Topologieoptimierung aufgeteiltem Bauteil (links) und verbesserte Aufteilung durch Topologieoptimierung (rechts)]{Darstellung von durch Topologieoptimierung aufgeteiltem Bauteil (links) und verbesserte Aufteilung durch Topologieoptimierung (rechts)}
+            \label{Darstellung von durch Topologieoptimierung aufgeteiltem Bauteil (links) und verbesserte Aufteilung durch Topologieoptimierung (rechts)}
+    \quelle\url{https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs42492-018-0004-3/MediaObjects/42492_2018_4_Fig9_HTML.png?as=webp}
+\end{figure}
+
+
+Das generelle vorgehen ist es ein Objekt in kleinere Teile zu unterteilen. Die Teile, in die es unterteilt wird, können unterschiedliche Formen haben in der Abbildung sind sie als Vierecke dargestellt. Die Schwarzen Kanten sind die Teile des Bauteils, die gedruckt werden. 
+Dazwischen kann man weiße Freiräume sehen. In der linken Aufteilung in Abbildung  ist das Bauteil in gleich große Rechtecke aufgeteilt. Die strukturelle stärke des Bauteils ist abhängig von der Größe der Aufteilung. 
+Weniger internes Material sorgt für geringere strukturelle Stärke. Um die strukturelle Stärke an Bereichen mit höherer Belastung zu verstärken, kann die Dichte in benötigten Bereichen erhöht werden. 
+In der Abbildung ist auf der linken Seite ein Bauteil mit zwei unterschiedlich dichten Aufteilungen zu sehen. In dem Zentrum des Bauteils, wo die meiste Belastung zu erwarten ist, 
+ist die Dichte des Gittermusters erhöht an allen anderen Stellen ist es geringer als im Vergleich zu dem linken Bauteil.
 
 \section{5d-Druck}
 \label{5d-Druck}
@@ -90,11 +117,13 @@ Obwohl der 5d Druck eine vergleichsweise neue Technologie ist, gibt es bereits A
 
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=1.2]{bilder/5d-Drucker.jpg}
-    \caption[Darstellung der beweglichen Plattform eines 5d-Druckers]{Darstellung der beweglichen Plattform eines 5d-Druckers}
+    \includegraphics[scale=1.4]{bilder/5d-Drucker.jpg}
+    \caption[Darstellung der beweglichen Plattform eines 5d-Druckers]{Darstellung der beweglichen Plattform eines 5d-Druckers\footnotemark}
             \label{Darstellung der beweglichen Plattform eines 5d-Druckers}
     \quelle\url{https://www.3dnatives.com/de/wp-content/uploads/sites/3/150217_Zurich1.jpg}
 \end{figure}
+
+\footnotetext{\url{https://www.3dnatives.com/de/wp-content/uploads/sites/3/150217_Zurich1.jpg}}
 
 In der Abbildung \ref{Darstellung der beweglichen Plattform eines 5d-Druckers} ist eine Düse und eine Plattform zu sehen. Die Platform ist sichtlich gekippt. Die Fähigkeit die Platform zu kippen ermöglicht es Bauteile zu drucken, ohne Stützstrukturen zu benötigen, 
 da wenn eine Schicht am Überhängen ist, das Bauteil gedreht werden kann, sodass die nächste Schicht nicht mehr über die aktuelle Schicht überhängt. Durch das Kippen der Plattform ist es ebenfalls möglich Schichten, die nicht parallel zu der Plattform sind zu drucken.
@@ -116,3 +145,5 @@ wenn sie zu spät gedruckt wird.
 Optimale Kippwinkel für jede Schicht zu bestimmen benötigt die Berechnung des optimalen Winkels für jede Schicht. Dieser Prozess wird schwerer gemacht, da berücksichtigt werden muss, 
 dass eine Fläche unter Umständen nicht von einem bestimmten Winkel aus erreichbar sein könnte, weil dort bereits etwas anderes gedruckt wurde, was mit der Düse kollidieren würde. 
 Es muss also auch bei der Ausrichtung des Bauteils Kollisionsvermeidung berücksichtigt werden.
+
+Der 5d Druck bietet die Möglichkeit komplexere Komponenten mit weniger Material zu drucken. Außerdem sind 5d gedruckte Teile stabiler. Allerdings ist es eine neue Technologie und es gibt noch mehrere technische Probleme die gelöst werden müssen.
