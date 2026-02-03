@@ -10,20 +10,27 @@
 
 Um ein Bauteil korrekt auszurichten, muss eine Fläche des Bauteils auf eine Ausrichtung abgebildet werden. Die Flächen in den Bauteilen wurden in Kapitel \ref{Flächensuche in  Bauteilen} identifiziert und als Punktwolken gespeichert.
 Punktwolken wurden im Kapitel \ref{Flächensuche in  Bauteilen} bereits beschrieben. Eine Punktwolke ist eine Menge an Punkten im 3D Raum, die zusammen eine Fläche oder ein Objekt darstellen.
-Die Ausrichtung die berechnet wird, wird Z-Invarianz genannt. Die Z-Invarianz ist ein $R^{3}$ Vektor, der die Rotation eines Bauteils beschreibt.
-Dieser Vektor sollte im optimalen Fall im 90 Grad Winkel zu dem Normalvektor einer Fläche liegen, damit die Fläche möglichst parallel zu der Achse der Druckerdüse ist. Eine Fläche, die parallel zu der Düse des Druckers ist, 
+Die Ausrichtung die berechnet wird, wird Z-Invarianz genannt. Die Z-Invarianz ist ein $R^{3}$ Vektor, der die Rotation eines Bauteils beschreibt. Sie ist aber keine Rotationsmatrix und muss daher von einer Beschreibung der Drehung zu einer anwendbaren Rotationsmatrix transformiert werden.
+Die Z-Invarianz sollte im optimalen Fall im 90 Grad Winkel zu dem Normalvektor einer Fläche liegen, dadurch wird die Fläche möglichst parallel zu der Achse der Druckerdüse gedreht. Eine Fläche, die parallel zu der Düse des Druckers ist, 
 minimiert den Überhang, den die Fläche haben kann. Der Normalvektor der Fläche ist aber ein Durchschnitt über die Ausrichtung aller Punkte in der Fläche. Wie die Ausrichtung der Punkte bestimmt wird, wird in Abschnitt \ref{Normalvektoren} erklärt.
 Wie aus der Z-Invarianz eine Rotationsmatrix erstellt wird, wird in Abschnitt \ref{Konstruktion der Ausrichtung} erklärt.
 
 \smallskip
 
 In diesem Kapitel wird dargestellt, wie man eine Punktwolke, die eine Fläche in einem Bauteil darstellt, zu einer Rotationsmatrix verarbeiten kann. Für die Verarbeitung wird ein Neurales Netz eingesetzt, welches im Folgenden genauer erklärt wird. 
-Dieses Neurale Netz wird eine Punktwolke beliebiger Größe zu der Z-Invarianz transformieren. Die Z-Invarianz wird in einem folgenden Abschnitt \ref{Konstruktion der Ausrichtung} erklärt. Aus dieser Ausgabe lässt sich dann eine vollständige Drehung erstellen.
+Dieses Neurale Netz wird eine Punktwolke beliebiger Größe zu der Z-Invarianz transformieren. Die Z-Invarianz wird in einem folgenden Abschnitt \ref{Konstruktion der Ausrichtung} zu einer Rotationsmatrix umgeformt. Mit dieser Rotationsmatrix lässt sich dann eine Drehung darstellen.
 
-\section{Punktwolken Transformation}
+\section{Rotationserstellung für Flächen}
 \label{Punktwolken Transformation}
 
+\subsection{Maschinelles Lernen}
+\label{Maschinelles Lernen}
+
 Die Transformation der Punktwolken erfolgt über ein Neurales Netz. Ein Neurales Netz kann Daten verarbeiten, indem es sie durch viele Schichten an künstlichen Neuronen durchleitet. 
+Dieser Abschnitt behandelt wie neuronale Netze Daten verarbeiten und über Zeit ihren Fehler reduzieren.
+
+\smallskip
+
 Ein künstliches Neuron ist eine Funktion, die als Eingabe andere künstliche Neuronen oder echte Daten nimmt. 
 Die Eingabe des Neurons besteht aus den einzelnen Eingaben ($x_{i}$) multipliziert mit den Gewichten für die einzelnen Eingaben ($w_{i}$).
 
@@ -39,17 +46,18 @@ da man nur mit dieser Art von Aktivierungsfunktionen nicht lineare Zusammenhäng
 \begin{figure}[t]
     \centering
     \includegraphics[scale=0.25]{bilder/ArtificialNeuronModel_deutsch}
-    \caption[Funktionsweise eines künstlichen Neurons]{Funktionsweise eines künstlichen Neurons}
+    \caption[Funktionsweise eines künstlichen Neurons]{Funktionsweise eines künstlichen Neurons\footnotemark}
             \label{Funktionsweise eines künstlichen Neurons}
-    \quelle\url{https://upload.wikimedia.org/wikipedia/commons/7/7f/ArtificialNeuronModel_deutsch.png}
 \end{figure}
+
+\footnotetext{\url{https://upload.wikimedia.org/wikipedia/commons/7/7f/ArtificialNeuronModel_deutsch.png}}
 
 Ein typisches Neuron ist in Abbildung \ref{Funktionsweise eines künstlichen Neurons} dargestellt. Durch das Anpassen von Gewichten,$w_{i}$ in der Abbildung \ref{Funktionsweise eines künstlichen Neurons}, kann ein Neuron den Einfluss von Eingabedaten ($x_{i}$) verändern. 
 Die optimale Belegung von Gewichten wird von dem Netz über mehrere Versuche hinweg erarbeitet. Dafür muss definiert werden, was das Neurale Netz als korrektes Ergebnis ansieht. Für die Anpassung der Gewichte in jedem Neuron wird ein Datensatz genutzt, 
 den das Neurale Netz mehrmals durchläuft. Diese Daten werden Trainingsdaten genannt. Bei jeden Durchlauf der Trainingsdaten
 überprüft das Neurale Netz, wie gut seine Ausgaben im Vergleich zu dem vordefinierten korrekten Ergebnis ist. Die Trainingsdaten brauchen für jeden Datenpunkt ein richtiges Ergebnis, damit das Neurale Netz sein Ergebnis mit dem vorher berechnet 
 oder festgelegtem Optimum vergleichen kann. In dem Falle ist das richtige Ergebnis der Normalvektor zu der jeweiligen Punktwolke und das Netz nimmt die Standardabweichung von der Orthogonalität zu dem Normalvektor der Fläche als Fehler. 
-Umso mehr die Z-Invarianz in einem 90 Grad Winkel zu dem Normalvektor der Fläche steht umso geringer ist der Fehler. Das Netz sieht jede Bewegung des Bauteils ebenfalls als Fehler. Umso größer die Bewegung umso der Fehler. 
+Umso mehr die Z-Invarianz in einem 90 Grad Winkel zu dem Normalvektor der Fläche steht umso geringer ist der Fehler. Das Netz sieht jede Bewegung des Bauteils ebenfalls als Fehler. Umso größer die Bewegung desto größer der Fehler. 
 Die beiden Fehler werden zusammenaddiert und ergeben dann den Fehler, den das Netz zu verringern versucht, indem es Gewichte anpasst. Der Fehler den die Bewegung mach, wird aber vor der Addition künstlich verringer, 
 um die Ausrichtung der Fläche als wichtigsten Aspekt des Netzes zu behalten.
 
@@ -69,7 +77,7 @@ Die Gewichte in den Neuronen werden vor der Anpassung zufällig festgelegt. In j
 
 In vereinfachte Darstellung der Schichten eines Neurales Netzes ist in Abbildung \ref{Schematische Darstellung von einem beispielhaften Regressionsnetz}. Eine Schicht an künstlichen Neuronen ist so definiert, 
 dass man die Neuronen der Schicht immer mit der gleichen Anzahl an Kantenübergängen erreicht. Jedes Neuron der ersten verborgenen Schicht kann zum Beispiel mit nur genau einem Kantenübergang erreicht werden.
-Für eine vollständig verbundene Schicht muss jedes künstliche Neuron mit jedem künstlichen Neuron der vorherigen und darauffolgenden Schicht verbunden sein. Dabei gibt es drei Arten von Schichten, wie in der Abbildung \ref{Regression auf Merkmalsvektor} zu sehen. Zuerst gib es die Eingabeschicht.
+Für eine vollständig verbundene Schicht muss jedes künstliche Neuron mit jedem künstlichen Neuron der vorherigen und darauffolgenden Schicht verbunden sein. Dabei gibt es drei Arten von Schichten, wie in der Abbildung \ref{Regression auf Merkmalsvektor} zu sehen ist. Zuerst gib es die Eingabeschicht.
 Diese Schicht repräsentiert die Eingaben und ist in Abbildung \ref{Schematische Darstellung von einem beispielhaften Regressionsnetz} rot markiert. Jeder Knoten der Eingabeschicht ist ein Datenpunkt, oder in diesem Fall ein Merkmal. 
 Danach gibt es die versteckten Schichten, in Blau markiert. Ihre Aufgabe ist es die Eingabe zu transformieren. 
 Sie erlauben es dem Neuralen Netz eine Eingabe über mehrere Schichten zu verarbeiten. Durch kann das Neurale Netz nicht lineare zusammenhänge darstellen. Zuletzt gibt es die Ausgabeschicht. Von dieser Schicht wird die Z-Invarianz abgelesen.
@@ -77,16 +85,16 @@ Sie erlauben es dem Neuralen Netz eine Eingabe über mehrere Schichten zu verarb
 \smallskip
 
 Nicht alle neurale Netze funktionieren über mehrere voll verbundene Schichten, aber die Idee eine Eingabe schichtweise durch das Anpassen von Gewichten zu verarbeiten kann in fast allen gefunden werden.
-Das für diese Arbeit genutzte neurale Netz reduziert erst die Eingabe auf Merkmale und nutz dann mehrere voll verbundene Schichten um aus den Merkmalen eine Ausgabe zu generieren. Merkmale sind Darstellungen der Eingabedaten, die das neurale Netz verstehen kann.
+Das für diese Arbeit genutzte neurale Netz reduziert erst die Eingabe auf Merkmale und nutz dann mehrere voll verbundene Schichten um aus den Merkmalen eine Ausgabe zu generieren. Sie sind Darstellungen der Eingabedaten, die das neurale Netz verstehen kann.
 Merkmale sind, wenn sie von einem neuralen Netz gefunden wurden, für gewöhnlich extrem abstrakt und ohne viel Arbeit nicht für Menschen verständlich.
 
 \subsection{Merkmalsextraktion aus Punktwolke}
 \label{Merkmalsextraktion aus Punktwolke}
 
 Wenn eine Eingabe ohne Umwege auf die Ausgabe abgebildet werden soll, muss ein tiefes Netz eingesetzt werden. Um ein Bauteil automatisch auszurichten, ist es notwendig, dass das Neurale Netz die Eingabedaten selber verarbeitet.
-Der Unterschied zwischen einem tiefen und nicht tiefen Neuralen Netz ist es, dass ein tiefes Neurales Netz nicht nur die Erstellung einer möglichst korrekten Ausgabe erlernt, sondern auch die Extraktion von Merkmalen aus den Eingabedaten. 
-Eine Menge an Merkmalen, die zu einer Eingabe gehören stellen, diese Eingabe in abstrakter und reduzierter Form dar.
-Die Extraktion der Merkmale wird in diesem Abschnitt erklärt.
+Der Unterschied zwischen einem tiefen und nicht tiefen Neuralen Netz ist es, dass ein tiefes Neurales Netz nicht nur die Erstellung einer möglichst korrekten Ausgabe erlernt, sondern auch die Extraktion von Merkmalen aus den Eingabedaten.
+Die Merkmalsextraktion nutzt als Eingabe eins der in Kapitel \ref{Flächensuche in  Bauteilen} gefunden Cluster, die immer Flächen eines Bauteils sind. Zu den Punktwolken der gefundenen Flächen werden Merkmale erstellt. Das Finden von Merkmalen einer Fläche ist das Thema dieses Abschnittes.
+Eine Menge an Merkmalen, die zu einer Fläche gehören stellen, diese Eingabe in abstrakter und reduzierter Form dar.
 In der Merkmalsextraktion wird eine Punktwolke auf eine Anzahl an Merkmalen reduziert. Die Merkmale, auf welche die Punkwolke reduziert wird, werden in einem flachen Vektor $(v_{0},v_{1},v_{2},\ldots,v_{n})$ mit $v_{i} \in \mathbb{R}$ der Größe n repräsentiert.
 Dieser Vektor wird Merkmalsvektor genannt und ist eine abstrakte Darstellung der Punktwolken. Der Merkmalsvektor ist als Zwischenergebnis wichtig, um die Eingabedaten in für ein Regressionsnetz besser verarbeitbare Form zu bringen. Für Menschen ist der Inhalt eines Merkmalsvektors meistens unverständlich.
 Das Regressionsnetz ist der zweite Teil der Struktur des Neurales Netzes und wird in dem folgenden Abschnitt \ref{Regression auf Merkmalsvektor} beschrieben.
@@ -133,7 +141,7 @@ Mit dem größten Merkmal ist das numerisch Größte gemeint, nicht unbedingt da
 \subsection{Regression auf Merkmalsvektor}
 \label{Regression auf Merkmalsvektor}
 
-Nach der Bestimmung von abstrakten Merkmalen in einem Merkmalsvektor im vorherigen Abschnitt \ref{Merkmalsextraktion aus Punktwolke} muss aus diesem Vektor ein konkretes Ergebnis abgeleitet werden. Dafür wird eine Abbildung von dem Vektor auf die Ergebnisse erlernt. Dieses Vorgehen wird Regression genannt. 
+Nachdem für Punktwolke einer Fläche im Bauteil mit dem In Abschnitt Z-Invarianz. Dafür wird eine Abbildung von dem Vektor auf die Ergebnisse erlernt. Dieses Vorgehen wird Regression genannt. 
 In diesem Fall wird auf die Z-Invarianz regressiert. Der Merkmalsvektor wird über mehrere Schichten auf eine Ausgabe abgeleitet.
 
 \smallskip
@@ -166,10 +174,10 @@ Die Z-Invarianz ist aber noch keine Rotationsmatrix und muss daher zu einer gema
 was in Abschnitt \ref{Konstruktion der Ausrichtung} beschrieben wird.
 
 
-\section{Konstruktion der Ausrichtung}
-\label{Konstruktion der Ausrichtung} % wie wird aus z Invarianz und Z drehung eine Rotation (und warum)
+\section{Konstruktion der Rotationsmatrix}
+\label{Konstruktion der Rotationsmatrix} % wie wird aus z Invarianz und Z drehung eine Rotation (und warum)
 
-Die, in Abschnitt \ref{Regression auf Merkmalsvektor} berechnete, Z-Invarianz ist nicht genug, um eine Drehung darzustellen, um ein Bauteil drehen zu können ist eine Rotationsmatrix notwendig. 
+Die, in Abschnitt \ref{Punktwolken Transformation} berechnete, Z-Invarianz ist nicht genug, um eine Drehung darzustellen, um ein Bauteil drehen zu können ist eine Rotationsmatrix notwendig. Die Z-Invarianz wird zu einer Rotationsmatrix erweitert.
 Rotationsmatrizen sind, für den 3d Raum, 3 x 3 Matrizen, die durch Matrixmultiplikation eine Punktwolke drehen können.
 Eine Punktwolke bestehend aus mehreren Punkten  $(x_{i},y_{i},z_{i})$ kann wie folgt durch Matrixmultiplikation mit einer Rotationsmatrix $R$ gedreht werden.
 

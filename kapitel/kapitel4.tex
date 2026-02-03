@@ -8,7 +8,7 @@
 \section{Versuchsaufbau}
 \label{Versuchsaufbau}
 
-Bei Ausrichtung eines Bauteils ist in den meisten Fällen nicht perfekt. In diesem Kapitel wird behandelt wie gut das in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} erstellte Neurales Netz ein Bauteil ausrichten kann.
+Die Ausrichtung eines Bauteils ist in den meisten Fällen nicht perfekt. In diesem Kapitel wird behandelt wie gut das in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} erstellte Neurales Netz ein Bauteil ausrichten kann.
 Dafür wird nicht nur die Ausrichtung selber überprüft. Es wird auch die Größe der Rotationen untersucht, da das Drehen eines Bauteil Zeit kostet und die Minimierung dieser Drehung wie in \ref{Fertigungs-Geschwindigkeit} erwähnt eine Priorität ist.
 Außerdem wird die Fähigkeit des neuralen Netzes Fehler in den Daten zu widerstehen in Abschnitt \ref{Verlässlichkeit der Ausrichtung} überprüft und die Fähigkeit auf komplexen Bauteilen zu arbeiten in Abschnitt \ref{Generalisierbarkeit} getestet.
 
@@ -17,10 +17,11 @@ Außerdem wird die Fähigkeit des neuralen Netzes Fehler in den Daten zu widerst
 \begin{figure}[t]
     \centering
     \includegraphics[scale=0.2]{bilder/Daten.png}
-    \caption[Darstellung aller Typen von Bauteilen im Datensatz]{Darstellung aller Typen von Bauteilen im Datensatz}
+    \caption[Darstellung aller Typen von Bauteilen im Datensatz]{Darstellung aller Typen von Bauteilen im Datensatz\footnotemark}
             \label{Darstellung aller Typen von Bauteilen im Datensatz}
-    \quelle\url{https://media.springernature.com/full/springer-static/image/art%3A10.1007%2Fs40964-025-00960-6/MediaObjects/40964_2025_960_Fig1_HTML.png}
 \end{figure}
+
+\footnotetext{\url{https://media.springernature.com/full/springer-static/image/art\%3A10.1007\%2Fs40964-025-00960-6/MediaObjects/40964_2025_960_Fig1_HTML.png}}
 
 Alle Daten, die für die Auswertung benutzt werden, sind in dem Artikel: \cite{Datensatz} erstellt worden und dann wie in Kapitel \ref{Flächensuche in  Bauteilen} beschrieben verändert worden. Die Daten sind künstlich generiert worden 
 und dementsprechend nicht echte Bauteile, sondern einfache geometrische Objekte, denen teilweise Löcher oder anderen Eigenschaften gegeben wurden.
@@ -55,7 +56,7 @@ Pyramiden & 9.22 & 24.68\\
 
 Die Tabelle \ref{table:Testergebnisse auf einfachen Bauteilen} zeigt die Ergebnisse der Tests auf den einfachen Bauteilen des Datensatzes. Dabei ist jeder Typ von Bauteil einzeln aufgeführt.
 Es lässt sich erkennen, dass alle Bauteile außer die Platten mit Löchern eine Genauigkeit von unter 10 Grad Abweichung vom Optimum erreichen. Die Platten mit Löchern erreichen eine Genauigkeit von 10.12 Grad Abweichung vom Optimum, was nicht viel höher ist.
-Insgesamt lässt sich kein größer Unterschied zwischen den verschiedenen Typen von Bauteilen erkennen. Alle Typen erreichen eine ähnliche Genauigkeit und benötigen eine ähnliche Bewegung des Bauteils.
+Insgesamt lässt sich kein großer Unterschied zwischen den verschiedenen Typen von Bauteilen erkennen. Alle Typen erreichen eine ähnliche Genauigkeit und benötigen eine ähnliche Bewegung des Bauteils.
 Die Pyramiden erreichen die beste Genauigkeit mit einer Abweichung von 9.22 Grad vom Optimum und einer durchschnittlichen Bewegung von 24.68 Grad. Die Pyramiden sind die einfachsten Bauteile im Datensatz, was die gute Genauigkeit erklären könnte.
 Andererseits sind die Platten mit Löchern die am schlechtesten abschneidenden Bauteile, was die Gradabweichung vom Optimum angeht. Das könnte daran liegen, dass die Flächensuche Probleme mit den Löchern in den Platten hat.
 
@@ -124,7 +125,7 @@ aber die Rauschpunkte eine große Unsicherheit in die Ergebnisse bringen.
 \subsection{Effekt von schlechter Flächensuche}
 \label{Effekt von schlechter Flächensuche}
 
-Eine Fläche, die in einem Bauteil gefunden wurde, muss nicht immer perfekt die Fläche des Bauteils repräsentieren. Häufig werden Punkte, die zu der Fläche gehören sollten, nicht gefunden, was die Punktwolke keiner macht als sie es mit einer perfekten Suche wäre.
+Eine Fläche, die in einem Bauteil gefunden wurde, muss nicht immer perfekt die Fläche des Bauteils repräsentieren. Häufig werden Punkte, die zu der Fläche gehören sollten, nicht gefunden, was die Punktwolke kleiner macht als sie es mit einer perfekten Suche wäre.
 Der Einfluss von fehlenden Punkten in der Punktwolke einer Fläche wird getestet, indem über mehrere Iterationen Punkte aus den Punktwolken entfernt werden. Die Anzahl der Punkte basiert auf einem Prozentsatz, der sich mit jeder Iteration erhöht. 
 Durch das Verwenden von Prozentsätzen wird sichergestellt, dass die Ergebnisse unabhängig von der ursprünglichen Größe der Punktwolke sind.
 
@@ -152,11 +153,6 @@ Der Zerfall der Genauigkeit in Abbildung \ref{Test von schlechter Flächensuche 
 Wenn zu viele Punkte fehlen, dann wird das Netz weniger Punkte für die Reduktionen haben, was den langsamen Zerfall der Standardabweichung bis zu der 80 \% Grenze erklären könnte. Warum es danach so stark abfällt, ist vermutlich damit zu erklären, 
 dass die Dichte der Punkte so stark abgenommen hat, dass die Reduktion häufig keine Punkte in der lokalen Umgebung hat, die sie für eine Reduzierung verwenden kann. Wenn die Merkmale von einem oder sehr wenigen Punkten aus reduziert werden, 
 denn zerfällt die Idee, lokale Merkmale anhand Ihrer relativen Position zu andern Punkten zu bewerten. Das neurale Netz verliert die Fähigkeit, lokale Merkmale zu erkennen.
-
-\subsection{Effekt von schlechter Flächensuche}
-\label{Effekt von schlechter Flächensuche}
-
-Ein echtes Bauteil wird nicht immer auf dieselbe Art und weise 
 
 \section{Generalisierbarkeit}
 \label{Generalisierbarkeit}
