@@ -1,18 +1,18 @@
 [0] Config.pm:308> INFO - This is Biber 2.20
 [0] Config.pm:311> INFO - Logfile is 'LS7-Abschlussarbeit.blg'
-[84] biber-MSWIN64:340> INFO - === 
-[119] Biber.pm:420> INFO - Reading 'LS7-Abschlussarbeit.bcf'
-[205] Biber.pm:994> INFO - Found 22 citekeys in bib section 0
-[215] Biber.pm:4463> INFO - Processing section 0
-[224] Biber.pm:4654> INFO - Looking for bibtex file 'Literatur.bib' for section 0
-[284] bibtex.pm:1713> INFO - LaTeX decoding ...
-[314] bibtex.pm:1519> INFO - Found BibTeX data source 'Literatur.bib'
-[450] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[450] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
-[450] Biber.pm:4283> INFO - Sorting list 'anyt/global//global/global/global' of type 'entry' with template 'anyt' and locale 'de-DE'
-[450] Biber.pm:4289> INFO - No sort tailoring available for locale 'de-DE'
-[471] bbl.pm:676> INFO - Writing 'LS7-Abschlussarbeit.bbl' with encoding 'UTF-8'
-[483] bbl.pm:779> INFO - Output to LS7-Abschlussarbeit.bbl
-[484] Biber.pm:131> WARN - Duplicate entry key: 'shahrubudin2019overview' in file 'Literatur.bib', skipping ...
-[484] Biber.pm:131> WARN - BibTeX subsystem: C:\Users\larsn\AppData\Local\Temp\biber_tmp_5S4F\fe6d16e8a0935a16f008a64fa11444f8_31188.utf8, line 5, warning: 1 characters of junk seen at toplevel
-[484] Biber.pm:133> INFO - WARNINGS: 2
+[87] biber-MSWIN64:340> INFO - === 
+[121] Biber.pm:420> INFO - Reading 'LS7-Abschlussarbeit.bcf'
+[202] Biber.pm:994> INFO - Found 22 citekeys in bib section 0
+[212] Biber.pm:4463> INFO - Processing section 0
+[222] Biber.pm:4654> INFO - Looking for bibtex file 'Literatur.bib' for section 0
+[280] bibtex.pm:1713> INFO - LaTeX decoding ...
+[310] bibtex.pm:1519> INFO - Found BibTeX data source 'Literatur.bib'
+[442] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[443] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[443] Biber.pm:4283> INFO - Sorting list 'anyt/global//global/global/global' of type 'entry' with template 'anyt' and locale 'de-DE'
+[443] Biber.pm:4289> INFO - No sort tailoring available for locale 'de-DE'
+[462] bbl.pm:676> INFO - Writing 'LS7-Abschlussarbeit.bbl' with encoding 'UTF-8'
+[474] bbl.pm:779> INFO - Output to LS7-Abschlussarbeit.bbl
+[474] Biber.pm:131> WARN - Duplicate entry key: 'shahrubudin2019overview' in file 'Literatur.bib', skipping ...
+[474] Biber.pm:131> WARN - BibTeX subsystem: C:\Users\larsn\AppData\Local\Temp\biber_tmp_jsOr\fe6d16e8a0935a16f008a64fa11444f8_7652.utf8, line 5, warning: 1 characters of junk seen at toplevel
+[475] Biber.pm:133> INFO - WARNINGS: 2
