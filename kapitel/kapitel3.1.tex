@@ -10,6 +10,7 @@
 
 Bevor ein Bauteil ausgerichtet werden, kann, müssen zuerst zusammenhängende Flächen, die möglichst geringe Krümmung aufweisen, im Bauteil identifiziert werden. Solche Flächen zu finden ist das Thema dieses Kapitels. Ein Bauteil ist ein Objekt, dass gedruckt werden könnte, wie zum Beispiel ein Würfel. 
 Die meisten Bauteile in dieser Arbeit sind künstlich generiert und nur für die Weiterverarbeitung oder zum Testen da. Sie sind keine Bauteile, die man in der Praxis drucken würde. Die Verarbeitung der gefundenen Flächen wird in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} behandelt.
+Die Suche der Fläche ist ausschließlich für die Weiterverarbeitung in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} da. Sie sind ein Zwischenergebnis.
 
 \smallskip
 
@@ -17,9 +18,11 @@ Eine kohärente Fläche ist eine stetige Fläche. Sie hat weder Sprünge noch L�
 Es ist einfacher, wenn diese Fläche als zwei oder mehr Flächen weiterverarbeitet wird, anstelle von einer Fläche, die an mindestens einer Stelle getrennt ist. Eine zusammenhängende Fläche ist in dieser Arbeit eine Fläche, 
 die entweder keine oder eine geringe Krümmung aufweist. Eine Krümmung kann nur bis zu einem bestimmten Punkt akzeptiert und ein Knick innerhalb einer Fläche sollte immer vermieden werden. Wie der Punkt bis zu dem eine Krümmung akzeptabel ist, festgelegt wird, wird 
 in dem folgenden Abschnitt \ref{Clustering nach Normalvektoren in Bauteilen} erklärt. Eine Fläche mit einer Krümmung kann eine gute Ausrichtung unmöglich machen. 
-Das Ziel der Ausrichtungen ist es eine Fläche senkrecht in Relation zu der Druckerplatte zu Orientieren. Bei einer gekrümmten Fläche ist dies unmöglich, wenn man zwei Tangenten an zwei zufälligen Punkten auf einer gekrümmten Fläche nimmt, 
-werden diese nicht parallel sein. Die Tangenten haben die Steigung der Fläche an den Punkten. Die Abbildung \ref{Darstellung von Tangenten in einer gekrümmten Fläche} zeigt eine gekrümmte Fläche in Blau und auf der Fläche zwei Tangenten, $t_1$ und $t_2$, 
-die in Magenta markiert sind. Wenn die y-Achse die Grundfläche eines Druckers ist, dann lässt es sich leicht erkennen, dass die Fläche unmöglich Senkrecht zu der Druckerfläche seien kann. Sobald in einer Fläche zwei Tangenten, 
+Das Ziel der Ausrichtungen ist es eine Fläche senkrecht in Relation zu der Druckerplatte zu Orientieren. Bei einer gekrümmten Fläche ist dies unmöglich. Wenn man zwei Geraden durch zwei zufällige Punkte auf einer gekrümmten Fläche zieht 
+und die beiden Geraden die Steigung der Fläche an den Punkten, durch die sie gehen, haben, dann werden sie nicht parallel sein. Geraden, welche die Steigung an einem Punkt darstellen, werden Tangenten genannt. 
+Die Abbildung \ref{Darstellung von Tangenten in einer gekrümmten Fläche} zeigt eine gekrümmte Fläche in Blau und auf der Fläche zwei Tangenten, $t_1$ und $t_2$, 
+die in Magenta markiert sind. Es lässt sich erkennen, dass es unmöglich ist zwei Tangenten zu wählen, die parallel sind und nicht vom selben Punkt ausgehen.
+Wenn die y-Achse die Grundfläche eines Druckers ist, dann lässt es sich ebenfalls erkennen, dass die Fläche unmöglich Senkrecht zu der Druckerfläche seien kann. Sobald in einer Fläche zwei Tangenten, 
 die nicht parallel zueinander sind, existieren, ist eine perfekt senkrechte Ausrichtung unmöglich. Eine Krümmung sollte dementsprechend so gering wie möglich sein. 
 
 \begin{figure}[t]
@@ -109,11 +112,19 @@ bildet eine Fläche mit geringer Krümmung. Der Sinn des Clusterings eines Baute
 
 \smallskip
 
-Viele Methoden des Clusterings benötigen eine vorgegebene Anzahl an Gruppen, in die sie die Punkte einteilen sollen. Es muss davon ausgegangen werden, dass bei einem Bauteil die Anzahl der Flächen die gefunden werden können unbekannt sind.
-Das macht Methoden, die eine Anzahl an Gruppen benötigen, ungeeignet. Stattdessen wird eine Methode genutzt, in der alle Datenpunkte zum Start ihre eigene Gruppe haben, sodass es für jeden Datenpunkt eine Gruppe gibt. 
-Die zwei Gruppen, die sich am ähnlichsten sind, werden dann zusammenfügt.
-Auf diesen Gruppen wird der Vorgang wiederholt, bis das Zusammenfügen von Gruppen immer einen vor der Ausführung festgelegten Differenzwert überschreitet. Es passten sich so die Anzahl der Gruppen dem Bauteil an. 
-Dieses Vorgehen wird Hierarchie Clustering genannt.
+Eine Aufteilung von Normalvektoren in Cluster basierend auf ihrer Ähnlichkeit lässt mehrere Möglichkeiten der Umsetzung offen. Durch Testen hat sich hierarchische Clustering als die beste Option herausgestellt. 
+Methode, die einen Zielwert für die Anzahl an Cluster vor der Ausführung benötigen, haben sich als unzuverlässig erwiesen. Die feste Anzahl an Cluster die Ausgegeben werden muss, macht solche Methoden nicht sehr anpassungsfähig. 
+Bei Bauteilen mit einfacher Form, wie zum Beispiel ein Würfel, sollte wenige Flächen gefunden werden. In vielen Fällen wurden offensichtlich zusammenhängende Flächen in zwei geteilt, 
+weil das Clustering verfahren gezwungen war die festgelegte Anzahl an Clustern zu finden. Bei komplexen Bauteilen würden dagegen viele Flächen zu erwarten sein. Es wurden Flächen die getrennt sein sollten nicht getrennt, 
+da die Clustering Methode die festgelegte Anzahl an Clustern nicht überschreiten darf.
+
+Dichte basierte Verfahren, wie DB-Scan, benötigen keine Angaben zu der Clusteranzahl vor der Ausführung. Sie haben sich aber ebenfalls als unzuverlässig erwiesen. Die Normalvektoren liegen dicht zusammen, 
+sodass dieses Verfahren meistens entweder das gesamte Bauteil als ein Cluster oder nur Cluster, die zu klein sind, um nutzbar sein erkannt hat.
+
+Hierarchische Clustering benötigt keine Anzahl an Clustern die gefunden werden sollen.
+Stattdessen wird eine Methode genutzt, in der alle Datenpunkte zum Start ihre eigene Gruppe haben, sodass es für jeden Datenpunkt eine Gruppe gibt. Die zwei Gruppen, die sich am ähnlichsten sind, werden dann zusammenfügt.
+Auf diesen Gruppen wird der Vorgang wiederholt, bis das Zusammenfügen von Gruppen immer einen vor der Ausführung festgelegten Differenzwert überschreitet. Der Grenzwert der nicht überschritten werden darf, 
+ist die Unterschiedlichkeit der Normalvektoren in den Clustern. So passt sich die Anzahl der Cluster dem Bauteil an und es wird gleichzeitig sichergestellt, dass Normalvektoren in einem Cluster einen festlegbaren Wert an Ähnlichkeit nicht unterschreiten. 
 
 
 \begin{figure}[t]
@@ -133,9 +144,10 @@ In der Abbildung \ref{Beispiel von Hierarchie Clustering als Dendrogramm} stoppt
 \smallskip
 
 Das Zusammenfügen von Gruppen basiert auf Ähnlichkeit der Gruppen. In jedem Schritt werden die ähnlichsten Gruppen zusammengefasst. Die Ähnlichkeit zwischen Gruppen wird über die Ward Methode bestimmt \cite{Ward}. Diese Methode vereinigt die zwei Gruppen,
-mit dem geringsten Anstieg an Varianz. Dafür wird für jede Gruppe $G$ die Varianz mittels $\sum_{i \in G}(||\overline{x} - x_i||^2)$ bestimmt. $\overline{x}$ ist dabei der Durchschnitt aller Punkte in G. Der Veränderung der Varianz bei dem Zusammengefügen
+mit dem geringsten Anstieg an Varianz. Die Varianz von einer Gruppe an Punkten ist die durchschnittliche Abweichung von dem Zentrum der Punkte. In diesem Fall wird die quadratische Varianz genommen, also die durchschnittliche Abweichung zum Quadrat. 
+Für jede Gruppe $G$ wird die Varianz mittels $\sum_{i \in G}(||\overline{x} - x_i||^2)$ bestimmt. $\overline{x}$ ist dabei der Durchschnitt aller Punkte in G. Der Veränderung der Varianz bei dem Zusammengefügen
 zweier Gruppen $A,B$ kann durch $\sum_{i \in A \bigcup B}(||\overline{x} - x_i||^2) - \sum_{i \in G}(||\overline{x} - x_i||^2) - \sum_{i \in G}(||\overline{x} - x_i||^2)$ bestimmt werden. Von der Varianz der zusammengefügten Gruppen wird die Varianz der 
-beiden einzelnen Gruppen abgezogen, das Ergebnis ist die Erhöhung der Varianz durch das Zusammenfügen von A und B. Die Gruppen zwischen denen diese Erhöhung minimal ist, werden zusammengefasst. % was ist Varianz
+beiden einzelnen Gruppen abgezogen, das Ergebnis ist die Erhöhung der Varianz durch das Zusammenfügen von A und B. Die Gruppen zwischen denen diese Erhöhung minimal ist, werden zusammengefasst.
 
 \smallskip
 
@@ -168,7 +180,7 @@ Das macht sie ungeeignet für die Bildung einer Ausrichtung in Kapitel \ref{Punk
 
 \smallskip
 
-In Abbildung \ref{Hierarchisches Clustering eines Bauteils nach Normalvektor} ist eine beispielhafte Ausführung des Clusterings auf den Normalvektoren, welches in Abschnitt \ref{Hierarchisches Clustering} beschrieben wird dargestellt.
+In Abbildung \ref{Hierarchisches Clustering eines Bauteils nach Normalvektor} ist eine beispielhafte Ausführung des Clusterings auf den Normalvektoren, welches in Abschnitt \ref{Hierarchisches Clustering} beschrieben wird, dargestellt.
 Die grünen Punkte sind die ein Cluster, dass von dem Normalvektorclustering gefunden wurde. Die roten Punkte sind die übrigen Punkte des Bauteils.
 Punkte, die erkennbare Flächen bilden, sind immer sehr dicht beieinander. Zwischen den erkennbaren Flächen sind große Lücken ohne Punkte. Die Dichte der Punkte kann somit genutzt werden, um die einzelnen Flächen voneinander zu trennen.
 
@@ -179,7 +191,7 @@ DB-Scan ist eine auf Dichte basierende Clustering Methode. Diese Methode braucht
 \smallskip
 
 Die räumliche Trennung zwischen den Flächen in einem Cluster kann genutzt werden, um sie zu trennen. Dafür wird der DB-Scan Algorithmus verwendet. DB-Scan benötigt einen Radius und eine Mindestanzahl an Nachbarn. 
-Der Radius wird $esp$ und die Mindestanzahl an Nachbarn wird $minPts$ in Abbildung \ref{Beispielhafte Darstellung von DB-Scan Algorithmus} genannt. Die Eingabe muss relativ zu der Dichte der Flächen bestimmt werden.
+Der Radius wird $esp$ und die Mindestanzahl an Nachbarn wird $minPts$ in Abbildung \ref{Beispielhafte Darstellung von DB-Scan Algorithmus} genannt. Die Eingabe muss relativ zu der Dichte der Flächen bestimmt werden. 
 
 \begin{figure}[t]
     \centering
@@ -194,8 +206,63 @@ Die Abbildung \ref{Beispielhafte Darstellung von DB-Scan Algorithmus} zeigt ein 
 Der Algorithmus nimmt einen Punkt, der in keinem Cluster ist und überprüft, wie viel Punkte in einem Radius $esp$ um ihn herum sind. Wenn innerhalb des Radius mindestens $minPts$ viele Punkte sind, dann ist der Punkt ein Kernpunkt (engl. Core Point) eines neuen Clusters.
 Alle Punkte, die in dem Radius des Punktes sind, werden Teil des Clusters und genauso überprüft, wie der Startknoten des Clusters. Dieses Vorgehen wird fortgeführt, bis keine Punkte mehr hinzugefügt werden können. Wenn ein Punkt Teil des Clusters ist, 
 aber nicht mindestens $minPts$ viele Punkte in seiner Nachbarschaft hat, dann ist dieser Punkt ein Randpunkt (engl. Borderpoint), aber immer noch Teil des Clusters.
-Wenn weniger als $minPts$ innerhalb des Radius sind, dann gilt der Punkt als Ausnahmepunkt (engl. Noise). Das bedeutet aber nicht unbedingt, dass der Punkt Noise bleibt. Er kann auch zu einem Randpunkt eines Noch nicht existierenden Clusters werden.
-Es werden so lange neue Punkte außerhalb von Clustern gewählt, bis alle Punkte Teil eines Clusters oder Noise sind.
+Wenn weniger als $minPts$ innerhalb des Radius sind, dann gilt der Punkt als Rauschpunkt (engl. Noise). Das bedeutet aber nicht unbedingt, dass der Punkt Noise bleibt. Er kann auch zu einem Randpunkt eines Noch nicht existierenden Clusters werden.
+Es werden so lange neue Punkte außerhalb von Clustern gewählt, bis alle Punkte Teil eines Clusters oder Noise sind. Die Reihenfolge, in der die Punkte abgearbeitet werden, ist größtenteils irrelevant. Die Randpunkte der Cluster können durch die Reihenfolge der Ausführung beeinflusst werden,
+die Kernpunkte der Cluster bleiben dagegen unverändert. 
+
+\smallskip
+
+Die Algorithmen \ref{alg:DB-Scan Algorithmus} und \ref{alg:ClusterErweitern Algorithmus} stellen die Arbeitsweise von DB-Scan mit Pseudocode dar.
+
+Der DB-Scan Algorithmus \ref{alg:DB-Scan Algorithmus} geht alle Punkte einer Punktwolke durch und such nach Punkten, die noch nicht zugewiesen wurden. Nachdem alle Punkte ein Label bekommen haben, ist der Algorithmus fertig. 
+Für jeden Punkt, der aktuell unbestimmt ist, wird der Unteralgorithmus \ref{alg:ClusterErweitern Algorithmus} aufgerufen, um zu bestimmen, ob der unbestimmte Punkt ein Cluster bilden kann.
+Der Unteralgorithmus ClusterErweitern überprüft, wie viele Nachbarn der unbestimmte Punkt hat. Wenn es mindestens minPts viele sind, ist ein neues Cluster gefunden worden. Alle Nachbarn des Punktes sind ebenfalls teil des Clusters. 
+Auf Ihnen wird der ClusterErweitern Algorithmus erneut ausgeführt. Wenn sie ebenfalls mindestens minPts innerhalb des esp Radus haben, werden sie auch alle Teil des Clusters und der Vorgang wird erneut wiederholt. Wenn ein Punkt die CLusterID eines Clusters hat, 
+aber nicht die Mindestanzahl an Nachbarn hat, dann ist es ein Randpunkt. Auf den Nachbar eines Randpunktes wird der ClusterErweitern Algorithmus nicht ausgeführt und sie werden auf nicht zum Teil des Clusters gemacht, außer sie waren es schon vorher. 
+Randpunkte sind dennoch Teil eines Clusters und behalten Ihre ClusterID.
+Auf diese Art und Weise wird ein Cluster erweitert, bis es keine Punkte mehr gibt die Hinzugefügt werden können.
+
+Falls der ClusterErweitern Algorithmus nicht mindestens minPts Nachbar von dem Starpunkt findet, dann gibt ClusterErweitern False zurück und der Punkt wird als Rauschpunkt gekennzeichnet.
+
+\begin{algorithm}[t]
+    \centering
+    \caption[DB-Scan Algorithmus]{DB-Scan Algorithmus} \label{alg:DB-Scan Algorithmus}
+    \begin{algorithmic}
+    \REQUIRE $Punktwolke, esp, minPts$
+    \STATE $i = 0$
+    \FOR{$Punkt \in Punktwolke$}
+    \IF{$Punkt.CusterID = Unbestimmt$}
+    \IF{$ClusterErweitern(Punktwolke, Punkt, ClusterID, eps, minPts)$}
+    \STATE $Punkt.CusterID = neue ClusterID$
+    \ENDIF
+    \ENDIF
+    \ENDFOR
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[t]
+    \centering
+    \caption[ClusterErweitern Algorithmus]{ClusterErweitern Algorithmus} \label{alg:ClusterErweitern Algorithmus}
+    \begin{algorithmic}
+    \REQUIRE $Punktwolke, Punkt, ClusterID, eps, minPts$
+    \STATE $nachbarn = regionsSuche(Punkt,esp)$
+    \IF{$nachbarn.size \geq minPts$}
+        \FOR{$kandidat \in nachbarn$}
+            \IF{$kandidat.ClusterID = Unbestimmt OR Rauschpunkt$}
+                \STATE RETURN $ClusterErweitern(Punktwolke, kandidat, ClusterID, eps, minPts)$
+            \ENDIF
+        \ENDFOR
+    \ELSE
+        \IF{$Punkt.ClusterID \neq Unbestimmt$}
+            \STATE $kandidat.ClusterID = ClusterID //Randpunkt$ 
+            \STATE RETURN True
+        \ELSE
+            \STATE $Punkt.ClusterID = Rauschpunkt$
+            \STATE RETURN False
+        \ENDIF
+    \ENDIF
+    \end{algorithmic}
+\end{algorithm}
 
 \smallskip
 
@@ -211,3 +278,7 @@ Mit einer quadratischen Zeitkomplexität ist das Clustern auf den Normalvektoren
 
 Zuletzt werden von den finalen Clustern alle aussortiert, die eine bestimmte Punktanzahl unterschreiten. Flächen mit zu wenigen Punkten würden schwer zu verarbeiten sein, daher ist es einfacher, sie nicht zu betrachten. 
 Der Verlust an Punkten dadurch wird nur gering sein. Für eine echte Teilausrichtung dürften allerdings keine Punkte verloren gehen. Jeder Punkt muss gedruckt werden. Das Problem ließe sich im Realfall lösen, indem das Aussortieren weggelassen wird.
+
+\smallskip
+
+Das Ergebnis das durch das zweifache Clustern erreicht wurde, ist die Verarbeitung von Bauteilen zu zusammenhängenden und kohärenten Flächen, die in einem Bauteil gefunden werden können.

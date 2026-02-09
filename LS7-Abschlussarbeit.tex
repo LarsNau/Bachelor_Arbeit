@@ -237,8 +237,8 @@ breaklines=true
 % Algorithmen
 \usepackage[plain,chapter]{algorithm}
 \usepackage{algorithmic}
-
 \usepackage{enumerate}
+
 
 % -------------------------------------------------------------------
 % Algorithmen anpassen
@@ -315,8 +315,6 @@ breaklines=true
 \cleardoublepage
 \appendix
 
-\include{kapitel/anhang}
-
 % Abbildungsverzeichnis -------------------------------------------------
 %
 \listoffigures
@@ -330,6 +328,7 @@ breaklines=true
 
 % Algorithmenverzeichnis ------------------------------------------------
 %
+
 \listofalgorithms
 \ifthenelse{\boolean{spracheDT}}{ % deutsch
 \addcontentsline{toc}{chapter}{Algorithmenverzeichnis}
@@ -337,19 +336,7 @@ breaklines=true
 \addcontentsline{toc}{chapter}{List of Algorithms}
 }
 \cleardoublepage
-
-% Quellcodeverzeichnis --------------------------------------------------
 %
-\ifthenelse{\boolean{spracheDT}}{ % deutsch
-\renewcommand{\lstlistlistingname}{Quellcodeverzeichnis}
-\lstlistoflistings
-\addcontentsline{toc}{chapter}{Quellcodeverzeichnis}
-}{ % englisch
-\renewcommand{\lstlistlistingname}{List of Listings}
-\lstlistoflistings
-\addcontentsline{toc}{chapter}{List of Listings}
-}
-\cleardoublepage
 
 % Literaturverzeichnis -------------------------------------------------
 %

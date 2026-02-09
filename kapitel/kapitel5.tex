@@ -8,50 +8,50 @@
 \section{Zusammenfassung}
 \label{Zusammenfassung}
 
-In dieser Arbeit wurde zunächst die Notwendigkeit der Ausrichtung von Bauteilen in der additiven Fertigung erläutert. Dabei wurde ganz besonders auf die zusätzlichen Herausforderungen bei dem 5D Druck eingegangen, in dem die Ausrichtung eine größere Rolle spielt, 
-da die Ausrichtung eines Bauteils mehrmals während des Druckens geändert werden kann. Wobei eine für einen Abschnitt optimale Ausrichtung zu berechnen sich als extrem komplex herausgestellt hat.
+In dieser Arbeit wurde zunächst die Notwendigkeit der Ausrichtung von Bauteilen in der additiven Fertigung erläutert. Dabei wurde ganz besonders auf die zusätzlichen Herausforderungen bei dem 5D Druck eingegangen, in dem die Ausrichtung eine größere Rolle spielt,
+da hier die Ausrichtung eines Bauteils mehrmals während des Druckens geändert werden kann. Wobei eine Ausrichtung für jede Fläche des Bauteils zu berechnen sich als extrem komplex herausgestellt hat.
 
 \smallskip
 
 Anschließend wurde ein neuronales Netz als Lösungsansatz vorgestellt, welches in der Lage ist, die Ausrichtung eines Bauteils für Flächen in dem Bauteil zu bestimmen. Dafür wurde ebenfalls ein Verfahren zur Extraktion von Flächen aus Bauteilen beschrieben.
-Die Frage, die in der Arbeit gestellt wurde, war es, ob ein tiefes neurales Netz in der Lage ist eine praxisrelevante Lösung für das Problem der Teilausrichtung im 5d druck bietet.
+Die Frage, die in der Arbeit gestellt wurde, war es, ob ein tiefes neurales Netz in der Lage ist, eine praxisrelevante Lösung für das Problem der Teilausrichtung im 5d-Druck bietet.
 
 \smallskip
 
 Schließlich wurden Test auf dem beschrieben neuronalen Netz durchgeführt und ihre Ergebnisse wurden ausgewertet. Daraus ergab sich, dass das Netz in der Lage ist, Bauteile mit einer akzeptablen, aber bei weitem nicht perfekten, Genauigkeit auszurichten. 
 Eine Abweichung von unter 10 Grad ist im Durchschnitt erreicht worden. Bei einer Abweichung von bis zu 40 Grad ist das Drucken immer noch möglich, wenn auch nicht sehr schnell \cite{jiang2018investigation}. 
-Dementsprechend ist eine solche Genauigkeit nicht optimal, aber dennoch ausreichend, um einen Überhang zu vermeiden. Auch auf komplexeren Bauteilen konnte das Netz verlässlich akzeptable Ergebnisse erzielen, 
+Dementsprechend ist eine solche Genauigkeit nicht optimal, aber dennoch ausreichend, um einen Überhang zu vermeiden. Auch auf komplexeren Bauteilen konnte das Netz verlässlich, akzeptable Ergebnisse erzielen, 
 was auf eine gute Generalisierbarkeit des Netzes hinweist. Eine durchschnittliche Abweichung von 10 Grad ist für den Praxisfall häufig zu ungenau. 10 Grad reichen nicht aus, um einer Fläche einen Überhang zu geben, der Stützstrukturen notwendig machen würde. 
 Die Ausrichtungen sind also gut genug, um  verlässlich Bauteile ohne Stützstrukturen zu drucken.
-Das Ergebnis, wenn die Minimierung der Bewegung ignoriert wird ist besser mit 5 Grad. Es würde allerdings auch eine signifikante Erhöhung der Druckzeit mit sich bringen, da sich die Bewegung für jede Ausrichtung mehr als verdoppelt hat.
-Die Ausrichtung ist in beiden Fällen nicht perfekt, für eine praktische Anwendung würde man bessere Ergebnisse wollen, aber Neurale Netz sind dennoch in der Lage eine Ausrichtung mit akzeptabler Abweichung zu finden.
-Es gibt außerdem keine Funktion im Neuralen Netz, die einen sauberen Übergang zwischen zwei Flächen garantiert. Der Unterschied im Druckwinkel zwischen zwei Schichten könnte dementsprechend häufig 20 Grad übersteigen. 
+Das Ergebnis, wenn die Minimierung der Bewegung ignoriert wird, ist besser mit 5 Grad. Es würde allerdings auch eine signifikante Erhöhung der Druckzeit mit sich bringen, da sich die Bewegung für jede Ausrichtung mehr als verdoppelt hat.
+Die Ausrichtung ist in beiden Fällen nicht perfekt, für eine praktische Anwendung würde man bessere Ergebnisse wollen. Die neurale Netz sind dennoch in der Lage eine Ausrichtung mit akzeptabler Abweichung zu finden.
+Es gibt außerdem keine Funktion im neuralen Netz, die einen sauberen Übergang zwischen zwei Flächen garantiert. Der Unterschied im Druckwinkel zwischen zwei Schichten könnte dementsprechend häufig 20 Grad übersteigen. 
 Der extreme Unterschied in Druckwinkel könnte strukturelle Probleme an den Übergangspunkten zweier Flächen verursachen.
 
 \smallskip
 
 Die Minimierung der Bewegung des Bauteils während des Ausrichtens hatte eine kleine, aber sichtbaren Verkleinerung der benötigten Drehung ergeben. Der durchschnittliche Winkel, um den ein Teil gedreht werden muss, lag bei unter 40 Grad. 
 Ohne die Minimierung würde der durchschnittliche Drehwinkel bei über 45 Grad liegen, also zufällig zwischen 0 und 90 Grad.
-Auch wenn die Verbesserung durch die Minimierung der Bewegung nicht sehr groß ist, so ist sie dennoch relevant, da jede eingesparte Drehung die Druckzeit verringert. Es ist kein anderes Verhalten bei komplexen Bauteilen zu sehen gewesen.
-Insgesamt, ist die Verbesserung über dem Zufall nicht sehr groß, aber eine extreme Verbesserung über dem Fall, in dem die Bewegung des Bauteils ignoriert wurde.
-Die Bewertung der Bewegung eines Bauteils ist immer davon ausgegangen, dass ein Bauteil vor der Ausrichtung immer ohne jegliche vorherige Drehung auf seiner Startposition ist. Eine realistische Bewertung würde den Übergang der letzten zu der aktuellen Fläche messen,
-aber die Flächensuche speichert nicht, welche Fläche zu welchem Bauteil gehört. Um die Bewegung bei dem Übergang zwischen zwei Flächen zu messen, müsste bekannt aus welchen Flächen ein Bauteil besteht, 
-um dann eine Druckreihenfolge der Flächen innerhalb eines Bauteils zu bestimmen.
+Auch wenn die Verbesserung durch die Minimierung der Bewegung nicht sehr groß ist, so ist sie dennoch relevant, da jede eingesparte Drehung die Druckzeit verringert. Es ist kein anderes Verhalten bei komplexen Bauteilen bemerkbar.
+Insgesamt, ist die Verbesserung über einer zufälligen Ausrichtung nicht sehr groß. Dennoch ist es eine extreme Verbesserung über der Methode, in dem die Bewegung des Bauteils ignoriert wurde.
+Die Bewertung der Bewegung eines Bauteils ist immer davon ausgegangen, dass ein Bauteil vor der Ausrichtung immer ohne jegliche vorherige Drehung auf seiner Startposition ist. Eine realistische Bewertung würde den Übergang der letzten zu der aktuellen Fläche messen.
+Die Flächensuche speichert jedoch nicht, welche Fläche zu welchem Bauteil gehört. Um die Bewegung bei dem Übergang zwischen zwei Flächen zu messen, müsste bekannt sein, aus welchen Flächen ein Bauteil besteht.
+Dies würde dann eine Druckreihenfolge der Flächen innerhalb eines Bauteils zu bestimmen möglich machen.
 
 \smallskip
 
-Das Finden von Flächen in Bauteilen hat in den meisten Fällen akzeptabel funktioniert. Allerdings besonders bei komplexen Bauteilen, die über viele gebogene Flächen verfügen, hat die Suche häufig Flächen mit Löchern oder extrem kleine Flächen ergeben. 
-Die Löcher in den Flächen sind in sich selber kein Problem, die Suche hat ein Loch in der Fläche gelassen, weil dort die Punkte einen zu unterschiedlichen Normalvektor hatten. So sollte die Suche auf funktionieren, 
-aber ein Loch in einer Fläche könnte das Nutzen von Stützstrukturen wieder nötig machen, was die Vorteile der Ausrichtung wieder verringert.
-Durch den Erfolg bei einfachen Bauteilen, lässt sich schlussfolgern, dass die Flächensuche besonders gut darin ist Flächen die nicht gebogen sind zu finden und die sich durch einen Knick in der Geometrie von anderen Flächen abgrenzen lassen. 
+Das Finden von Flächen in Bauteilen hat in den meisten Fällen akzeptabel funktioniert. Allerdings besonders bei komplexen Bauteilen, die über viele gebogene Flächen verfügen, hat die Suche häufig Flächen mit Löchern oder anderen Problemen ergeben. 
+Die Löcher in den Flächen sind in sich selber kein Problem. Die Suche hat ein Loch in der Fläche gelassen, weil dort die Punkte einen zu unterschiedlichen Normalvektor hatten. Zwar arbeitet die Flächensuche hier korrekt, 
+denn ein Loch in einer Fläche könnte das Nutzen von Stützstrukturen wieder nötig machen.
+Durch den Erfolg bei einfachen Bauteilen, lässt sich schlussfolgern, dass die Flächensuche besonders gut darin ist, Flächen die nicht gebogen sind zu finden und die sich durch einen Knick in der Geometrie von anderen Flächen abgrenzen lassen. 
 
 \smallskip
 
-Es lässt sich sagen, dass das beschriebene neurale Netz in der Lage ist, die Ausrichtung von Bauteilen zu erkennen, ob die Abweichung gering genug ist um Praxisrelevanz zu sein ist fragwürdig.  Eine geringere Abweichung von dem Optimum wäre wünschenswert, 
+Es lässt sich sagen, dass das beschriebene neurale Netz in der Lage ist, die Ausrichtung von Bauteilen zu erkennen. Ob die Abweichung gering genug ist, um praxisrelevant zu sein, ist fragwürdig.  Eine geringere Abweichung von dem Optimum wäre wünschenswert, 
 aber die erzielten Ergebnisse sind dennoch ausreichend, 
-um einen Überhang der Stützstrukturen nötig macht zu vermeiden. Die Flächensuche funktioniert in den meisten Fällen gut, aber es gibt noch Raum für Verbesserungen, besonders bei komplexen Bauteilen mit gebogenen Flächen. Die Minimierung der Bewegung des Bauteils ist funktional, 
+um einen Überhang, der Stützstrukturen nötig macht, zu vermeiden. Die Flächensuche funktioniert in den meisten Fällen gut, aber es gibt noch Raum für Verbesserungen, besonders bei komplexen Bauteilen mit gebogenen Flächen. Die Minimierung der Bewegung des Bauteils ist funktional, 
 aber die Verbesserung ist nur gering. Insgesamt ist das beschriebene Verfahren ein akzeptabler Ansatz, um Bauteile in der additiven Fertigung auszurichten, wenn auch noch einige Verbesserungen möglich wären. 
-Es ist für den praktischen Einsatz unter Umständen praktikabel. Die Aufteilung in Flächen ist problembehaftet und müsste für den praktischen Einsatz stark verbessert werden.
+Es ist für den praktischen Einsatz unter Umständen vorstellbar. Die Aufteilung in Flächen ist problembehaftet und müsste für den praktischen Einsatz stark verbessert werden.
 
 \section{Ausblick}
 \label{Ausblick}
@@ -60,8 +60,8 @@ Diese Arbeit hat gezeigt, dass das Ausrichten von Bauteilen mit neuronalen Netze
 
 \smallskip 
 
-Die Genauigkeit des Netzes könnte durch eine Verbesserung der Flächensuche gesteigert werden. Die Flächensuche selber basiert auf einem fehlerbehafteten Ansatz. Für unterschiedliche Arten von Bauteile müssen die Parameter der Flächensuche angepasst werden, 
-was dem Sinn von automatischer Anpassung widerspricht. Eine  Flächensuche, die weniger Fehler macht, würde dem Neuralen Netz bessere Trainingsdaten liefern, was die Genauigkeit des Netzes steigern könnte. Ein weiteres Problem der Flächensuche ist, dass sie Flächen mit Löchern findet.
+Die Genauigkeit des Netzes könnte durch eine Verbesserung der Flächensuche gesteigert werden. Die Flächensuche selber basiert auf einem fehlerbehafteten Ansatz. Für unterschiedliche Arten von Bauteilen müssen die Parameter der Flächensuche manuell angepasst werden, 
+was dem Sinn von automatischer Anpassung widerspricht. Eine Flächensuche, die weniger Fehler macht, würde dem neuralen Netz bessere Trainingsdaten liefern. Dies würde die Genauigkeit des Netzes steigern. Ein weiteres Problem der Flächensuche ist, dass sie Flächen mit Löchern findet.
 Das ist ein Problem, was mit dem Clustering von Normalvektoren zusammenhängt und dementsprechend vermutlich nicht behoben werden kann, ohne den Ansatz der Flächensuche zu verändern. Eine Flächensuche, die in der Lage ist, Flächen mit Löchern zu vermeiden, 
 würde das Problem der Stützstrukturen lösen.
 

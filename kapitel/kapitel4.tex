@@ -8,8 +8,8 @@
 \section{Versuchsaufbau}
 \label{Versuchsaufbau}
 
-Die Ausrichtung eines Bauteils ist in den meisten Fällen nicht perfekt. In diesem Kapitel wird behandelt wie gut das in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} erstellte Neurales Netz ein Bauteil ausrichten kann.
-Dafür wird nicht nur die Ausrichtung selber überprüft. Es wird auch die Größe der Rotationen untersucht, da das Drehen eines Bauteil Zeit kostet und die Minimierung dieser Drehung wie in \ref{Fertigungs-Geschwindigkeit} erwähnt eine Priorität ist.
+Die Ausrichtung eines Bauteils ist in den meisten Fällen nicht perfekt. In diesem Kapitel wird behandelt wie gut das in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} erstellte neurales Netz ein Bauteil ausrichten kann.
+Dafür wird nicht nur die Ausrichtung selber überprüft. Es wird auch die Größe der Rotationen untersucht, da das Drehen eines Bauteils Zeit kostet und die Minimierung dieser Drehung wie in \ref{Fertigungs-Geschwindigkeit} erwähnt eine Priorität ist.
 Außerdem wird die Fähigkeit des neuralen Netzes Fehler in den Daten zu widerstehen in Abschnitt \ref{Verlässlichkeit der Ausrichtung} überprüft und die Fähigkeit auf komplexen Bauteilen zu arbeiten in Abschnitt \ref{Generalisierbarkeit} getestet.
 
 
@@ -27,7 +27,7 @@ Alle Daten, die für die Auswertung benutzt werden, sind in dem Artikel: \cite{D
 und dementsprechend nicht echte Bauteile, sondern einfache geometrische Objekte, denen teilweise Löcher oder anderen Eigenschaften gegeben wurden.
 Die Abbildung \ref{Darstellung aller Typen von Bauteilen im Datensatz} stellt alle Typen von Bauteilen dar, die in dem Datensatz enthalten sind. Es gebt insgesamt 4 verschiedene Typen, die alle einfache geometrische Objekt sind.
 
-Die Typen sind von A bis D durchnummeriert. Die unterschiedlichen Typen sind: "Platten mit Löchern", "Platonischer Körper mit Inschriften", "Körper mit mehreren Löchern" und "Pyramiden".
+Die Typen sind von A bis D gekennzeichnet. Die unterschiedlichen Typen sind: "Platten mit Löchern", "Platonischer Körper mit Inschriften", "Körper mit mehreren Löchern" und "Pyramiden".
 
 Für alle Tests, in dem Abschnitt \ref{Effekt von Rauschen auf den Daten} und \ref{Effekt von schlechter Flächensuche}, werden 1000 zufällige Flächen aus dem Datensatz genommen. Diese Flächen werden wie in Kapitel \ref{Punktwolkenverarbeitung zur Bauteilausrichtung} beschrieben gefunden. 
 Tests haben ergeben, dass das Verwenden von einem Datensatz mit mehr als 1000 Flächen keinen signifikanten Einfluss auf das Ergebnis hat. 
@@ -55,7 +55,7 @@ Pyramiden & 9.22 & 24.68\\
 \end{table}
 
 Die Tabelle \ref{table:Testergebnisse auf einfachen Bauteilen} zeigt die Ergebnisse der Tests auf den einfachen Bauteilen des Datensatzes. Dabei ist jeder Typ von Bauteil einzeln aufgeführt.
-Es lässt sich erkennen, dass alle Bauteile außer die Platten mit Löchern eine Genauigkeit von unter 10 Grad Abweichung vom Optimum erreichen. Die Platten mit Löchern erreichen eine Genauigkeit von 10.12 Grad Abweichung vom Optimum, was nicht viel höher ist.
+Es lässt sich erkennen, dass alle Bauteile, außer die Platten mit Löchern, eine Genauigkeit von unter 10 Grad Abweichung vom Optimum erreichen. Die Platten mit Löchern erreichen eine Genauigkeit von 10.12 Grad Abweichung vom Optimum, was nicht viel höher ist.
 Insgesamt lässt sich kein großer Unterschied zwischen den verschiedenen Typen von Bauteilen erkennen. Alle Typen erreichen eine ähnliche Genauigkeit und benötigen eine ähnliche Bewegung des Bauteils.
 Die Pyramiden erreichen die beste Genauigkeit mit einer Abweichung von 9.22 Grad vom Optimum und einer durchschnittlichen Bewegung von 24.68 Grad. Die Pyramiden sind die einfachsten Bauteile im Datensatz, was die gute Genauigkeit erklären könnte.
 Andererseits sind die Platten mit Löchern die am schlechtesten abschneidenden Bauteile, was die Gradabweichung vom Optimum angeht. Das könnte daran liegen, dass die Flächensuche Probleme mit den Löchern in den Platten hat.
@@ -63,7 +63,7 @@ Andererseits sind die Platten mit Löchern die am schlechtesten abschneidenden B
 \smallskip
 
 Der vorherige Test \ref{table:Testergebnisse auf einfachen Bauteilen} wurde durchgeführt, sodass sowohl auf die Minimierung der Bewegung als auch auf die optimale Ausrichtung geachtet wird. Es ist allerdings auch relevant, wie gut das Netz eine Fläche ausrichten kann, 
-wenn einen die Größe der Bewegungen nicht interessiert.
+wenn einen die Größe der Bewegungen vernachlässigt.
 
 \begin{table}[h]
 \centering
@@ -81,22 +81,22 @@ Pyramiden & 4.26 & 58.79\\
 \label{table:Testergebnisse auf einfachen Bauteilen ohne Berücksichtigung von der Bewegung des Bauteils}
 \end{table}
 
-Es lassen sich starke Verbesserungen in \ref{table:Testergebnisse auf einfachen Bauteilen ohne Berücksichtigung von der Bewegung des Bauteils} was die Ausrichtung angeht erkennen, wenn man es mit \ref{table:Testergebnisse auf einfachen Bauteilen} vergleicht. 
-Die Ergebnisse haben sich durch das Vernachlässigen der Bewegung des Bauteils halbiert und haben jetzt eine Abweichung von in etwa 5 Grad. Die Platten mit Löchern sind immer noch der am schlechtesten abschneidenden Typ von Bauteil 
+Es lassen sich starke Verbesserungen in der Tabelle \ref{table:Testergebnisse auf einfachen Bauteilen ohne Berücksichtigung von der Bewegung des Bauteils}, was die Ausrichtung angeht, erkennen, wenn man es mit der Tabelle \ref{table:Testergebnisse auf einfachen Bauteilen} vergleicht. 
+Die Ergebnisse haben sich durch das Vernachlässigen der Bewegung des Bauteils halbiert und haben jetzt eine Abweichung von in etwa 5 Grad. Die Platten mit Löchern sind immer noch der am schlechtesten abschneidende Typ von Bauteil 
 und die Pyramiden sind immer noch die am besten Abschneidenden. Dafür, dass sich die Abweichung vom Optimum halbiert hat, hat sich die Bewegung des Bauteils mehr als verdoppelt. Da sie von dem Netz für diesen Test nicht beachtet wurde, 
 war diese Veränderung zu erwarten.
 
 \section{Verlässlichkeit der Ausrichtung}
 \label{Verlässlichkeit der Ausrichtung}
 
-Ein wichtiger Unterschied zwischen dem Trainingsdatensatz und der Praxis ist, dass man in der Praxis nicht davon ausgehen kann, dass die Daten einwandfrei sind. Um ein Praxisrelevantes Verfahren zu entwickeln, muss das Verfahren in der Lage sein, Fehler in den Daten zu widerstehen.
+Ein wichtiger Unterschied zwischen dem Trainingsdatensatz und der Praxis ist, dass man in der Praxis nicht davon ausgehen kann, dass die Daten einwandfrei sind. Um ein praxisrelevantes Verfahren zu entwickeln, muss das Verfahren in der Lage sein, Fehler in den Daten zu widerstehen.
 In dem bisherigen Test ist immer davon ausgegangen worden, dass die Punktwolken eine perfekte Darstellung eines Bauteils ist. In der Praxis, muss aber davon ausgegangen werden, dass die Punktwolken Fehler aufweisen. Um diese Fehler zu simulieren, 
 wird in den folgenden zwei Abschnitten der Einfluss von fehlenden Punkten und der Einfluss von falschen Punkten untersucht. 
 
 \subsection{Effekt von Rauschen auf den Daten}
 \label{Effekt von Rauschen auf den Daten}
 
-Eine Fläche eines Bauteils, die Punkte beinhaltet, die nicht zu der Fläche gehören, kann das Ergebnis des neuronalen Netzes stark beeinflussen. Dieser Fehler könnte durch schlechtes Clustering entsehen, wenn zwei Flächen nicht richtig getrennt werden.
+Eine Fläche eines Bauteils, die Punkte beinhaltet, die nicht zu der Fläche gehören, kann das Ergebnis des neuronalen Netzes stark beeinflussen. Dieser Fehler könnte durch schlechtes Clustering entstehen, wenn zwei Flächen nicht richtig getrennt werden.
 Punkte die nicht zu der Fläche gehören, aber dennoch in der Punktwolke der Fläche enthalten sind, werden als Rauschen (engl. Noise) bezeichnet. Um den Einfluss von Rauschen auf das Netz zu bestimmen, werden Punkte zu sonst korrekten Flächen hinzugefügt.
 
 \begin{figure}[t]
@@ -107,12 +107,12 @@ Punkte die nicht zu der Fläche gehören, aber dennoch in der Punktwolke der Fl�
 \end{figure}
 
 Die Abbildung \ref{Test mit Noise auf dem Neuralen Netz} zeigt die Ergebnisse des Tests. Um Noise zu simulieren, wurden für jede Fläche um das Zentrum der Fläche zufällig Punkte verteilt. 
-Dabei wurden die Punkte normalverteilt um das Zentrum der Fläche, sodass die meisten Punkte nahe der Fläche sind. Die zufällige Verteilung bricht die kohärente Struktur der Fläche auf. In der Abbildung \ref{Test mit Noise auf dem Neuralen Netz} 
+Dabei wurden die Punkte um das Zentrum der Fläche normalverteilt, sodass die meisten Punkte nahe der Fläche sind. Die zufällige Verteilung bricht die kohärente Struktur der Fläche auf. In der Abbildung \ref{Test mit Noise auf dem Neuralen Netz} 
 wurde der Unterschied des Normalvektors der Fläche zu der z-Achse in Orange aufgezeichnet,
-die Standardabweichung des Normalvektors zu der z-Achse in Grün und die benötigte Größe der Drehung ist Blau. Die x-Achse der Abbildung zeigt das Rauschen. Dabei ist die Anzahl der Rauschpunkte gleich des Wertes auf der x-Achse mal 20. 
+die Standardabweichung des Normalvektors zu der z-Achse in Grün und die benötigte Größe der Drehung ist in Blau. Die x-Achse der Abbildung zeigt das Rauschen. Dabei ist die Anzahl der Rauschpunkte gleich des Wertes auf der x-Achse mal 20. 
 Die y-Achse zeigt die Ergebnisse bei den jeweiligen Rauschleveln. Abbildung \ref{Test mit Noise auf dem Neuralen Netz} zeigt, 
 dass das Rauschen keinen großen Einfluss auf den Unterschied des Normalvektors der Fläche zu der z-Achse oder die benötigte Größe der Drehung hat. Auf die Standardabweichung des Normalvektors hat das Rauschen allerdings einen extremen Einfluss.
-Sobald Rauschen hinzugefügt wird, steigt die Standardabweichung extrem an und bleibt dann bei dem Fehlermaß, zu dem es steigt unabhängig von weiterem Rauschen, dass hinzugefügt wird. Daraus lässt sich schließen, dass das Netz keine gute Fähigkeit hat, 
+Sobald Rauschen hinzugefügt wird, steigt die Standardabweichung extrem an und bleibt dann bei dem Fehlermaß, zu dem es steigt, unabhängig von weiterem Rauschen, dass hinzugefügt wird. Daraus lässt sich schließen, dass das Netz keine gute Fähigkeit hat, 
 Rauschen zu widerstehen. Die absolute Ausrichtung in Orange bleibt zwar stabil, aber da die Abweichung von diesem Durchschnitt extrem ansteigt, ist das Ergebnis unzuverlässig.
 
 \smallskip
@@ -158,7 +158,7 @@ denn zerfällt die Idee, lokale Merkmale anhand Ihrer relativen Position zu ande
 \label{Generalisierbarkeit}
 
 Alle bisherigen Auswertungen wurden auf den gleichen Typen von Daten durchgeführt, auf denen das Netz auch trainiert wurde. Um die Verlässlichkeit des Netzes zu überprüfen wird in diesem Abschnitt getestet, ob das Netz auch auf komplexeren Bauteilen arbeiten kann.
-Für diesen Zweck wurden mehrere komplexe Bauteile getestet, komplex bedeutet in diesem Fall, dass die Bauteile nicht aus einfachen geometrischen Formen bestehen, sondern gebogene Flächen und komplexe Strukturen beinhalten.
+Für diesen Zweck wurden mehrere komplexe Bauteile getestet. Komplex bedeutet in diesem Fall, dass die Bauteile nicht aus einfachen geometrischen Formen bestehen, sondern gebogene Flächen und komplexe Strukturen beinhalten.
 
 \begin{figure}[t]
     \centering
@@ -184,9 +184,9 @@ Für diesen Zweck wurden mehrere komplexe Bauteile getestet, komplex bedeutet in
 \footnotetext{https://graphics.stanford.edu/data/3Dscanrep/dragon.jpg}
 \footnotetext{https://images.computerhistory.org/revonline/images/x398.84p-03-02.jpg?w=600}
 
-Die Abbildung \ref{3d-Modelle der komplexen Bauteile} sind die 3d-Modelle aller komplexen Bauteilen abgebildet. Die Abbildung A zeigt den Stanford Hasen (engl. Stanford Bunny). Es ist asymmetrisch und hat an den Ohren dünne gekrümmte Flächen. 
-Der gesamte Körper ist mit Fell bedeckt, dadurch wird eine schon gebogene Fläche mit mehreren Unebenheiten überdeckt. Der Stanford Drache ist ebenfalls asymmetrisch. Seine Oberfläche ist gebogen und ist durch viele Spitzen auf der Oberfläche nicht glatt.
-Es hat ebenfalls mehrere Stellen, wie der Kopf oder die Mitte des Körpers, an denen der Körper keine nahegelegene Stütze vom Körper selber hat. Zuletzt ist der Utah Teepott (engl. Utah Teapot) das einzige komplexe Bauteil, 
+Die Abbildung \ref{3d-Modelle der komplexen Bauteile} sind die 3d-Modelle aller komplexen Bauteilen abgebildet. Die Abbildung A zeigt den Stanford Hasen (engl. Stanford Bunny). Er ist asymmetrisch und hat an den Ohren dünne, gekrümmte Flächen. 
+Der gesamte Körper ist mit Fell bedeckt und dadurch wird eine schon gebogene Fläche mit mehreren Unebenheiten überdeckt. Der Stanford Drache ist ebenfalls asymmetrisch. Seine Oberfläche ist gebogen und ist durch viele Spitzen auf der Oberfläche nicht glatt.
+Er hat ebenfalls mehrere Stellen, wie der Kopf oder die Mitte des Körpers, an denen der Körper keine nahegelegene Stütze vom Körper selber hat. Zuletzt ist der Utah Teepott (engl. Utah Teapot) das einzige komplexe Bauteil, 
 was zum größten Teil symmetrisch ist. Der Teepott hat eine glatte Oberfläche, die häufig nicht gekrümmt ist. Die Bauteile eignen sich als Beispiel für komplexe Bauteile, da sie meistens aus unebenen und gebogenen Flächen bestehen.
 Der Teepott ist weniger komplex, aber immer noch komplexer als die einfachen Daten in dem Abschnitt \ref{Ausrichtung der Bauteile}. Es ist ein Alltagsgegenstand und kann als Vergleichswert dienen.
 
@@ -206,11 +206,11 @@ Utah Teapot & 10.84 & 26.72\\
 \end{table}
 
 Alle Angaben in der Tabelle \ref{table:Testergebnisse auf komplexen Bauteilen} sind Durchschnittswerte über alle Flächen eines Bauteils. Die Ergebnisse sind immer in Grad und für jedes Bauteil einzeln angegeben. 
-Es lässt sich erkennen, dass die Abweichung vom Optimum bei komplexen Bauteilen höher ist, als bei den einfachen Bauteilen, die in Abschnitt \ref{Ausrichtung der Bauteile} getestet wurden. Die Abweichung vom Optimum liegt bei allen komplexen Bauteilen bei etwa 11 Grad.
+Es lässt sich erkennen, dass die Abweichung vom Optimum bei komplexen Bauteilen höher ist, als bei den einfachen Bauteilen, die in Abschnitt \ref{Ausrichtung der Bauteile} getestet wurden. Die Abweichung vom Optimum liegt bei allen komplexen Bauteilen bei ungefähr 11 Grad.
 Der geringe Unterschied zwischen den Ergebnissen der komplexen Bauteile lässt darauf schließen, dass die Auswahl der komplexen Bauteile eine gute Repräsentation für komplexe Bauteile im Allgemeinen ist. 
 Allerding ist die Bewegung des Bauteils bei dem Stanford Hasen deutlich geringer als bei den anderen beiden Bauteilen. Der Unterschied könnte daran liegen, dass der Stanford Hase nur eine Grundfläche hat. Grundflächen werden immer für hohe Bewegung sorgen, 
-da die optimale Ausrichtung meistens im 90 Grad Winkel zu der Grundfläche liegt. Der Stanford Drache und die Utah Teapot haben beide mehrere Grundflächen, was die Bewegung des Bauteils erhöhen könnte. 
+da die optimale Ausrichtung meistens im 90 Grad Winkel zu der Grundfläche liegt. Der Stanford Drache und der Utah Teapot haben beide mehrere Grundflächen, was die Bewegung des Bauteils erhöhen könnte. 
 
-Der Teepott hat keine Signifikat anderen Ergebnisse, im Vergleich zu den anderen zwei Bauteilen, obwohl es eine deutlich einfacherer Form hat. Eine nach einer genaueren Untersuchung der Ausrichtung kann diese Verhalten dadurch erklärt werden, 
-dass die Flächensuche keine größeren Probleme mit der unebenen Fläche des Stanford Drachens oder Hasens hat. Auf unebenen Flächen werden immer noch Flächen ähnlicher Qualität wie auf glatten Flächen gefunden, sie sind aber meistens kleiner.
+Der Teepott hat keine signifikant anderen Ergebnisse, im Vergleich zu den anderen zwei Bauteilen, obwohl es eine deutlich einfacherer Form hat. Eine nach einer genaueren Untersuchung der Ausrichtung kann diese Verhalten dadurch erklärt werden, 
+dass die Flächensuche keine größeren Probleme mit der unebenen Fläche des Stanford Drachen oder Hasen hat. Auf unebenen Flächen werden immer noch Flächen ähnlicher Qualität wie auf glatten Flächen gefunden, sie sind aber meistens kleiner.
 
